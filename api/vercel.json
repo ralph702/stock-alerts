@@ -3,10 +3,18 @@
   "version": 2,
   "builds": [
     { "src": "index.html", "use": "@vercel/static" },
-    { "src": "api/alert.js", "use": "@vercel/node" }
+    { "src": "api/alert.js", "use": "@vercel/node" },
+    { "src": "api/cron.js", "use": "@vercel/node" }
   ],
   "routes": [
     { "src": "/api/alert", "dest": "/api/alert.js" },
+    { "src": "/api/cron", "dest": "/api/cron.js" },
     { "src": "/(.*)", "dest": "/index.html" }
+  ],
+  "crons": [
+    {
+      "path": "/api/cron",
+      "schedule": "* * * * *"
+    }
   ]
 }
