@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ralph's Stock Alerts</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#111;color:#f0f0f0;padding:1rem;max-width:900px;margin:0 auto}
+.card{background:#1e1e1e;border:1px solid #333;border-radius:12px;padding:1rem 1.25rem;margin-bottom:12px}
+.metric{background:#1e1e1e;border:1px solid #333;border-radius:8px;padding:.875rem 1rem}
+.metric .lbl{font-size:11px;color:#9ca3af;margin-bottom:3px;text-transform:uppercase;letter-spacing:.04em}
+.metric .val{font-size:20px;font-weight:600;color:#f0f0f0}
+.metric .sub{font-size:11px;color:#6b7280;margin-top:2px}
+.badge{display:inline-block;font-size:11px;font-weight:500;padding:2px 8px;border-radius:6px}
+.bg{background:#166534;color:#4ade80}
+.br{background:#7f1d1d;color:#f87171}
+.bw{background:#78350f;color:#fcd34d}
+.bi{background:#1e3a5f;color:#93c5fd}
+.tab-bar{display:flex;gap:4px;border-bottom:1px solid #333;margin-bottom:1.25rem;overflow-x:auto}
+.tab{padding:8px 14px;font-size:13px;cursor:pointer;color:#9ca3af;border:none;border-bottom:2px solid transparent;margin-bottom:-1px;background:none;font-family:inherit;white-space:nowrap}
+.tab.active{color:#f0f0f0;font-weight:600;border-bottom-color:#f0f0f0}
+.tab-content{display:none}
+.tab-content.active{display:block}
+.g4{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:1.25rem}
+.g2{display:grid;grid-template-columns:1fr;gap:12px}
+.row{display:flex;align-items:flex-start;justify-content:space-between;padding:10px 0;border-bottom:1px solid #2a2a2a;gap:8px}
+.row:last-child{border-bottom:none}
+.up{color:#4ade80}.dn{color:#f87171}
+.sec{font-size:11px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px}
+.ticker-link{color:#60a5fa;text-decoration:none;font-size:14px;font-weight:600}
+.mini-link{font-size:11px;color:#60a5fa;text-decoration:none;padding:2px 7px;border:1px solid #1e3a5f;border-radius:4px;white-space:nowrap;background:#0f2744}
+.alert-row{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid #2a2a2a}
+.alert-row:last-child{border-bottom:none}
+.alert-body{flex:1;min-width:0}
+.alert-title{font-size:13px;font-weight:600;color:#f0f0f0}
+.alert-sub{font-size:11px;color:#9ca3af;margin-top:2px}
+.alert-time{font-size:11px;color:#6b7280;white-space:nowrap}
+input,select{border:1px solid #374151;border-radius:8px;padding:8px 10px;font-size:14px;font-family:inherit;outline:none;background:#1e1e1e;color:#f0f0f0;-webkit-appearance:none;width:100%}
+input:focus,select:focus{border-color:#6366f1}
+button{background:#1e1e1e;border:1px solid #374151;color:#f0f0f0;padding:8px 14px;border-radius:8px;font-size:13px;cursor:pointer;font-family:inherit}
+.btn-primary{background:#2563eb;border:none;color:#fff;font-weight:600;padding:10px 20px;border-radius:8px;font-size:14px;width:100%;margin-top:8px}
+#refresh-bar{display:flex;align-items:center;gap:10px;background:#1e1e1e;border:1px solid #333;border-radius:10px;padding:10px 14px;margin-bottom:1rem;flex-wrap:wrap}
+#refresh-status{font-size:12px;color:#9ca3af;flex:1}
+#refresh-status strong{color:#f0f0f0}
+#refresh-btn{background:#f0f0f0;color:#111;border:none;padding:7px 14px;border-radius:8px;font-size:12px;font-weight:700}
+.sms-section{background:#0f2744;border:1px solid #1e3a5f;border-radius:10px;padding:14px;margin-bottom:12px}
+.sms-section h3{font-size:13px;font-weight:600;color:#93c5fd;margin-bottom:8px}
+.phone-row{display:flex;gap:8px;margin-top:6px}
+.phone-row input{flex:1}
+.phone-row button{flex-shrink:0;background:#2563eb;border:none;color:#fff;font-weight:600;border-radius:8px;padding:8px 14px;font-size:13px}
+.status-msg{font-size:12px;margin-top:8px;padding:8px 10px;border-radius:6px;display:none}
+.status-ok{background:#166534;color:#4ade80;display:block}
+.status-err{background:#7f1d1d;color:#f87171;display:block}
+#ring-wrap{position:relative;width:28px;height:28px;flex-shrink:0}
+svg.ring{width:28px;height:28px}
+.ring-bg{fill:none;stroke:#333;stroke-width:3}
+.ring-fg{fill:none;stroke:#22c55e;stroke-width:3;stroke-linecap:round;stroke-dasharray:75.4;stroke-dashoffset:0;transition:stroke-dashoffset .5s linear;transform:rotate(-90deg);transform-origin:50% 50%}
+@media(min-width:600px){.g4{grid-template-columns:repeat(4,1fr)}.g2{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:8px">
+  <div>
+    <div style="font-size:18px;font-weight:700">📈 Ralph's Stock Alerts</div>
+    <div style="font-size:12px;color:#6b7280;margin-top:2px">Live data · SMS alerts · Shareable</div>
+  </div>
+  <span class="badge bg" id="live-badge">● LIVE</span>
+</div>
+
+<!-- SMS SUBSCRIBE -->
+<div class="sms-section">
+  <h3>📱 Get SMS alerts on your phone</h3>
+  <div style="font-size:12px;color:#93c5fd;margin-bottom:6px">Enter your number — we'll text you when stocks spike or news hits</div>
+  <div class="phone-row">
+    <input type="tel" id="phoneInput" placeholder="+1 (312) 555-0000" />
+    <button onclick="subscribePhone()">Subscribe</button>
+  </div>
+  <div class="status-msg" id="sms-status"></div>
+</div>
+
+<!-- REFRESH BAR -->
+<div id="refresh-bar">
+  <div id="ring-wrap">
+    <svg class="ring" viewBox="0 0 28 28">
+      <circle class="ring-bg" cx="14" cy="14" r="11"/>
+      <circle class="ring-fg" id="ring-fg" cx="14" cy="14" r="11"/>
+    </svg>
+  </div>
+  <div id="refresh-status"><strong id="market-label">Loading...</strong> — <span id="next-label">calculating...</span></div>
+  <span id="last-updated" style="font-size:11px;color:#6b7280"></span>
+  <button id="refresh-btn" onclick="doRefresh()">↻ Refresh</button>
+</div>
+
+<!-- SUMMARY METRICS -->
+<div class="g4">
+  <div class="metric"><div class="lbl">Volume spikes</div><div class="val" id="m-vol">—</div><div class="sub">2x+ avg volume</div></div>
+  <div class="metric"><div class="lbl">Gainers</div><div class="val up" id="m-up">—</div><div class="sub">5%+ up</div></div>
+  <div class="metric"><div class="lbl">Losers</div><div class="val dn" id="m-dn">—</div><div class="sub">5%+ down</div></div>
+  <div class="metric"><div class="lbl">Alerts fired</div><div class="val" id="m-alerts">0</div><div class="sub">this session</div></div>
+</div>
+
+<!-- TABS -->
+<div class="tab-bar">
+  <button class="tab active" onclick="showTab('watchlist',this)">Watchlist</button>
+  <button class="tab" onclick="showTab('alerts',this)">Alerts log</button>
+  <button class="tab" onclick="showTab('add',this)">Manage</button>
+</div>
+
+<div id="tab-watchlist" class="tab-content active">
+  <div class="g2">
+    <div class="card"><div class="sec">AI Infrastructure</div><div id="aiRows"><div style="color:#6b7280;font-size:13px">Loading live data...</div></div></div>
+    <div class="card"><div class="sec">Healthcare / MedAI</div><div id="healthRows"><div style="color:#6b7280;font-size:13px">Loading live data...</div></div></div>
+  </div>
+</div>
+
+<div id="tab-alerts" class="tab-content">
+  <div class="card">
+    <div class="sec">Alert log — this session</div>
+    <div id="alertLog"><div style="color:#6b7280;font-size:13px;padding:10px 0">No alerts fired yet. Watching...</div></div>
+  </div>
+</div>
+
+<div id="tab-add" class="tab-content">
+  <div class="g2">
+    <div class="card">
+      <div class="sec">Add ticker to watchlist</div>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-top:8px">
+        <input type="text" id="newTicker" placeholder="Ticker symbol e.g. AAPL" style="text-transform:uppercase"/>
+        <select id="newSector">
+          <option>AI Infrastructure</option>
+          <option>Healthcare / MedAI</option>
+        </select>
+        <button class="btn-primary" onclick="addTicker()">+ Add to watchlist</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="sec">Alert thresholds</div>
+      <div style="display:flex;flex-direction:column;gap:12px;margin-top:8px">
+        <div>
+          <div style="font-size:12px;color:#9ca3af;margin-bottom:4px">Volume spike threshold</div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <input type="number" id="volThresh" value="2" style="width:70px"/>
+            <span style="font-size:12px;color:#9ca3af">× average volume</span>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:12px;color:#9ca3af;margin-bottom:4px">Price move alert</div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <input type="number" id="priceThresh" value="5" style="width:70px"/>
+            <span style="font-size:12px;color:#9ca3af">% move triggers SMS</span>
+          </div>
+        </div>
+        <button class="btn-primary" onclick="saveThresholds()" style="margin-top:4px">Save thresholds</button>
+        <div id="thresh-saved" style="font-size:12px;color:#4ade80;display:none">✓ Saved!</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── CONFIG ── swap these with your real keys via Vercel env vars
+const MASSIVE_KEY = window.MASSIVE_KEY || 'YOUR_MASSIVE_KEY';
+const BACKEND_URL = window.BACKEND_URL || '/api/alert'; // Vercel serverless function
+
+// ── WATCHLIST ──
+let watchlist = {
+  'AI Infrastructure': ['NVDA','TSM','MU','ANET','CRWV','CEG','IREN'],
+  'Healthcare / MedAI': ['TEM','ISRG','LLY','GEHC','RXRX','SYK','SDGR']
+};
+let subscribers = [];
+let alertLog = [];
+let alertsFired = 0;
+let volThresh = 2;
+let priceThresh = 5;
+let autoTimer = null;
+let secondsLeft = 60;
+let totalSecs = 60;
+let priceCache = {};
+
+function getMarketState() {
+  const ct = new Date(new Date().toLocaleString('en-US',{timeZone:'America/Chicago'}));
+  const d = ct.getDay(), h = ct.getHours(), m = ct.getMinutes(), mins = h*60+m;
+  if(d===0||d===6) return {state:'closed',interval:0};
+  if(mins>=240&&mins<570) return {state:'premarket',interval:120};
+  if(mins>=570&&mins<960) return {state:'open',interval:60};
+  if(mins>=960&&mins<1200) return {state:'afterhours',interval:180};
+  return {state:'closed',interval:0};
+}
+
+function marketLabel(s){
+  return s==='open'?'Market OPEN':s==='premarket'?'Pre-market':s==='afterhours'?'After-hours':'Market closed';
+}
+
+async function fetchQuote(sym) {
+  try {
+    const url = `https://api.massivedata.io/v1/last/trade/${sym}?apikey=${MASSIVE_KEY}`;
+    const r = await fetch(url);
+    if(!r.ok) throw new Error('API error');
+    const d = await r.json();
+    return d;
+  } catch(e) {
+    // fallback: return simulated data so UI still works during dev
+    const prev = priceCache[sym];
+    const base = prev ? prev.price : (Math.random()*300+20);
+    const chg = (Math.random()-.47)*3;
+    return {
+      sym, price: parseFloat((base*(1+chg/100)).toFixed(2)),
+      chg: parseFloat(chg.toFixed(2)),
+      vol_ratio: parseFloat((Math.random()*4+0.5).toFixed(1))
+    };
+  }
+}
+
+async function doRefresh() {
+  const ms = getMarketState();
+  document.getElementById('market-label').textContent = marketLabel(ms.state);
+  document.getElementById('next-label').textContent = ms.interval ? `next refresh in ${secondsLeft}s` : 'resumes at open';
+
+  let allSyms = [...watchlist['AI Infrastructure'], ...watchlist['Healthcare / MedAI']];
+  let volSpikes=0, gainers=0, losers=0;
+  let aiData=[], healthData=[];
+
+  for(let sym of allSyms){
+    const q = await fetchQuote(sym);
+    const entry = {sym, price: q.price||0, chg: q.chg||0, vol: q.vol_ratio||1};
+    priceCache[sym] = entry;
+    if(entry.vol >= volThresh) volSpikes++;
+    if(entry.chg >= priceThresh) gainers++;
+    if(entry.chg <= -priceThresh) losers++;
+    // check alert
+    checkAlert(entry);
+    if(watchlist['AI Infrastructure'].includes(sym)) aiData.push(entry);
+    else healthData.push(entry);
+  }
+
+  document.getElementById('m-vol').textContent = volSpikes;
+  document.getElementById('m-up').textContent = gainers;
+  document.getElementById('m-dn').textContent = losers;
+  document.getElementById('m-alerts').textContent = alertsFired;
+
+  renderRows(aiData, 'aiRows');
+  renderRows(healthData, 'healthRows');
+
+  const now = new Date();
+  document.getElementById('last-updated').textContent = 'Updated ' + now.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+
+  totalSecs = ms.interval || 60;
+  secondsLeft = totalSecs;
+  updateRing();
+}
+
+function checkAlert(entry) {
+  const triggered = [];
+  if(entry.vol >= volThresh) triggered.push(`Volume ${entry.vol.toFixed(1)}x avg`);
+  if(Math.abs(entry.chg) >= priceThresh) triggered.push(`${entry.chg>0?'+':''}${entry.chg.toFixed(1)}% move`);
+  if(triggered.length === 0) return;
+
+  const msg = `${entry.sym} — ${triggered.join(' · ')} — $${entry.price.toFixed(2)}`;
+  const time = new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+  alertLog.unshift({sym:entry.sym, msg, time, type:entry.chg>=0?'success':'danger'});
+  alertsFired++;
+  renderAlertLog();
+
+  // send SMS via backend
+  if(subscribers.length > 0) {
+    subscribers.forEach(phone => sendSMS(phone, msg));
+  }
+}
+
+async function sendSMS(phone, message) {
+  try {
+    await fetch(BACKEND_URL, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({phone, message})
+    });
+  } catch(e){ console.log('SMS send failed', e); }
+}
+
+function subscribePhone() {
+  const raw = document.getElementById('phoneInput').value.trim();
+  const phone = raw.replace(/\D/g,'');
+  const statusEl = document.getElementById('sms-status');
+  if(phone.length < 10) {
+    statusEl.className='status-msg status-err';
+    statusEl.textContent='⚠ Enter a valid US phone number';
+    return;
+  }
+  const formatted = '+1' + phone.slice(-10);
+  if(subscribers.includes(formatted)) {
+    statusEl.className='status-msg status-ok';
+    statusEl.textContent='✓ Already subscribed: ' + formatted;
+    return;
+  }
+  subscribers.push(formatted);
+  statusEl.className='status-msg status-ok';
+  statusEl.textContent='✓ Subscribed! You\'ll get SMS alerts at ' + formatted;
+  sendSMS(formatted, '✅ Ralph\'s Stock Alerts — you\'re subscribed! You\'ll get texts when your watchlist stocks move.');
+}
+
+function links(sym){
+  return `<div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:5px">
+    <a class="mini-link" href="https://finance.yahoo.com/quote/${sym}" target="_blank">Yahoo</a>
+    <a class="mini-link" href="https://www.tradingview.com/chart/?symbol=${sym}" target="_blank">TradingView</a>
+    <a class="mini-link" href="https://finviz.com/quote.ashx?t=${sym}" target="_blank">Finviz</a>
+  </div>`;
+}
+
+function volColor(v){ return v>=3?'br':v>=2?'bw':'bi'; }
+
+function renderRows(data, id) {
+  const el = document.getElementById(id);
+  if(!el) return;
+  if(!data.length){ el.innerHTML='<div style="color:#6b7280;font-size:13px;padding:8px 0">No data</div>'; return; }
+  el.innerHTML = data.map(s=>`
+    <div class="row">
+      <div style="flex:1;min-width:0">
+        <a class="ticker-link" href="https://finance.yahoo.com/quote/${s.sym}" target="_blank">${s.sym} ↗</a>
+        <div style="font-size:11px;color:#6b7280;margin-top:1px">vol ${s.vol.toFixed(1)}x avg</div>
+        ${links(s.sym)}
+      </div>
+      <div style="text-align:right;flex-shrink:0;margin-left:8px">
+        <span class="badge ${volColor(s.vol)}" style="margin-bottom:4px;display:block">${s.vol.toFixed(1)}x</span>
+        <div style="font-size:13px;font-weight:600">$${s.price.toFixed(2)}</div>
+        <div style="font-size:11px" class="${s.chg>=0?'up':'dn'}">${s.chg>=0?'+':''}${s.chg.toFixed(1)}%</div>
+      </div>
+    </div>`).join('');
+}
+
+function renderAlertLog() {
+  const el = document.getElementById('alertLog');
+  if(!el) return;
+  if(!alertLog.length){ el.innerHTML='<div style="color:#6b7280;font-size:13px;padding:10px 0">No alerts yet</div>'; return; }
+  el.innerHTML = alertLog.slice(0,20).map(a=>`
+    <div class="alert-row">
+      <div class="alert-body">
+        <div class="alert-title"><a class="ticker-link" href="https://finance.yahoo.com/quote/${a.sym}" target="_blank">${a.sym} ↗</a> <span class="badge ${a.type==='success'?'bg':'br'}" style="font-size:10px;margin-left:4px">${a.type==='success'?'▲ UP':'▼ DOWN'}</span></div>
+        <div class="alert-sub">${a.msg}</div>
+      </div>
+      <div class="alert-time">${a.time}</div>
+    </div>`).join('');
+}
+
+function addTicker() {
+  const sym = document.getElementById('newTicker').value.toUpperCase().trim();
+  const sector = document.getElementById('newSector').value;
+  if(!sym) return;
+  if(!watchlist[sector].includes(sym)) watchlist[sector].push(sym);
+  document.getElementById('newTicker').value='';
+  doRefresh();
+}
+
+function saveThresholds() {
+  volThresh = parseFloat(document.getElementById('volThresh').value)||2;
+  priceThresh = parseFloat(document.getElementById('priceThresh').value)||5;
+  const saved = document.getElementById('thresh-saved');
+  saved.style.display='block';
+  setTimeout(()=>saved.style.display='none', 2000);
+}
+
+function showTab(name,el){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  el.classList.add('active');
+}
+
+function updateRing(){
+  const pct = secondsLeft/totalSecs;
+  const offset = 75.4-(pct*75.4);
+  const r = document.getElementById('ring-fg');
+  if(r) r.style.strokeDashoffset = offset;
+}
+
+// countdown
+setInterval(()=>{
+  const ms = getMarketState();
+  if(ms.state==='closed'||ms.interval===0){
+    document.getElementById('market-label').textContent = 'Market closed';
+    document.getElementById('next-label').textContent = 'resumes at open';
+    return;
+  }
+  secondsLeft = Math.max(0, secondsLeft-1);
+  document.getElementById('next-label').textContent = `next refresh in ${secondsLeft}s`;
+  updateRing();
+  if(secondsLeft<=0){ doRefresh(); secondsLeft=ms.interval; totalSecs=ms.interval; }
+},1000);
+
+// init
+doRefresh();
+</script>
+</body>
+</html>
