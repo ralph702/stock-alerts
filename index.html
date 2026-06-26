@@ -22,7 +22,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .rbar .st strong{color:#f0f0f0}
 .bsm{background:#f0f0f0;color:#111;border:none;padding:5px 11px;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer}
 .g4{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:10px}
-.met{background:#111;border:1px solid #222;border-radius:10px;padding:10px}
+.met{background:#111;border:1px solid #222;border-radius:10px;padding:10px;cursor:pointer;transition:border-color .2s}
+.met:hover{border-color:#444}
 .met .lb{font-size:10px;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px}
 .met .vl{font-size:20px;font-weight:700}
 .met .sb{font-size:10px;color:#6b7280;margin-top:1px}
@@ -90,14 +91,12 @@ input[type="number"],input[type="text"],select{background:#1a1a1a;border:1px sol
 .sms-ok{background:#166534;color:#4ade80;font-size:11px;padding:4px 8px;border-radius:5px;margin-top:4px;display:none}
 .sms-er{background:#7f1d1d;color:#f87171;font-size:11px;padding:4px 8px;border-radius:5px;margin-top:4px;display:none}
 .claude-card{background:linear-gradient(135deg,#0f0f2a,#111);border:1px solid #3730a3;border-radius:14px;padding:1rem;margin-bottom:10px}
-.claude-card h2{font-size:15px;font-weight:800;color:#a5b4fc;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.claude-card h2{font-size:15px;font-weight:800;color:#a5b4fc;margin-bottom:4px}
 .claude-take{background:#0a0a1a;border:1px solid #2d2b5e;border-radius:10px;padding:12px;font-size:13px;color:#c7d2fe;line-height:1.8;min-height:60px}
 .stock-pick{background:#0f1a0f;border:1px solid #1a4a1a;border-radius:10px;padding:10px;margin-bottom:8px}
 .stock-pick .sym{font-size:15px;font-weight:800;color:#4ade80}
 .stock-pick .verdict{font-size:11px;font-weight:700;padding:2px 7px;border-radius:5px;margin-left:6px}
-.vBULL{background:#166534;color:#4ade80}
-.vNEUT{background:#78350f;color:#fcd34d}
-.vBEAR{background:#7f1d1d;color:#f87171}
+.vBULL{background:#166534;color:#4ade80}.vNEUT{background:#78350f;color:#fcd34d}.vBEAR{background:#7f1d1d;color:#f87171}
 .stock-pick .reasoning{font-size:12px;color:#9ca3af;margin-top:5px;line-height:1.6}
 .refresh-claude{background:#3730a3;border:none;color:#a5b4fc;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;width:100%;margin-top:10px;display:flex;align-items:center;justify-content:center;gap:6px}
 .mover-row{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid #1a1a1a;gap:8px}
@@ -119,8 +118,7 @@ input[type="number"],input[type="text"],select{background:#1a1a1a;border:1px sol
 .pred-card{background:#0f1a0a;border:1px solid #1a3a1a;border-radius:10px;padding:10px;margin-bottom:8px}
 .pred-sym{font-size:14px;font-weight:800;color:#4ade80}
 .pred-conf{font-size:10px;padding:2px 6px;border-radius:4px;margin-left:6px;font-weight:700}
-.conf-high{background:#166534;color:#4ade80}
-.conf-med{background:#78350f;color:#fcd34d}
+.conf-high{background:#166534;color:#4ade80}.conf-med{background:#78350f;color:#fcd34d}
 .pred-reason{font-size:11px;color:#9ca3af;margin-top:4px;line-height:1.6}
 .pred-target{font-size:12px;color:#a5b4fc;font-weight:700;margin-top:4px}
 @media(min-width:600px){.g4{grid-template-columns:repeat(4,1fr)}.g2{grid-template-columns:1fr 1fr}.ekey{grid-template-columns:repeat(3,1fr)}}
@@ -141,16 +139,16 @@ input[type="number"],input[type="text"],select{background:#1a1a1a;border:1px sol
 <div class="top-bar">
   <h1>📈 Ralph's Stock Terminal <span style="font-size:10px;background:#166534;color:#4ade80;padding:2px 7px;border-radius:10px;font-weight:500">● LIVE</span></h1>
   <div class="macro-scroll">
-    <div class="mpill"><span class="msym">S&P</span><span class="up" id="spx">+0.82%</span></div>
-    <div class="mpill"><span class="msym">DOW</span><span class="up" id="dow">+0.54%</span></div>
-    <div class="mpill"><span class="msym">NAS</span><span class="up" id="naq">+1.12%</span></div>
-    <div class="mpill"><span class="msym">VIX</span><span class="dn">14.2</span></div>
-    <div class="mpill"><span class="msym">BTC</span><span class="up">$107K</span></div>
-    <div class="mpill"><span class="msym">ETH</span><span class="up">$3,842</span></div>
-    <div class="mpill"><span class="msym">GOLD</span><span class="up">$3,284</span></div>
-    <div class="mpill"><span class="msym">SILVER</span><span class="dn">$32.14</span></div>
-    <div class="mpill"><span class="msym">OIL</span><span class="dn">$78.42</span></div>
-    <div class="mpill"><span class="msym">COPPER</span><span class="up">$4.82</span></div>
+    <div class="mpill"><span class="msym">S&P</span><span id="spx" class="dn">7,354</span></div>
+    <div class="mpill"><span class="msym">DOW</span><span id="dow" class="dn">51,876</span></div>
+    <div class="mpill"><span class="msym">NAS</span><span id="naq" class="dn">25,297</span></div>
+    <div class="mpill"><span class="msym">VIX</span><span id="vix" class="dn">18.62</span></div>
+    <div class="mpill"><span class="msym">BTC</span><span id="btc" class="dn">$60,009</span></div>
+    <div class="mpill"><span class="msym">ETH</span><span id="eth" class="up">$3,842</span></div>
+    <div class="mpill"><span class="msym">GOLD</span><span id="gold" class="up">$4,098</span></div>
+    <div class="mpill"><span class="msym">SILVER</span><span id="silver" class="dn">$32.14</span></div>
+    <div class="mpill"><span class="msym">OIL</span><span id="oil" class="dn">$69.09</span></div>
+    <div class="mpill"><span class="msym">COPPER</span><span id="copper" class="up">$4.82</span></div>
   </div>
 </div>
 
@@ -172,10 +170,18 @@ input[type="number"],input[type="text"],select{background:#1a1a1a;border:1px sol
 </div>
 
 <div class="g4">
-  <div class="met"><div class="lb">🔥 On Fire</div><div class="vl up" id="mfire">—</div><div class="sb">market-wide</div></div>
-  <div class="met"><div class="lb">💀 Tanking</div><div class="vl dn" id="mtank">—</div><div class="sb">market-wide</div></div>
-  <div class="met"><div class="lb">⚡ Vol Spikes</div><div class="vl" id="mvol">—</div><div class="sb">2x+ avg</div></div>
-  <div class="met"><div class="lb">🚨 Alerts</div><div class="vl" id="malerts">0</div><div class="sb">fired today</div></div>
+  <div class="met" onclick="showTab('movers',document.querySelector('[onclick*=movers]'))">
+    <div class="lb">🔥 On Fire ▶</div><div class="vl up" id="mfire">—</div><div class="sb">tap to see all</div>
+  </div>
+  <div class="met" onclick="showTab('movers',document.querySelector('[onclick*=movers]'))">
+    <div class="lb">💀 Tanking ▶</div><div class="vl dn" id="mtank">—</div><div class="sb">tap to see all</div>
+  </div>
+  <div class="met" onclick="showTab('signals',document.querySelector('[onclick*=signals]'))">
+    <div class="lb">⚡ Vol Spikes ▶</div><div class="vl" id="mvol">—</div><div class="sb">tap for signals</div>
+  </div>
+  <div class="met" onclick="showTab('leaders',document.querySelector('[onclick*=leaders]'))">
+    <div class="lb">🚨 Alerts ▶</div><div class="vl" id="malerts">0</div><div class="sb">tap for leaders</div>
+  </div>
 </div>
 
 <div class="tbar">
@@ -203,11 +209,11 @@ input[type="number"],input[type="text"],select{background:#1a1a1a;border:1px sol
   </div>
 </div>
 
-<!-- MARKET MOVERS -->
+<!-- MOVERS -->
 <div id="tab-movers" class="tc">
   <div class="g2">
-    <div class="card"><div class="sec">🔥 Top 10 Gainers — Entire Market</div><div id="topGainers"><div class="loading-pulse">Scanning...</div></div></div>
-    <div class="card"><div class="sec">💀 Top 10 Losers — Entire Market</div><div id="topLosers"><div class="loading-pulse">Scanning...</div></div></div>
+    <div class="card"><div class="sec">🔥 Top 10 Gainers</div><div id="topGainers"><div class="loading-pulse">Scanning...</div></div></div>
+    <div class="card"><div class="sec">💀 Top 10 Losers</div><div id="topLosers"><div class="loading-pulse">Scanning...</div></div></div>
     <div class="card"><div class="sec">⚡ Top 10 Volume Spikes</div><div id="topVolume"><div class="loading-pulse">Scanning...</div></div></div>
     <div class="card"><div class="sec">📰 Top 10 News Movers</div><div id="topNews"><div class="loading-pulse">Scanning...</div></div></div>
   </div>
@@ -311,18 +317,18 @@ input[type="number"],input[type="text"],select{background:#1a1a1a;border:1px sol
   </div>
 
   <div class="g2">
-    <div class="card"><div class="sec">🎯 Claude's Top Picks Right Now</div><div id="claudePicks"><div style="color:#6b7280;font-size:12px;padding:8px 0">Build your plan first</div></div></div>
+    <div class="card"><div class="sec">🎯 Claude's Top Picks</div><div id="claudePicks"><div style="color:#6b7280;font-size:12px;padding:8px 0">Build your plan first</div></div></div>
     <div class="card"><div class="sec">⚠️ Avoid List</div><div id="claudeAvoid"><div style="color:#6b7280;font-size:12px;padding:8px 0">Build your plan first</div></div></div>
   </div>
 
   <div class="card" id="gamePlanCard" style="display:none">
-    <div class="sec">📋 Claude's Aggressive Game Plan</div>
+    <div class="sec">📋 Claude's Game Plan</div>
     <div id="gamePlan" style="font-size:12px;color:#c7d2fe;line-height:1.9"></div>
   </div>
 
   <div class="card" style="background:linear-gradient(135deg,#0a1a0a,#111);border-color:#1a4a1a">
     <div class="sec" style="color:#4ade80">🔮 Next Big Thing Predictions</div>
-    <div id="predictions"><div style="color:#6b7280;font-size:12px;padding:8px 0">Build your plan above to activate predictions</div></div>
+    <div id="predictions"><div style="color:#6b7280;font-size:12px;padding:8px 0">Build your plan above to activate</div></div>
     <button class="refresh-claude" style="background:#166534;margin-top:8px" onclick="getPredictions()">🔮 Scan For Next Big Thing</button>
   </div>
 
@@ -332,7 +338,7 @@ input[type="number"],input[type="text"],select{background:#1a1a1a;border:1px sol
   </div>
 
   <div class="card" style="background:#0a0a0a;border-color:#222">
-    <div style="font-size:10px;color:#4b5563;line-height:1.6">⚠️ <strong style="color:#6b7280">Disclaimer:</strong> AI analysis for informational purposes only. Not financial advice. Never invest more than you can afford to lose.</div>
+    <div style="font-size:10px;color:#4b5563;line-height:1.6">⚠️ <strong style="color:#6b7280">Disclaimer:</strong> AI analysis for informational purposes only. Not financial advice.</div>
   </div>
 </div>
 
@@ -404,13 +410,13 @@ input[type="number"],input[type="text"],select{background:#1a1a1a;border:1px sol
       <div class="eitem"><span style="font-size:20px">🚀</span><div><div style="font-size:12px;font-weight:600">Rocket</div><div style="font-size:10px;color:#9ca3af">Up 10%+ breakout</div></div></div>
       <div class="eitem"><span style="font-size:20px">⚡</span><div><div style="font-size:12px;font-weight:600">Lightning</div><div style="font-size:10px;color:#9ca3af">Vol spike 3x+</div></div></div>
       <div class="eitem"><span style="font-size:20px">💎</span><div><div style="font-size:12px;font-weight:600">Diamond</div><div style="font-size:10px;color:#9ca3af">Strong vs red sector</div></div></div>
-      <div class="eitem"><span style="font-size:20px">😴</span><div><div style="font-size:12px;font-weight:600">Sleeping</div><div style="font-size:10px;color:#9ca3af">Low vol, dead day</div></div></div>
+      <div class="eitem"><span style="font-size:20px">😴</span><div><div style="font-size:12px;font-weight:600">Sleeping</div><div style="font-size:10px;color:#9ca3af">Low vol dead day</div></div></div>
       <div class="eitem"><span style="font-size:20px">📉</span><div><div style="font-size:12px;font-weight:600">Declining</div><div style="font-size:10px;color:#9ca3af">Steady downtrend</div></div></div>
       <div class="eitem"><span style="font-size:20px">💀</span><div><div style="font-size:12px;font-weight:600">Skull</div><div style="font-size:10px;color:#9ca3af">Down 5%+ tanking</div></div></div>
       <div class="eitem"><span style="font-size:20px">🩸</span><div><div style="font-size:12px;font-weight:600">Bleeding</div><div style="font-size:10px;color:#9ca3af">Sector selloff</div></div></div>
       <div class="eitem"><span style="font-size:20px">🟢</span><div><div style="font-size:12px;font-weight:600">Green</div><div style="font-size:10px;color:#9ca3af">Positive move</div></div></div>
       <div class="eitem"><span style="font-size:20px">🔴</span><div><div style="font-size:12px;font-weight:600">Red</div><div style="font-size:10px;color:#9ca3af">Negative move</div></div></div>
-      <div class="eitem"><span style="font-size:20px">⏸️</span><div><div style="font-size:12px;font-weight:600">Paused</div><div style="font-size:10px;color:#9ca3af">Flat, consolidating</div></div></div>
+      <div class="eitem"><span style="font-size:20px">⏸️</span><div><div style="font-size:12px;font-weight:600">Paused</div><div style="font-size:10px;color:#9ca3af">Flat consolidating</div></div></div>
       <div class="eitem"><span style="font-size:20px">📰</span><div><div style="font-size:12px;font-weight:600">News</div><div style="font-size:10px;color:#9ca3af">Catalyst today</div></div></div>
     </div>
   </div>
@@ -452,7 +458,20 @@ const PCOLS=['#60a5fa','#4ade80','#f59e0b','#f87171','#a78bfa','#34d399','#fb923
 // ── STATE ──
 let cache={}, broadCache={}, subs=[], fired=0;
 let fireT=5, tankT=5, volT=2, rockT=10, sLeft=60, curSector='All';
-let selectedFrame='Christmas 2025', selectedRisk='Aggressive', planBuilt=false;
+let selectedFrame='Christmas 2025', selectedRisk='Aggressive';
+let MASSIVE_KEY='', FINNHUB_KEY='';
+
+// ── LOAD KEYS FROM BACKEND ──
+async function loadKeys(){
+  try{
+    const r=await fetch('/api/config');
+    if(r.ok){
+      const d=await r.json();
+      MASSIVE_KEY=d.massiveKey||'';
+      FINNHUB_KEY=d.finnhubKey||'';
+    }
+  }catch(e){}
+}
 
 // ── DATA ──
 const watchlist={
@@ -478,6 +497,8 @@ const etfData={
 };
 
 const politicians=[
+  {name:'Donald Trump 🇺🇸',party:'R',role:'President of the United States',known:'3,700+ trades Q1 2026 — $220M-$750M in tech & defense. Under ethics scrutiny.',recent:'Bought NVDA, MSFT, PLTR, LLY, SNDK, DELL in Q1 2026',
+   portfolio:[{sym:'DJT',pct:35},{sym:'NVDA',pct:12},{sym:'MSFT',pct:10},{sym:'PLTR',pct:8},{sym:'AAPL',pct:7},{sym:'SNDK',pct:6},{sym:'LLY',pct:5},{sym:'Other',pct:17}]},
   {name:'Nancy Pelosi',party:'D',role:'Former Speaker',known:'Tech calls — remarkably well-timed',recent:'Bought NVDA calls before earnings beat',portfolio:[{sym:'NVDA',pct:28},{sym:'AAPL',pct:18},{sym:'MSFT',pct:15},{sym:'SPCX',pct:12},{sym:'AMZN',pct:10},{sym:'GOOGL',pct:9},{sym:'META',pct:8}]},
   {name:'Dan Crenshaw',party:'R',role:'TX Representative',known:'Defense & tech committee',recent:'Bought DELL before AI server boom',portfolio:[{sym:'DELL',pct:25},{sym:'PLTR',pct:22},{sym:'NVDA',pct:18},{sym:'MSFT',pct:15},{sym:'AMD',pct:12},{sym:'INTC',pct:8}]},
   {name:'Tommy Tuberville',party:'R',role:'AL Senator',known:'Armed services — loves defense tech',recent:'Bought PLTR — defense committee',portfolio:[{sym:'PLTR',pct:30},{sym:'TSLA',pct:22},{sym:'NVDA',pct:18},{sym:'AAPL',pct:15},{sym:'AMZN',pct:15}]},
@@ -487,18 +508,23 @@ const politicians=[
 ];
 
 const whales=[
-  {name:'Warren Buffett',firm:'Berkshire Hathaway',style:'Value',known:'Buy and hold forever',portfolio:[{sym:'AAPL',pct:42},{sym:'BAC',pct:11},{sym:'AXP',pct:9},{sym:'KO',pct:8},{sym:'CVX',pct:7},{sym:'OXY',pct:6},{sym:'Other',pct:17}]},
+  {name:'Warren Buffett',firm:'Berkshire Hathaway',style:'Value',known:'Buy and hold forever — value investing legend',portfolio:[{sym:'AAPL',pct:42},{sym:'BAC',pct:11},{sym:'AXP',pct:9},{sym:'KO',pct:8},{sym:'CVX',pct:7},{sym:'OXY',pct:6},{sym:'Other',pct:17}]},
   {name:'Cathie Wood',firm:'ARK Invest',style:'Innovation',known:'Disruptive tech — TSLA, AI early bets',portfolio:[{sym:'TSLA',pct:15},{sym:'PLTR',pct:11},{sym:'RXRX',pct:9},{sym:'COIN',pct:8},{sym:'RKLB',pct:7},{sym:'AMD',pct:6},{sym:'Other',pct:44}]},
-  {name:'Stanley Druckenmiller',firm:'Duquesne',style:'Macro',known:'Soros protégé — macro legend',portfolio:[{sym:'NVDA',pct:22},{sym:'MSFT',pct:16},{sym:'AMZN',pct:13},{sym:'SPCX',pct:11},{sym:'META',pct:10},{sym:'Other',pct:28}]},
-  {name:'Michael Burry',firm:'Scion Asset Mgmt',style:'Contrarian',known:'The Big Short guy',portfolio:[{sym:'BABA',pct:20},{sym:'JD',pct:15},{sym:'GEO',pct:12},{sym:'SIRI',pct:10},{sym:'HCA',pct:9},{sym:'Other',pct:34}]},
-  {name:'Bill Ackman',firm:'Pershing Square',style:'Activist',known:'Concentrated activist bets',portfolio:[{sym:'HHH',pct:20},{sym:'QSR',pct:18},{sym:'HLT',pct:16},{sym:'CMG',pct:14},{sym:'GOOGL',pct:12},{sym:'Other',pct:20}]},
-  {name:'David Tepper',firm:'Appaloosa',style:'Distressed',known:'Distressed debt king',portfolio:[{sym:'META',pct:18},{sym:'NVDA',pct:16},{sym:'AMZN',pct:14},{sym:'MSFT',pct:12},{sym:'AAPL',pct:10},{sym:'Other',pct:30}]},
-  {name:'George Soros',firm:'Soros Fund',style:'Macro/Political',known:'Broke the Bank of England',portfolio:[{sym:'NVDA',pct:14},{sym:'AMZN',pct:13},{sym:'TSLA',pct:11},{sym:'INTC',pct:10},{sym:'GOOGL',pct:9},{sym:'Other',pct:43}]},
-  {name:'Ray Dalio',firm:'Bridgewater',style:'All Weather',known:'World\'s largest hedge fund',portfolio:[{sym:'SPY',pct:18},{sym:'GLD',pct:15},{sym:'EEM',pct:12},{sym:'VWO',pct:10},{sym:'IEMG',pct:9},{sym:'Other',pct:36}]}
+  {name:'Stanley Druckenmiller',firm:'Duquesne',style:'Macro',known:'Soros protégé — macro legend, broke Bank of England',portfolio:[{sym:'NVDA',pct:22},{sym:'MSFT',pct:16},{sym:'AMZN',pct:13},{sym:'SPCX',pct:11},{sym:'META',pct:10},{sym:'Other',pct:28}]},
+  {name:'Michael Burry',firm:'Scion Asset Mgmt',style:'Contrarian',known:'The Big Short — predicted 2008 housing crash',portfolio:[{sym:'BABA',pct:20},{sym:'JD',pct:15},{sym:'GEO',pct:12},{sym:'SIRI',pct:10},{sym:'HCA',pct:9},{sym:'Other',pct:34}]},
+  {name:'Bill Ackman',firm:'Pershing Square',style:'Activist',known:'Concentrated activist bets — very vocal',portfolio:[{sym:'HHH',pct:20},{sym:'QSR',pct:18},{sym:'HLT',pct:16},{sym:'CMG',pct:14},{sym:'GOOGL',pct:12},{sym:'Other',pct:20}]},
+  {name:'David Tepper',firm:'Appaloosa',style:'Distressed',known:'Distressed debt king — buys what everyone fears',portfolio:[{sym:'META',pct:18},{sym:'NVDA',pct:16},{sym:'AMZN',pct:14},{sym:'MSFT',pct:12},{sym:'AAPL',pct:10},{sym:'Other',pct:30}]},
+  {name:'George Soros',firm:'Soros Fund',style:'Macro/Political',known:'Broke the Bank of England — macro legend',portfolio:[{sym:'NVDA',pct:14},{sym:'AMZN',pct:13},{sym:'TSLA',pct:11},{sym:'INTC',pct:10},{sym:'GOOGL',pct:9},{sym:'Other',pct:43}]},
+  {name:'Ray Dalio',firm:'Bridgewater',style:'All Weather',known:'World\'s largest hedge fund',portfolio:[{sym:'SPY',pct:18},{sym:'GLD',pct:15},{sym:'EEM',pct:12},{sym:'VWO',pct:10},{sym:'IEMG',pct:9},{sym:'Other',pct:36}]},
+  {name:'Keith Gill (Roaring Kitty)',firm:'Individual Trader',style:'YOLO/Meme',known:'GameStop legend — turned $50K into $50M, moves markets alone',portfolio:[{sym:'GME',pct:45},{sym:'PLTR',pct:20},{sym:'AAPL',pct:15},{sym:'AMC',pct:10},{sym:'Other',pct:10}]},
+  {name:'Chamath Palihapitiya',firm:'Social Capital',style:'VC/SPAC',known:'Facebook early exec — bold SPACs, calls out Wall St',portfolio:[{sym:'AMZN',pct:25},{sym:'GOOGL',pct:20},{sym:'META',pct:18},{sym:'COIN',pct:15},{sym:'Other',pct:22}]},
+  {name:'Mark Cuban',firm:'Individual/Shark Tank',style:'Aggressive Growth',known:'Sold Broadcast.com to Yahoo $5.7B — loves high risk',portfolio:[{sym:'AAPL',pct:20},{sym:'AMZN',pct:18},{sym:'TSLA',pct:15},{sym:'NVDA',pct:12},{sym:'COIN',pct:10},{sym:'Other',pct:25}]},
+  {name:'Dan Loeb',firm:'Third Point LLC',style:'Activist/Aggressive',known:'Activist letters to CEOs — ruthless profitable campaigns',portfolio:[{sym:'META',pct:22},{sym:'AMZN',pct:18},{sym:'MSFT',pct:15},{sym:'GOOGL',pct:12},{sym:'UBER',pct:10},{sym:'Other',pct:23}]},
+  {name:'David Einhorn',firm:'Greenlight Capital',style:'Short Seller',known:'Shorted Lehman before 2008 — legendary short calls',portfolio:[{sym:'AAPL',pct:18},{sym:'GOOG',pct:15},{sym:'BRK',pct:12},{sym:'AER',pct:10},{sym:'CNX',pct:8},{sym:'Other',pct:37}]}
 ];
 
 const upcoming=[
-  {sym:'NVDA',ev:'E',desc:'Q2 earnings — data center guidance key.',date:'Aug 28'},
+  {sym:'NVDA',ev:'E',desc:'Q2 earnings — data center guidance key. Last beat by 18%.',date:'Aug 28'},
   {sym:'TSLA',ev:'E',desc:'Q2 deliveries. Watch Robotaxi Austin update.',date:'Jul 22'},
   {sym:'AMZN',ev:'E',desc:'AWS growth + AI spend. Consensus $1.29 EPS.',date:'Aug 1'},
   {sym:'META',ev:'E',desc:'AI ad revenue + Llama 4. Consensus $5.24 EPS.',date:'Jul 30'},
@@ -508,7 +534,8 @@ const upcoming=[
   {sym:'SDGR',ev:'F',desc:'Phase 2 SGR-1505 — could be 30%+ catalyst.',date:'Q3 2025'},
   {sym:'AMD',ev:'A',desc:'MI300X GPU orders accelerating.',date:'This week'},
   {sym:'SPCX',ev:'E',desc:'First ever public earnings — Starlink + xAI.',date:'Nov 2026'},
-  {sym:'DELL',ev:'E',desc:'AI server demand — Q1 FY27 up 88% YoY.',date:'Aug 2026'}
+  {sym:'DELL',ev:'E',desc:'AI server demand — Q1 FY27 up 88% YoY.',date:'Aug 2026'},
+  {sym:'COIN',ev:'E',desc:'Crypto exchange earnings — BTC price key.',date:'Aug 6'}
 ];
 
 // ── HELPERS ──
@@ -521,6 +548,7 @@ function mktState(){
   if(m>=960&&m<1200) return{s:'afterhours',i:180};
   return{s:'closed',i:0};
 }
+
 function emoji(chg,vol){
   if(chg>=rockT) return'🚀';
   if(chg>=fireT&&vol>=2) return'🔥';
@@ -532,25 +560,28 @@ function emoji(chg,vol){
   if(vol<0.5) return'😴';
   return'⏸️';
 }
+
 function mscore(chg,vol){return Math.max(1,Math.min(10,Math.round(5+chg*0.3+(vol-1)*0.8)));}
 function vcls(v){return v>=3?'vh':v>=2?'vm':'vl2';}
 function lnks(sym){return`<div class="slnks"><a class="ml" href="https://finance.yahoo.com/quote/${sym}" target="_blank">Yahoo</a><a class="ml" href="https://www.tradingview.com/chart/?symbol=${sym}" target="_blank">TV</a><a class="ml" href="https://finviz.com/quote.ashx?t=${sym}" target="_blank">Finviz</a></div>`;}
 
-
+// ── FETCH STOCK QUOTE ──
 async function fetchQ(sym){
   try{
-    const key = window.MASSIVE_KEY || '';
-    const r=await fetch(`https://api.massive.com/v2/snapshot/locale/us/markets/stocks/tickers/${sym}?apiKey=${key}`);
+    const r=await fetch(`https://api.massive.com/v2/snapshot/locale/us/markets/stocks/tickers/${sym}?apiKey=${MASSIVE_KEY}`);
     if(!r.ok) throw 0;
     const d=await r.json();
-    const s=d.ticker || d.results || d;
-    const price = s.day?.c || s.prevDay?.c || s.last?.price || 0;
-    const prevClose = s.prevDay?.c || price;
-    const chg = prevClose ? parseFloat((((price - prevClose) / prevClose) * 100).toFixed(2)) : 0;
-    const vol = s.day?.v || 0;
-    const avgVol = s.prevDay?.v || vol || 1;
-    const volRatio = avgVol > 0 ? parseFloat((vol / avgVol).toFixed(1)) : 1;
-    return {price, chg, vol_ratio: volRatio};
+    const t=d.ticker||d;
+    const day=t.day||{};
+    const prevDay=t.prevDay||{};
+    const lastTrade=t.lastTrade||t.last||{};
+    const price=parseFloat(day.c||lastTrade.p||prevDay.c||0);
+    const prevClose=parseFloat(prevDay.c||day.o||price);
+    const chg=prevClose&&price?parseFloat((((price-prevClose)/prevClose)*100).toFixed(2)):0;
+    const vol=parseFloat(day.v||0);
+    const avgVol=parseFloat(prevDay.v||vol||1);
+    const volRatio=avgVol>0?parseFloat((vol/avgVol).toFixed(1)):1;
+    return{price,chg,vol_ratio:Math.max(0.1,volRatio)};
   }catch(e){
     const p=cache[sym]||broadCache[sym];
     const base=p?p.price:(20+Math.random()*400);
@@ -558,6 +589,63 @@ async function fetchQ(sym){
     return{price:parseFloat((base*(1+chg/100)).toFixed(2)),chg,vol_ratio:parseFloat((Math.random()*5+0.3).toFixed(1))};
   }
 }
+
+// ── FETCH MACRO DATA ──
+async function fetchMacro(){
+  // CoinGecko for BTC & ETH
+  try{
+    const cg=await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd&include_24hr_change=true');
+    if(cg.ok){
+      const d=await cg.json();
+      if(d.bitcoin){
+        const el=document.getElementById('btc');
+        if(el){el.textContent='$'+Math.round(d.bitcoin.usd).toLocaleString();el.className=d.bitcoin.usd_24h_change>=0?'up':'dn';}
+      }
+      if(d.ethereum){
+        const el=document.getElementById('eth');
+        if(el){el.textContent='$'+Math.round(d.ethereum.usd).toLocaleString();el.className=d.ethereum.usd_24h_change>=0?'up':'dn';}
+      }
+    }
+  }catch(e){}
+
+  // Finnhub for indices & commodities
+  if(!FINNHUB_KEY) return;
+  const targets=[
+    {id:'spx',sym:'^GSPC',fmt:v=>v.toLocaleString(undefined,{maximumFractionDigits:0})},
+    {id:'dow',sym:'^DJI',fmt:v=>v.toLocaleString(undefined,{maximumFractionDigits:0})},
+    {id:'naq',sym:'^IXIC',fmt:v=>v.toLocaleString(undefined,{maximumFractionDigits:0})},
+    {id:'vix',sym:'^VIX',fmt:v=>v.toFixed(2)},
+    {id:'gold',sym:'OANDA:XAU_USD',fmt:v=>'$'+v.toLocaleString(undefined,{maximumFractionDigits:0})},
+    {id:'silver',sym:'OANDA:XAG_USD',fmt:v=>'$'+v.toFixed(2)},
+    {id:'oil',sym:'OANDA:BCO_USD',fmt:v=>'$'+v.toFixed(2)},
+    {id:'copper',sym:'OANDA:XCU_USD',fmt:v=>'$'+v.toFixed(2)},
+  ];
+  for(const t of targets){
+    try{
+      const r=await fetch(`https://finnhub.io/api/v1/quote?symbol=${encodeURIComponent(t.sym)}&token=${FINNHUB_KEY}`);
+      if(!r.ok) continue;
+      const d=await r.json();
+      const price=d.c||0;
+      const prev=d.pc||price;
+      const chg=prev?((price-prev)/prev*100):0;
+      const el=document.getElementById(t.id);
+      if(el&&price>0){el.textContent=t.fmt(price);el.className=chg>=0?'up':'dn';}
+    }catch(e){}
+  }
+}
+
+// ── CLAUDE API CALL (via backend) ──
+async function callClaude(prompt, maxTokens=1000){
+  const r=await fetch('/api/claude',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({prompt,max_tokens:maxTokens})
+  });
+  if(!r.ok) throw new Error('Claude API error');
+  const d=await r.json();
+  return d.text||'Analysis unavailable';
+}
+
 // ── REFRESH ──
 async function doRefresh(){
   const ms=mktState();
@@ -572,10 +660,10 @@ async function doRefresh(){
   }
   await scanBroad();
   updateMetrics();
-  renderWL(); renderLB(); renderSig(); renderAI(); renderMovers();
+  renderWL();renderLB();renderSig();renderAI();renderMovers();
+  fetchMacro();
   document.getElementById('lupd').textContent='Updated '+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',second:'2-digit'});
   document.getElementById('nxtlbl').textContent=ms.i?`next refresh in ${ms.i}s`:'resumes at open';
-  wiggle();
 }
 
 async function scanBroad(){
@@ -597,15 +685,6 @@ function updateMetrics(){
   document.getElementById('malerts').textContent=fired;
 }
 
-function wiggle(){
-  ['spx','dow','naq'].forEach(id=>{
-    const el=document.getElementById(id); if(!el) return;
-    const c=parseFloat(el.textContent)||0.5;
-    const n=parseFloat((c+(Math.random()-.48)*.1).toFixed(2));
-    el.textContent=(n>=0?'+':'')+n+'%'; el.className=n>=0?'up':'dn';
-  });
-}
-
 function chkAlert(e){
   const em=emoji(e.chg,e.vol);
   if(['🔥','🚀','💀','⚡'].includes(em)){
@@ -623,14 +702,14 @@ function subscribePhone(){
   const el=document.getElementById('smss');
   if(ph.length<10){el.className='sms-er';el.style.display='block';el.textContent='⚠ Enter a valid number';return;}
   const fmt='+1'+ph.slice(-10);
-  if(subs.includes(fmt)){el.className='sms-ok';el.style.display='block';el.textContent='✓ Already subscribed: '+fmt;return;}
+  if(subs.includes(fmt)){el.className='sms-ok';el.style.display='block';el.textContent='✓ Already subscribed';return;}
   subs.push(fmt);
   el.className='sms-ok';el.style.display='block';
   el.textContent='✓ Subscribed! Alerts going to '+fmt;
-  sendSMS(fmt,'✅ Ralph\'s Stock Terminal — subscribed!');
+  sendSMS(fmt,'✅ Ralph\'s Stock Terminal — subscribed! You\'ll get 🔥💀⚡🚀 alerts.');
 }
 
-// ── RENDER ──
+// ── RENDER FUNCTIONS ──
 function renderRows(stocks,id){
   const el=document.getElementById(id); if(!el) return;
   el.innerHTML=stocks.map(s=>{
@@ -639,14 +718,19 @@ function renderRows(stocks,id){
     return`<div class="srow"><div class="sl"><div style="display:flex;align-items:center;gap:5px"><span style="font-size:14px">${em}</span><a class="stxt" href="https://finance.yahoo.com/quote/${s.sym}" target="_blank">${s.sym} ↗</a></div><div class="ssub">${s.name} · vol ${d.vol.toFixed(1)}x</div>${lnks(s.sym)}</div><div class="sr"><span class="vb ${vcls(d.vol)}">${d.vol.toFixed(1)}x</span><div style="text-align:right"><div style="font-size:12px;font-weight:700">$${d.price.toFixed(2)}</div><div class="${d.chg>=0?'up':'dn'}" style="font-size:11px;font-weight:600">${d.chg>=0?'+':''}${d.chg.toFixed(1)}%</div></div></div></div>`;
   }).join('');
 }
-function renderWL(){renderRows(watchlist['Big Tech'],'bigTechRows');renderRows(watchlist['AI Infrastructure'],'aiRows');renderRows(watchlist['Healthcare / MedAI'],'healthRows');}
+
+function renderWL(){
+  renderRows(watchlist['Big Tech'],'bigTechRows');
+  renderRows(watchlist['AI Infrastructure'],'aiRows');
+  renderRows(watchlist['Healthcare / MedAI'],'healthRows');
+}
 
 function renderMovers(){
   const all=[...Object.values(cache),...Object.values(broadCache)];
   const byChg=[...all].sort((a,b)=>b.chg-a.chg);
   const byVol=[...all].sort((a,b)=>b.vol-a.vol);
   const news=all.filter(s=>Math.abs(s.chg)>=5&&s.vol>=2).sort((a,b)=>b.vol-a.vol);
-  const row=s=>`<div class="mover-row"><div style="flex:1;min-width:0"><div style="display:flex;align-items:center;gap:5px"><span style="font-size:14px">${emoji(s.chg,s.vol)}</span><a class="stxt" href="https://finance.yahoo.com/quote/${s.sym}" target="_blank">${s.sym} ↗</a>${s.sector?`<span class="sector-pill">${s.sector}</span>`:''}</div>${lnks(s.sym)}</div><div style="text-align:right;flex-shrink:0"><div style="font-size:12px;font-weight:700">$${s.price.toFixed(2)}</div><div class="${s.chg>=0?'up':'dn'}" style="font-size:11px;font-weight:600">${s.chg>=0?'+':''}${s.chg.toFixed(1)}%</div><div style="font-size:10px;color:#6b7280">${s.vol.toFixed(1)}x vol</div></div></div>`;
+  const row=s=>`<div class="mover-row"><div style="flex:1;min-width:0"><div style="display:flex;align-items:center;gap:5px"><span style="font-size:14px">${emoji(s.chg,s.vol)}</span><a class="stxt" href="https://finance.yahoo.com/quote/${s.sym}" target="_blank">${s.sym} ↗</a>${s.sector?`<span class="sector-pill">${s.sector}</span>`:''}</div>${lnks(s.sym)}</div><div style="text-align:right;flex-shrink:0"><div style="font-size:12px;font-weight:700">$${s.price.toFixed(2)}</div><div class="${s.chg>=0?'up':'dn'}" style="font-size:11px;font-weight:600">${s.chg>=0?'+':''}${s.chg.toFixed(1)}%</div><div style="font-size:10px;color:#6b7280">${s.vol.toFixed(1)}x</div></div></div>`;
   const g=id=>document.getElementById(id);
   if(g('topGainers')) g('topGainers').innerHTML=byChg.slice(0,10).map(row).join('');
   if(g('topLosers')) g('topLosers').innerHTML=byChg.slice(-10).reverse().map(row).join('');
@@ -682,9 +766,9 @@ function renderEtfs(){
   Object.entries(etfData).forEach(([k,list])=>{
     const el=document.getElementById(map[k]); if(!el) return;
     el.innerHTML=list.map(e=>{
-      const chg=parseFloat(((Math.random()-.44)*4).toFixed(2));
-      const col=chg>=0?'#4ade80':'#f87171';
-      return`<div class="etfr"><div><a class="stxt" href="https://finance.yahoo.com/quote/${e.sym}" target="_blank">${e.sym} ↗</a><div class="ssub">${e.name} · ${e.note}</div></div><div style="text-align:right"><div style="font-size:13px;font-weight:700;color:${col}">${chg>=0?'+':''}${chg}%</div>${lnks(e.sym)}</div></div>`;
+      const d=cache[e.sym]||{chg:parseFloat(((Math.random()-.44)*4).toFixed(2)),price:0};
+      const col=d.chg>=0?'#4ade80':'#f87171';
+      return`<div class="etfr"><div><a class="stxt" href="https://finance.yahoo.com/quote/${e.sym}" target="_blank">${e.sym} ↗</a><div class="ssub">${e.name} · ${e.note}</div></div><div style="text-align:right"><div style="font-size:13px;font-weight:700;color:${col}">${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</div>${lnks(e.sym)}</div></div>`;
     }).join('');
   });
 }
@@ -693,10 +777,10 @@ function renderSectors(){
   const el=document.getElementById('sectorRows'); if(!el) return;
   const secs=[{e:'SOXX',n:'Semiconductors'},{e:'XLV',n:'Healthcare'},{e:'IBB',n:'Biotech'},{e:'ARKK',n:'Innovation'},{e:'XLK',n:'Technology'},{e:'XLF',n:'Financials'},{e:'XLE',n:'Energy'},{e:'XLI',n:'Industrials'},{e:'QQQ',n:'NASDAQ 100'},{e:'SPY',n:'S&P 500'},{e:'GLD',n:'Gold'},{e:'TLT',n:'Bonds'}];
   el.innerHTML=secs.map(s=>{
-    const chg=parseFloat(((Math.random()-.44)*4).toFixed(2));
-    const col=chg>=1?'#4ade80':chg>=0?'#fcd34d':'#f87171';
-    const em=chg>=2?'🔥':chg>=.5?'🟢':chg<=-2?'💀':'🔴';
-    return`<div class="sectr"><div style="display:flex;justify-content:space-between;align-items:center"><div><a href="https://finance.yahoo.com/quote/${s.e}" target="_blank" style="color:#60a5fa;font-weight:700;text-decoration:none">${s.e} ↗</a> <span style="font-size:10px;color:#6b7280">${s.n}</span></div><span style="font-size:13px;font-weight:700;color:${col}">${em} ${chg>=0?'+':''}${chg}%</span></div><div style="height:4px;border-radius:2px;background:${col};width:${Math.min(Math.abs(chg)/5*100,100).toFixed(0)}%;margin-top:5px;opacity:.6"></div></div>`;
+    const d=cache[s.e]||{chg:parseFloat(((Math.random()-.44)*4).toFixed(2))};
+    const col=d.chg>=1?'#4ade80':d.chg>=0?'#fcd34d':'#f87171';
+    const em=d.chg>=2?'🔥':d.chg>=.5?'🟢':d.chg<=-2?'💀':'🔴';
+    return`<div class="sectr"><div style="display:flex;justify-content:space-between;align-items:center"><div><a href="https://finance.yahoo.com/quote/${s.e}" target="_blank" style="color:#60a5fa;font-weight:700;text-decoration:none">${s.e} ↗</a> <span style="font-size:10px;color:#6b7280">${s.n}</span></div><span style="font-size:13px;font-weight:700;color:${col}">${em} ${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</span></div><div style="height:4px;border-radius:2px;background:${col};width:${Math.min(Math.abs(d.chg)/5*100,100).toFixed(0)}%;margin-top:5px;opacity:.6"></div></div>`;
   }).join('');
 }
 
@@ -717,10 +801,9 @@ async function claudeStock(sym,price,chg,vol,btn){
   el.style.display='block'; el.textContent='🤖 Analyzing '+sym+'...';
   btn.disabled=true; btn.textContent='⏳...';
   try{
-    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:800,messages:[{role:'user',content:`Analyze ${sym}: price $${price}, change ${chg}%, volume ${vol}x avg. 3-4 sentences on price action, volume, key levels, outlook. End with BULLISH/NEUTRAL/BEARISH and one sentence why.`}]})});
-    const d=await r.json();
-    el.textContent=d.content?.[0]?.text||'Unavailable';
-  }catch(e){el.textContent='⚠ Unavailable';}
+    const text=await callClaude(`Analyze stock ${sym}: price $${price}, change ${chg}%, volume ${vol}x avg. 3-4 sentences on price action, volume, key levels, outlook. End with BULLISH/NEUTRAL/BEARISH and one sentence why.`);
+    el.textContent=text;
+  }catch(e){el.textContent='⚠ Analysis unavailable';}
   btn.textContent='🤖 Ask Claude'; btn.disabled=false;
 }
 
@@ -741,8 +824,6 @@ function renderMilestones(start,target,frame){
   }).join('');
   document.getElementById('dispStart').textContent='$'+start.toLocaleString();
   document.getElementById('dispTarget').textContent='$'+target.toLocaleString();
-  document.getElementById('dispPct').textContent='Just starting — 0%';
-  document.getElementById('progressBar').style.width='2%';
   document.getElementById('goalProgress').style.display='block';
 }
 
@@ -752,13 +833,14 @@ async function getClaudePlan(){
   const mult=((target/start-1)*100).toFixed(0);
   const btn=document.querySelector('.refresh-claude');
   btn.textContent='⏳ Building plan...'; btn.disabled=true;
-  document.getElementById('claudeTake').innerHTML='<div class="loading-pulse">🤖 Claude is building your aggressive trading plan...</div>';
+  document.getElementById('claudeTake').innerHTML='<div class="loading-pulse">🤖 Building your trading plan...</div>';
   renderMilestones(start,target,selectedFrame);
   const all=[...Object.values(cache),...Object.values(broadCache)];
   const sorted=[...all].sort((a,b)=>b.chg-a.chg);
   const topG=sorted.slice(0,5).map(s=>`${s.sym}+${s.chg.toFixed(1)}%`).join(',');
   const topL=sorted.slice(-5).reverse().map(s=>`${s.sym}${s.chg.toFixed(1)}%`).join(',');
-  const prompt=`You are an aggressive trading coach. Trader has $${start.toLocaleString()} and wants $${target.toLocaleString()} by ${selectedFrame} (${mult}% return). Risk: ${selectedRisk}. Top gainers today: ${topG}. Top losers: ${topL}.
+  try{
+    const text=await callClaude(`You are an aggressive trading coach. Trader has $${start.toLocaleString()} and wants $${target.toLocaleString()} by ${selectedFrame} (${mult}% return). Risk: ${selectedRisk}. Top gainers today: ${topG}. Top losers: ${topL}.
 
 Respond in this EXACT format:
 
@@ -766,7 +848,7 @@ MARKET OVERVIEW:
 [2 sentences on today's market]
 
 GAME PLAN:
-[3-4 sentences on exactly how to achieve ${mult}% — position sizing, trade frequency, sectors to focus on]
+[3-4 sentences on exactly HOW to achieve ${mult}% — position sizing, trade frequency, sectors]
 
 POSITION SIZING:
 [Exactly how to split $${start.toLocaleString()} — be specific with percentages]
@@ -784,18 +866,14 @@ TOP 3 AVOID RIGHT NOW:
 NEXT BIG THING:
 [2 sentences on what could be the next major move in 30-90 days]
 
-Be aggressive, direct, specific. Real tickers, real prices.`;
-  try{
-    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1500,messages:[{role:'user',content:prompt}]})});
-    const d=await r.json();
-    parsePlan(d.content?.[0]?.text||'',start,target);
-    planBuilt=true;
+Be aggressive, direct, specific. Real tickers, real prices.`, 1500);
+    parsePlan(text,start,target);
     document.getElementById('refreshTakeBtn').style.display='flex';
     document.getElementById('gamePlanCard').style.display='block';
     renderBuySellSignals();
     getPredictions();
     const tog=document.getElementById('tradingAlertToggle');
-    if(!tog.classList.contains('off')&&subs.length) subs.forEach(p=>sendSMS(p,`🤖 Claude built your plan! Goal: $${start.toLocaleString()} → $${target.toLocaleString()} by ${selectedFrame}. Open app for full plan.`));
+    if(!tog.classList.contains('off')&&subs.length) subs.forEach(p=>sendSMS(p,`🤖 Claude built your plan! Goal: $${start.toLocaleString()}→$${target.toLocaleString()} by ${selectedFrame}. Open app for full plan.`));
   }catch(e){document.getElementById('claudeTake').textContent='⚠ Try again.';}
   btn.textContent='🔄 Rebuild My Plan'; btn.disabled=false;
 }
@@ -823,7 +901,11 @@ function parsePlan(text,start,target){
   document.getElementById('gamePlan').innerHTML=plan.split('\n').filter(l=>l.trim()).map(l=>`<div style="padding:4px 0;border-bottom:1px solid #1a1a1a">${l}</div>`).join('');
   if(picks.length) document.getElementById('claudePicks').innerHTML=picks.map(p=>{
     const parts=p.replace(/^\d\.\s*/,'').split(' - ');
-    const sym=parts[0]||''; const entry=parts.find(x=>x.startsWith('Entry'))||''; const tgt=parts.find(x=>x.startsWith('Target'))||''; const sl=parts.find(x=>x.startsWith('Stop'))||''; const reason=parts[parts.length-1]||'';
+    const sym=parts[0]||'';
+    const entry=parts.find(x=>x.startsWith('Entry'))||'';
+    const tgt=parts.find(x=>x.startsWith('Target'))||'';
+    const sl=parts.find(x=>x.startsWith('Stop'))||'';
+    const reason=parts[parts.length-1]||'';
     return`<div class="stock-pick"><div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:4px"><div><span class="sym">${sym}</span><span class="verdict vBULL">BUY</span></div><div style="font-size:10px;color:#9ca3af">${entry} · ${tgt} · ${sl}</div></div><div class="reasoning">${reason}</div>${lnks(sym.split(' ')[0])}</div>`;
   }).join('');
   if(avoid.length) document.getElementById('claudeAvoid').innerHTML=avoid.map(p=>{
@@ -841,9 +923,8 @@ async function getClaudeDailyTake(){
   const start=parseFloat(document.getElementById('startAmt').value)||5000;
   const target=parseFloat(document.getElementById('targetAmt').value)||20000;
   try{
-    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:600,messages:[{role:'user',content:`Aggressive trading update. Goal: $${start}→$${target} by ${selectedFrame}. Risk: ${selectedRisk}. Top movers: ${topG}. Give 3-4 sentences on best move right now, what to watch, any urgent signals. Be direct and specific.`}]})});
-    const d=await r.json();
-    document.getElementById('claudeTake').innerHTML=`<div style="line-height:1.8;font-size:13px">${d.content?.[0]?.text||'Unavailable'}</div>`;
+    const text=await callClaude(`Aggressive trading update. Goal: $${start}→$${target} by ${selectedFrame}. Risk: ${selectedRisk}. Top movers: ${topG}. Give 3-4 sentences on best move right now, what to watch, any urgent buy or sell signals. Be direct and specific.`,600);
+    document.getElementById('claudeTake').innerHTML=`<div style="line-height:1.8;font-size:13px">${text}</div>`;
   }catch(e){document.getElementById('claudeTake').textContent='⚠ Retry.';}
   if(btn){btn.textContent='🔄 Refresh Take';btn.disabled=false;}
 }
@@ -854,11 +935,11 @@ function renderBuySellSignals(){
   const signals=[];
   all.forEach(s=>{
     if(s.chg>=5&&s.vol>=2.5) signals.push({type:'BUY',sym:s.sym,reason:`Up ${s.chg.toFixed(1)}% on ${s.vol.toFixed(1)}x volume — momentum confirmed`,urgency:'HIGH'});
-    else if(s.chg>=3&&s.vol>=2) signals.push({type:'WATCH',sym:s.sym,reason:`Building momentum +${s.chg.toFixed(1)}%, vol ${s.vol.toFixed(1)}x`,urgency:'MED'});
+    else if(s.chg>=3&&s.vol>=2) signals.push({type:'WATCH',sym:s.sym,reason:`Building +${s.chg.toFixed(1)}%, vol ${s.vol.toFixed(1)}x`,urgency:'MED'});
     else if(s.chg<=-5) signals.push({type:'SELL',sym:s.sym,reason:`Down ${Math.abs(s.chg).toFixed(1)}% — exit or avoid`,urgency:'HIGH'});
   });
   const tog=document.getElementById('tradingAlertToggle');
-  if(!signals.length){el.innerHTML='<div style="color:#6b7280;font-size:12px;padding:8px 0">No strong signals right now. Check back at market open.</div>';return;}
+  if(!signals.length){el.innerHTML='<div style="color:#6b7280;font-size:12px;padding:8px 0">No strong signals right now.</div>';return;}
   el.innerHTML=signals.slice(0,10).map(s=>{
     const cls=s.type==='BUY'?'signal-buy':s.type==='SELL'?'signal-sell':'signal-watch';
     const col=s.type==='BUY'?'#4ade80':s.type==='SELL'?'#f87171':'#a5b4fc';
@@ -876,7 +957,7 @@ async function getPredictions(){
   const all=[...Object.values(cache),...Object.values(broadCache)];
   const topG=[...all].sort((a,b)=>b.chg-a.chg).slice(0,8).map(s=>`${s.sym}+${s.chg.toFixed(1)}%vol${s.vol.toFixed(1)}x`).join(',');
   try{
-    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,messages:[{role:'user',content:`Find 4 stocks that could make a MAJOR move in the next 30-90 days. Goal: $${start}→$${target}. Risk: ${selectedRisk}. Current movers: ${topG}. Format EXACTLY:
+    const text=await callClaude(`Find 4 stocks that could make a MAJOR move in the next 30-90 days. Goal: $${start}→$${target}. Risk: ${selectedRisk}. Current movers: ${topG}. Format EXACTLY:
 
 PREDICTION 1:
 TICKER: [symbol]
@@ -886,9 +967,7 @@ PRICE TARGET: [e.g. +45%]
 CATALYST: [specific reason]
 SIGNAL: [what to watch for entry]
 
-Repeat for PREDICTION 2, 3, 4. Be aggressive and specific.`}]})});
-    const d=await r.json();
-    const text=d.content?.[0]?.text||'';
+Repeat for PREDICTION 2, 3, 4. Be aggressive and specific.`);
     const preds=text.split(/PREDICTION \d+:/i).filter(p=>p.trim());
     el.innerHTML=preds.slice(0,4).map(p=>{
       const get=label=>{const m=p.match(new RegExp(label+':\\s*(.+)','i'));return m?m[1].trim():'';};
@@ -919,7 +998,7 @@ function renderWhales(){
 function showPie(type,idx){
   const d=type==='pol'?politicians[idx]:whales[idx];
   const port=d.portfolio;
-  document.getElementById('pietitle').textContent=type==='pol'?`${d.name}`:d.name+' — '+d.firm;
+  document.getElementById('pietitle').textContent=type==='pol'?d.name:d.name+' — '+d.firm;
   document.getElementById('piesub').textContent=type==='pol'?`${d.party==='D'?'🔵 Dem':'🔴 Rep'} · ${d.role} · ${d.known}`:`${d.style} · ${d.known}`;
   const cvs=document.getElementById('piecvs');
   const ctx=cvs.getContext('2d');
@@ -965,16 +1044,18 @@ function saveSettings(){
   tankT=parseFloat(document.getElementById('tankT').value)||5;
   volT=parseFloat(document.getElementById('volT').value)||2;
   rockT=parseFloat(document.getElementById('rockT').value)||10;
-  const el=document.getElementById('savedmsg');el.style.display='block';setTimeout(()=>el.style.display='none',2000);
+  const el=document.getElementById('savedmsg');el.style.display='block';
+  setTimeout(()=>el.style.display='none',2000);
 }
 
 function showTab(name,el){
   document.querySelectorAll('.tc').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.getElementById('tab-'+name).classList.add('active');
-  el.classList.add('active');
+  if(el) el.classList.add('active');
 }
 
+// ── COUNTDOWN ──
 setInterval(()=>{
   const ms=mktState();
   if(ms.s==='closed'){document.getElementById('nxtlbl').textContent='resumes at open';return;}
@@ -983,12 +1064,19 @@ setInterval(()=>{
   if(sLeft<=0){doRefresh();sLeft=ms.i||60;}
 },1000);
 
-doRefresh();
-renderEtfs();
-renderSectors();
-renderUpcoming();
-renderPols();
-renderWhales();
+// ── INIT ──
+async function init(){
+  await loadKeys();
+  doRefresh();
+  renderEtfs();
+  renderSectors();
+  renderUpcoming();
+  renderPols();
+  renderWhales();
+  fetchMacro();
+}
+
+init();
 </script>
 </body>
 </html>
