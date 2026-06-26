@@ -538,7 +538,7 @@ function lnks(sym){return`<div class="slnks"><a class="ml" href="https://finance
 
 async function fetchQ(sym){
   try{
-    const r=await fetch(`https://api.massivedata.io/v1/last/trade/${sym}?apikey=${window.MASSIVE_KEY||''}`);
+    const r=await fetch(`https://api.massive.com/v2/snapshot/locale/us/markets/stocks/tickers/${sym}?apiKey=${window.MASSIVE_KEY||''}`);
     if(!r.ok) throw 0;
     return await r.json();
   }catch(e){
