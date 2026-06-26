@@ -536,11 +536,21 @@ function mscore(chg,vol){return Math.max(1,Math.min(10,Math.round(5+chg*0.3+(vol
 function vcls(v){return v>=3?'vh':v>=2?'vm':'vl2';}
 function lnks(sym){return`<div class="slnks"><a class="ml" href="https://finance.yahoo.com/quote/${sym}" target="_blank">Yahoo</a><a class="ml" href="https://www.tradingview.com/chart/?symbol=${sym}" target="_blank">TV</a><a class="ml" href="https://finviz.com/quote.ashx?t=${sym}" target="_blank">Finviz</a></div>`;}
 
+
 async function fetchQ(sym){
   try{
-    const r=await fetch(`https://api.massive.com/v2/snapshot/locale/us/markets/stocks/tickers/${sym}?apiKey=${window.MASSIVE_KEY||''}`);
+    const key = window.MASSIVE_KEY || '';
+    const r=await fetch(`https://api.massive.com/v2/snapshot/locale/us/markets/stocks/tickers/${sym}?apiKey=${key}`);
     if(!r.ok) throw 0;
-    return await r.json();
+    const d=await r.json();
+    const s=d.ticker || d.results || d;
+    const price = s.day?.c || s.prevDay?.c || s.last?.price || 0;
+    const prevClose = s.prevDay?.c || price;
+    const chg = prevClose ? parseFloat((((price - prevClose) / prevClose) * 100).toFixed(2)) : 0;
+    const vol = s.day?.v || 0;
+    const avgVol = s.prevDay?.v || vol || 1;
+    const volRatio = avgVol > 0 ? parseFloat((vol / avgVol).toFixed(1)) : 1;
+    return {price, chg, vol_ratio: volRatio};
   }catch(e){
     const p=cache[sym]||broadCache[sym];
     const base=p?p.price:(20+Math.random()*400);
@@ -548,7 +558,6 @@ async function fetchQ(sym){
     return{price:parseFloat((base*(1+chg/100)).toFixed(2)),chg,vol_ratio:parseFloat((Math.random()*5+0.3).toFixed(1))};
   }
 }
-
 // ── REFRESH ──
 async function doRefresh(){
   const ms=mktState();
