@@ -615,10 +615,10 @@ async function fetchMacro(){
     {id:'dow',sym:'^DJI',fmt:v=>v.toLocaleString(undefined,{maximumFractionDigits:0})},
     {id:'naq',sym:'^IXIC',fmt:v=>v.toLocaleString(undefined,{maximumFractionDigits:0})},
     {id:'vix',sym:'^VIX',fmt:v=>v.toFixed(2)},
-    {id:'gold',sym:'OANDA:XAU_USD',fmt:v=>'$'+v.toLocaleString(undefined,{maximumFractionDigits:0})},
-    {id:'silver',sym:'OANDA:XAG_USD',fmt:v=>'$'+v.toFixed(2)},
-    {id:'oil',sym:'OANDA:BCO_USD',fmt:v=>'$'+v.toFixed(2)},
-    {id:'copper',sym:'OANDA:XCU_USD',fmt:v=>'$'+v.toFixed(2)},
+   {id:'gold',sym:'GC1!',fmt:v=>'$'+v.toLocaleString(undefined,{maximumFractionDigits:0})},
+{id:'silver',sym:'SI1!',fmt:v=>'$'+v.toFixed(2)},
+{id:'oil',sym:'CL1!',fmt:v=>'$'+v.toFixed(2)},
+{id:'copper',sym:'HG1!',fmt:v=>'$'+v.toFixed(2)},
   ];
   for(const t of targets){
     try{
