@@ -1,4 +1,6 @@
-export default async function handler(req, res) {
+const ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY;
+
+module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -9,7 +11,6 @@ export default async function handler(req, res) {
   const { prompt, max_tokens } = req.body;
   if (!prompt) return res.status(400).json({ error: 'Missing prompt' });
 
-  const ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY;
   if (!ANTHROPIC_KEY) return res.status(500).json({ error: 'Anthropic key not configured' });
 
   try {
@@ -26,11 +27,10 @@ export default async function handler(req, res) {
         messages: [{ role: 'user', content: prompt }]
       })
     });
-
     const d = await r.json();
     const text = d.content?.[0]?.text || 'Analysis unavailable';
     return res.status(200).json({ text });
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
-}
+};
