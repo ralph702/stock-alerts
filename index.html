@@ -1215,7 +1215,7 @@ async function init(){
   renderPols();
   renderWhales();
   fetchMacro();
-  loadNews();
+  setTimeout(()=>{ if(typeof loadNews==='function') loadNews(); },1000);
 }
 
 init();
