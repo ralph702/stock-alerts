@@ -1,15 +1,5 @@
 {
   "version": 2,
-  "functions": {
-    "api/alert.js": { "runtime": "@vercel/node" },
-    "api/cron.js": { "runtime": "@vercel/node" },
-    "api/config.js": { "runtime": "@vercel/node" },
-    "api/claude.js": { "runtime": "@vercel/node" }
-  },
-  "routes": [
-    { "src": "/api/(.*)", "dest": "/api/$1.js" },
-    { "src": "/(.*)", "dest": "/index.html" }
-  ],
   "crons": [
     {
       "path": "/api/cron",
