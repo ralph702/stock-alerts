@@ -185,9 +185,11 @@ input[type="number"],input[type="text"],select{background:#1a1a1a;border:1px sol
 </div>
 
 <div class="tbar">
-  <button class="tab active" onclick="showTab('watchlist',this)">📊 Watchlist</button>
+  <button class="tab" onclick="showTab('watchlist',this)">📊 Watchlist</button>
   <button class="tab" onclick="showTab('movers',this)">🔥 Movers</button>
   <button class="tab" onclick="showTab('leaders',this)">🏆 Leaders</button>
+  <button class="tab" onclick="showTab('rising',this)">🌟 Rising Stars</button>
+  <button class="tab" onclick="showTab('news',this)">📰 News</button>
   <button class="tab" onclick="showTab('claudedo',this)">🔮 Ask Claude</button>
   <button class="tab" onclick="showTab('signals',this)">⚡ Signals</button>
   <button class="tab" onclick="showTab('etfs',this)">📦 ETFs</button>
@@ -207,6 +209,62 @@ input[type="number"],input[type="text"],select{background:#1a1a1a;border:1px sol
     <div class="card"><div class="sec">🤖 AI Infrastructure</div><div id="aiRows"></div></div>
     <div class="card"><div class="sec">🏥 Healthcare / MedAI</div><div id="healthRows"></div></div>
     <div class="card" id="customCard" style="display:none"><div class="sec">📌 My Custom Picks</div><div id="customRows"></div></div>
+  </div>
+</div>
+
+<!-- RISING STARS -->
+<div id="tab-rising" class="tc">
+  <div class="card" style="background:linear-gradient(135deg,#0a1a0a,#111);border-color:#1a4a1a">
+    <div style="font-size:13px;font-weight:700;color:#4ade80;margin-bottom:4px">🌟 Rising Stars — Next Big Thing Scanner</div>
+    <div style="font-size:11px;color:#6b7280;margin-bottom:8px">Claude scans for stocks showing early explosion signals before they go mainstream. Updated daily at market open.</div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">
+      <div style="background:#1a1a1a;border:1px solid #333;border-radius:8px;padding:6px 10px;font-size:11px;color:#9ca3af">📅 Last scan: <span id="lastScanTime">Never</span></div>
+      <div style="background:#1a1a1a;border:1px solid #333;border-radius:8px;padding:6px 10px;font-size:11px;color:#9ca3af">🎯 Stocks found: <span id="starCount">0</span></div>
+    </div>
+    <button class="refresh-claude" style="background:#166534" onclick="scanRisingStars()">🌟 Scan For Rising Stars Now</button>
+  </div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="sec">🚀 High Conviction Picks</div>
+      <div id="highConviction"><div style="color:#6b7280;font-size:12px;padding:8px 0">Hit scan button to find rising stars</div></div>
+    </div>
+    <div class="card">
+      <div class="sec">👀 Watch List — Early Signals</div>
+      <div id="watchSignals"><div style="color:#6b7280;font-size:12px;padding:8px 0">Hit scan button to find early movers</div></div>
+    </div>
+  </div>
+
+  <div class="card" style="background:#0a0a1a;border-color:#1a1a4a">
+    <div class="sec" style="color:#a5b4fc">📡 What Claude looks for</div>
+    <div style="font-size:12px;color:#9ca3af;line-height:1.9">
+      <div style="padding:4px 0;border-bottom:1px solid #1a1a1a">⚡ <strong style="color:#f0f0f0">Volume trending up</strong> over 30 days — institutions quietly accumulating</div>
+      <div style="padding:4px 0;border-bottom:1px solid #1a1a1a">💎 <strong style="color:#f0f0f0">Holding strong</strong> while sector sells off — relative strength</div>
+      <div style="padding:4px 0;border-bottom:1px solid #1a1a1a">🐋 <strong style="color:#f0f0f0">Whale buying</strong> — Cathie Wood, Druckenmiller taking positions</div>
+      <div style="padding:4px 0;border-bottom:1px solid #1a1a1a">📰 <strong style="color:#f0f0f0">Quiet catalysts</strong> — government contracts, patents, partnerships not yet priced in</div>
+      <div style="padding:4px 0;border-bottom:1px solid #1a1a1a">📊 <strong style="color:#f0f0f0">Small float</strong> under 500M — easier to move fast</div>
+      <div style="padding:4px 0">🚫 <strong style="color:#f0f0f0">Not yet mainstream</strong> — CNBC hasn't covered it yet</div>
+    </div>
+  </div>
+</div>
+
+<!-- NEWS -->
+<div id="tab-news" class="tc">
+  <div class="card" style="background:linear-gradient(135deg,#111,#0f1a0f);border-color:#1a3a1a">
+    <div style="font-size:13px;font-weight:700;color:#f0f0f0;margin-bottom:4px">📰 Live Market News</div>
+    <div style="font-size:11px;color:#6b7280;margin-bottom:8px">Real-time news from Finnhub. Breaking news under 1 hour shown with 🔴 badge.</div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap">
+      <button class="pbtn active" id="newsFilter-all" onclick="filterNews('all',this)">All News</button>
+      <button class="pbtn" id="newsFilter-watchlist" onclick="filterNews('watchlist',this)">My Watchlist</button>
+      <button class="pbtn" id="newsFilter-custom" onclick="filterNews('custom',this)">📌 Custom Picks</button>
+    </div>
+  </div>
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <div class="sec" style="margin:0">Latest Headlines</div>
+      <button class="bsm" onclick="loadNews()">↻ Refresh News</button>
+    </div>
+    <div id="newsFeed"><div class="loading-pulse">Loading news...</div></div>
   </div>
 </div>
 
@@ -443,7 +501,9 @@ input[type="number"],input[type="text"],select{background:#1a1a1a;border:1px sol
         <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:7px 0;border-bottom:1px solid #1a1a1a"><span>⚡ Volume</span><div style="display:flex;align-items:center;gap:5px"><input type="number" id="volT" value="2" style="width:46px;text-align:center"/>x<div class="tgl" onclick="this.classList.toggle('off')"></div></div></div>
         <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:7px 0;border-bottom:1px solid #1a1a1a"><span>🚀 Rocket</span><div style="display:flex;align-items:center;gap:5px"><input type="number" id="rockT" value="10" style="width:46px;text-align:center"/>%<div class="tgl" onclick="this.classList.toggle('off')"></div></div></div>
         <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:7px 0;border-bottom:1px solid #1a1a1a"><span>📅 Daily recap</span><div class="tgl" onclick="this.classList.toggle('off')"></div></div>
-        <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:7px 0"><span>📆 Weekly recap</span><div class="tgl off" onclick="this.classList.toggle('off')"></div></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:7px 0;border-bottom:1px solid #1a1a1a"><span>📆 Weekly recap</span><div class="tgl off" onclick="this.classList.toggle('off')"></div></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:7px 0;border-bottom:1px solid #1a1a1a"><span>📰 Breaking news SMS</span><div class="tgl off" id="newsAlertToggle" onclick="this.classList.toggle('off')"></div></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:7px 0"><span>🌟 Rising Star alert</span><div class="tgl off" id="risingAlertToggle" onclick="this.classList.toggle('off')"></div></div>
         <button class="btnp" onclick="saveSettings()">Save</button>
         <div id="savedmsg" style="font-size:11px;color:#4ade80;margin-top:5px;display:none">✓ Saved!</div>
       </div>
@@ -1155,6 +1215,7 @@ async function init(){
   renderPols();
   renderWhales();
   fetchMacro();
+  loadNews();
 }
 
 init();
