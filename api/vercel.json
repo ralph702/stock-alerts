@@ -1,14 +1,13 @@
 {
   "version": 2,
-  "builds": [
-    { "src": "index.html", "use": "@vercel/static" },
-    { "src": "api/*.js", "use": "@vercel/node" }
-  ],
+  "functions": {
+    "api/alert.js": { "runtime": "@vercel/node" },
+    "api/cron.js": { "runtime": "@vercel/node" },
+    "api/config.js": { "runtime": "@vercel/node" },
+    "api/claude.js": { "runtime": "@vercel/node" }
+  },
   "routes": [
-    { "src": "/api/alert", "dest": "/api/alert.js" },
-    { "src": "/api/cron", "dest": "/api/cron.js" },
-    { "src": "/api/config", "dest": "/api/config.js" },
-    { "src": "/api/claude", "dest": "/api/claude.js" },
+    { "src": "/api/(.*)", "dest": "/api/$1.js" },
     { "src": "/(.*)", "dest": "/index.html" }
   ],
   "crons": [
