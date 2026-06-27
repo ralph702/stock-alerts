@@ -472,12 +472,51 @@ async function loadKeys(){
   }catch(e){}
 }
 
-// ── DATA ──
+// ── DEFAULT WATCHLIST (protected) ──
+const defaultWatchlist={
+  'Big Tech':['AAPL','MSFT','GOOGL','META','AMZN','TSLA','SPCX','DELL','INTC','SNDK'],
+  'AI Infrastructure':['NVDA','TSM','MU','ANET','AMD','PLTR','CRWV','IREN','CEG','BE','SMCI'],
+  'Healthcare / MedAI':['TEM','ISRG','LLY','GEHC','RXRX','SYK','SDGR']
+};
+
 const watchlist={
   'Big Tech':[{sym:'AAPL',name:'Apple'},{sym:'MSFT',name:'Microsoft'},{sym:'GOOGL',name:'Google'},{sym:'META',name:'Meta'},{sym:'AMZN',name:'Amazon'},{sym:'TSLA',name:'Tesla'},{sym:'SPCX',name:'SpaceX 🚀'},{sym:'DELL',name:'Dell'},{sym:'INTC',name:'Intel'},{sym:'SNDK',name:'Sandisk'}],
   'AI Infrastructure':[{sym:'NVDA',name:'Nvidia'},{sym:'TSM',name:'TSMC'},{sym:'MU',name:'Micron'},{sym:'ANET',name:'Arista'},{sym:'AMD',name:'AMD'},{sym:'PLTR',name:'Palantir'},{sym:'CRWV',name:'CoreWeave'},{sym:'IREN',name:'IREN Ltd'},{sym:'CEG',name:'Constellation'},{sym:'BE',name:'Bloom Energy'},{sym:'SMCI',name:'Super Micro'}],
   'Healthcare / MedAI':[{sym:'TEM',name:'Tempus AI'},{sym:'ISRG',name:'Intuitive Surgical'},{sym:'LLY',name:'Eli Lilly'},{sym:'GEHC',name:'GE HealthCare'},{sym:'RXRX',name:'Recursion'},{sym:'SYK',name:'Stryker'},{sym:'SDGR',name:'Schrödinger'}]
 };
+
+// Load saved custom tickers from localStorage
+function loadSavedTickers(){
+  try{
+    const saved=localStorage.getItem('customTickers');
+    if(saved){
+      const custom=JSON.parse(saved);
+      Object.entries(custom).forEach(([sector,tickers])=>{
+        tickers.forEach(t=>{
+          if(!watchlist[sector].find(s=>s.sym===t.sym)){
+            watchlist[sector].push(t);
+          }
+        });
+      });
+    }
+  }catch(e){}
+}
+
+function saveCustomTickers(){
+  try{
+    const custom={};
+    Object.entries(watchlist).forEach(([sector,stocks])=>{
+      const defaults=defaultWatchlist[sector]||[];
+      const customStocks=stocks.filter(s=>!defaults.includes(s.sym));
+      if(customStocks.length) custom[sector]=customStocks;
+    });
+    localStorage.setItem('customTickers',JSON.stringify(custom));
+  }catch(e){}
+}
+
+function isDefault(sym,sector){
+  return (defaultWatchlist[sector]||[]).includes(sym);
+}
 
 const broadMarket={
   Tech:['AAPL','MSFT','GOOGL','META','AMZN','TSLA','NVDA','AMD','INTC','DELL','SNDK','PLTR','ANET','MU','SMCI'],
@@ -727,19 +766,20 @@ function subscribePhone(){
 }
 
 // ── RENDER FUNCTIONS ──
-function renderRows(stocks,id){
+function renderRows(stocks,id,sector){
   const el=document.getElementById(id); if(!el) return;
   el.innerHTML=stocks.map(s=>{
     const d=cache[s.sym]||{price:0,chg:0,vol:1};
     const em=emoji(d.chg,d.vol);
-    return`<div class="srow"><div class="sl"><div style="display:flex;align-items:center;gap:5px"><span style="font-size:14px">${em}</span><a class="stxt" href="https://finance.yahoo.com/quote/${s.sym}" target="_blank">${s.sym} ↗</a></div><div class="ssub">${s.name} · vol ${d.vol.toFixed(1)}x</div>${lnks(s.sym)}</div><div class="sr"><span class="vb ${vcls(d.vol)}">${d.vol.toFixed(1)}x</span><div style="text-align:right"><div style="font-size:12px;font-weight:700">$${d.price.toFixed(2)}</div><div class="${d.chg>=0?'up':'dn'}" style="font-size:11px;font-weight:600">${d.chg>=0?'+':''}${d.chg.toFixed(1)}%</div></div></div></div>`;
+    const isCustom=!isDefault(s.sym,sector);
+    return`<div class="srow"><div class="sl"><div style="display:flex;align-items:center;gap:5px"><span style="font-size:14px">${em}</span><a class="stxt" href="https://finance.yahoo.com/quote/${s.sym}" target="_blank">${s.sym} ↗</a>${isCustom?`<span onclick="removeTicker('${s.sym}','${sector}')" style="font-size:10px;color:#f87171;cursor:pointer;padding:1px 5px;border:1px solid #4a1a1a;border-radius:4px;background:#1a0f0f">✕</span>`:''}</div><div class="ssub">${s.name} · vol ${d.vol.toFixed(1)}x</div>${lnks(s.sym)}</div><div class="sr"><span class="vb ${vcls(d.vol)}">${d.vol.toFixed(1)}x</span><div style="text-align:right"><div style="font-size:12px;font-weight:700">${d.price.toFixed(2)}</div><div class="${d.chg>=0?'up':'dn'}" style="font-size:11px;font-weight:600">${d.chg>=0?'+':''}${d.chg.toFixed(1)}%</div></div></div></div>`;
   }).join('');
 }
 
 function renderWL(){
-  renderRows(watchlist['Big Tech'],'bigTechRows');
-  renderRows(watchlist['AI Infrastructure'],'aiRows');
-  renderRows(watchlist['Healthcare / MedAI'],'healthRows');
+  renderRows(watchlist['Big Tech'],'bigTechRows','Big Tech');
+  renderRows(watchlist['AI Infrastructure'],'aiRows','AI Infrastructure');
+  renderRows(watchlist['Healthcare / MedAI'],'healthRows','Healthcare / MedAI');
 }
 
 function renderMovers(){
@@ -1051,8 +1091,24 @@ function addTicker(){
   const sym=document.getElementById('newTicker').value.toUpperCase().trim();
   const sec=document.getElementById('newSector').value;
   if(!sym) return;
-  if(!watchlist[sec].find(s=>s.sym===sym)) watchlist[sec].push({sym,name:sym});
-  document.getElementById('newTicker').value='';
+  if(!watchlist[sec].find(s=>s.sym===sym)){
+    watchlist[sec].push({sym,name:sym});
+    saveCustomTickers();
+    doRefresh();
+    document.getElementById('newTicker').value='';
+    const el=document.getElementById('savedmsg');
+    el.textContent=`✓ ${sym} added to ${sec}!`;
+    el.style.display='block';
+    setTimeout(()=>el.style.display='none',2000);
+  } else {
+    document.getElementById('newTicker').value='';
+  }
+}
+
+function removeTicker(sym,sector){
+  if(isDefault(sym,sector)) return;
+  watchlist[sector]=watchlist[sector].filter(s=>s.sym!==sym);
+  saveCustomTickers();
   doRefresh();
 }
 
@@ -1083,6 +1139,7 @@ setInterval(()=>{
 
 // ── INIT ──
 async function init(){
+  loadSavedTickers();
   await loadKeys();
   doRefresh();
   renderEtfs();
