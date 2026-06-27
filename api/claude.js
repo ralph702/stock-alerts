@@ -30,6 +30,6 @@ export default async function handler(req, res) {
     const text = d.content?.[0]?.text || 'Analysis unavailable';
     return res.status(200).json({ text });
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: err.message }); 
   }
 }
