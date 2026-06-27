@@ -188,7 +188,7 @@ input[type="number"],input[type="text"],select{background:#1a1a1a;border:1px sol
   <button class="tab active" onclick="showTab('watchlist',this)">📊 Watchlist</button>
   <button class="tab" onclick="showTab('movers',this)">🔥 Movers</button>
   <button class="tab" onclick="showTab('leaders',this)">🏆 Leaders</button>
-  <button class="tab" onclick="showTab('claudedo',this)">🤔 What Claude Do</button>
+  <button class="tab" onclick="showTab('claudedo',this)">🔮 Ask Claude</button>
   <button class="tab" onclick="showTab('signals',this)">⚡ Signals</button>
   <button class="tab" onclick="showTab('etfs',this)">📦 ETFs</button>
   <button class="tab" onclick="showTab('sectors',this)">🌍 Sectors</button>
@@ -266,8 +266,7 @@ input[type="number"],input[type="text"],select{background:#1a1a1a;border:1px sol
     <div style="margin-bottom:10px">
       <div style="font-size:10px;color:#9ca3af;margin-bottom:6px;text-transform:uppercase">Timeframe</div>
       <div style="display:flex;gap:6px;flex-wrap:wrap">
-        <button class="tframe-btn active" onclick="setFrame('Christmas 2025',this)">🎄 Christmas</button>
-        <button class="tframe-btn" onclick="setFrame('3 Months',this)">3 Months</button>
+        <button class="tframe-btn active" onclick="setFrame('3 Months',this)">3 Months</button>
         <button class="tframe-btn" onclick="setFrame('6 Months',this)">6 Months</button>
         <button class="tframe-btn" onclick="setFrame('12 Months',this)">12 Months</button>
         <button class="tframe-btn" onclick="setFrame('18 Months',this)">18 Months</button>
@@ -458,7 +457,7 @@ const PCOLS=['#60a5fa','#4ade80','#f59e0b','#f87171','#a78bfa','#34d399','#fb923
 // ── STATE ──
 let cache={}, broadCache={}, subs=[], fired=0;
 let fireT=5, tankT=5, volT=2, rockT=10, sLeft=60, curSector='All';
-let selectedFrame='Christmas 2025', selectedRisk='Aggressive';
+let selectedFrame='3 Months', selectedRisk='Aggressive';
 let MASSIVE_KEY='', FINNHUB_KEY='';
 
 // ── LOAD KEYS FROM BACKEND ──
@@ -504,7 +503,25 @@ const politicians=[
   {name:'Tommy Tuberville',party:'R',role:'AL Senator',known:'Armed services — loves defense tech',recent:'Bought PLTR — defense committee',portfolio:[{sym:'PLTR',pct:30},{sym:'TSLA',pct:22},{sym:'NVDA',pct:18},{sym:'AAPL',pct:15},{sym:'AMZN',pct:15}]},
   {name:'Ro Khanna',party:'D',role:'CA Representative',known:'CHIPS Act champion',recent:'Bought TSM after CHIPS Act vote',portfolio:[{sym:'TSM',pct:30},{sym:'INTC',pct:25},{sym:'AMD',pct:20},{sym:'NVDA',pct:15},{sym:'SNDK',pct:10}]},
   {name:'Josh Gottheimer',party:'D',role:'NJ Representative',known:'Consistent big tech buyer',recent:'Consistent MSFT buyer',portfolio:[{sym:'MSFT',pct:35},{sym:'GOOGL',pct:25},{sym:'AAPL',pct:20},{sym:'META',pct:20}]},
-  {name:'Marjorie Taylor Greene',party:'R',role:'GA Representative',known:'Musk ally — TSLA & SPCX heavy',recent:'Bought SPCX on IPO week',portfolio:[{sym:'TSLA',pct:40},{sym:'SPCX',pct:25},{sym:'NVDA',pct:20},{sym:'AAPL',pct:15}]}
+  {name:'Marjorie Taylor Greene',party:'R',role:'GA Representative',known:'Musk ally — TSLA & SPCX heavy',recent:'Bought SPCX on IPO week',portfolio:[{sym:'TSLA',pct:40},{sym:'SPCX',pct:25},{sym:'NVDA',pct:20},{sym:'AAPL',pct:15}]},
+  {name:'Michael McCaul',party:'R',role:'TX Representative',known:'Foreign affairs & tech committee',recent:'Bought NVDA and defense stocks',portfolio:[{sym:'NVDA',pct:30},{sym:'LMT',pct:20},{sym:'RTX',pct:20},{sym:'MSFT',pct:15},{sym:'AAPL',pct:15}]},
+  {name:'Virginia Foxx',party:'R',role:'NC Representative',known:'Education & workforce committee',recent:'Bought Apple and Microsoft',portfolio:[{sym:'AAPL',pct:35},{sym:'MSFT',pct:30},{sym:'JNJ',pct:20},{sym:'PG',pct:15}]},
+  {name:'Shelley Moore Capito',party:'R',role:'WV Senator',known:'Energy & infrastructure committee',recent:'Bought energy and infrastructure stocks',portfolio:[{sym:'XOM',pct:30},{sym:'CVX',pct:25},{sym:'CAT',pct:25},{sym:'Other',pct:20}]},
+  {name:'David Rouzer',party:'R',role:'NC Representative',known:'Agriculture committee — food & energy',recent:'Bought commodity stocks',portfolio:[{sym:'DE',pct:35},{sym:'ADM',pct:30},{sym:'MOS',pct:20},{sym:'Other',pct:15}]},
+  {name:'Brian Higgins',party:'D',role:'NY Representative',known:'Healthcare & trade committee',recent:'Bought healthcare stocks',portfolio:[{sym:'UNH',pct:30},{sym:'JNJ',pct:25},{sym:'PFE',pct:25},{sym:'ABT',pct:20}]},
+  {name:'Mike Quigley',party:'D',role:'IL Representative',known:'Intel & appropriations committee',recent:'Bought tech ETFs',portfolio:[{sym:'QQQ',pct:40},{sym:'AAPL',pct:30},{sym:'MSFT',pct:30}]},
+  {name:'Kevin Hern',party:'R',role:'OK Representative',known:'Ways & means — tax & finance',recent:'Bought financial stocks',portfolio:[{sym:'JPM',pct:30},{sym:'BAC',pct:25},{sym:'GS',pct:25},{sym:'V',pct:20}]},
+  {name:'French Hill',party:'R',role:'AR Representative',known:'Banking committee — finance focus',recent:'Bought bank and fintech stocks',portfolio:[{sym:'JPM',pct:35},{sym:'COIN',pct:20},{sym:'V',pct:25},{sym:'MA',pct:20}]},
+  {name:'Pat Fallon',party:'R',role:'TX Representative',known:'Armed services — defense contractor plays',recent:'Bought LMT and RTX',portfolio:[{sym:'LMT',pct:35},{sym:'RTX',pct:30},{sym:'NOC',pct:20},{sym:'Other',pct:15}]},
+  {name:'Mark Green',party:'R',role:'TN Representative',known:'Homeland security committee',recent:'Bought cybersecurity stocks',portfolio:[{sym:'PANW',pct:30},{sym:'CRWD',pct:30},{sym:'MSFT',pct:25},{sym:'Other',pct:15}]},
+  {name:'Pete Sessions',party:'R',role:'TX Representative',known:'Long time investor — diversified',recent:'Bought dividend stocks',portfolio:[{sym:'AAPL',pct:25},{sym:'MSFT',pct:25},{sym:'KO',pct:25},{sym:'JNJ',pct:25}]},
+  {name:'Susie Lee',party:'D',role:'NV Representative',known:'Gaming & hospitality focus',recent:'Bought gaming and travel stocks',portfolio:[{sym:'LVS',pct:30},{sym:'MGM',pct:25},{sym:'WYNN',pct:25},{sym:'Other',pct:20}]},
+  {name:'Debbie Wasserman Schultz',party:'D',role:'FL Representative',known:'Budget committee — broad portfolio',recent:'Bought broad market ETFs',portfolio:[{sym:'SPY',pct:40},{sym:'QQQ',pct:30},{sym:'AAPL',pct:15},{sym:'Other',pct:15}]},
+  {name:'Jeff Van Drew',party:'R',role:'NJ Representative',known:'Science & tech committee',recent:'Bought semiconductor stocks',portfolio:[{sym:'NVDA',pct:35},{sym:'AMD',pct:25},{sym:'INTC',pct:20},{sym:'TSM',pct:20}]},
+  {name:'Jake Auchincloss',party:'D',role:'MA Representative',known:'Finance & tech focused',recent:'Bought fintech and AI stocks',portfolio:[{sym:'MSFT',pct:30},{sym:'GOOGL',pct:25},{sym:'PLTR',pct:25},{sym:'Other',pct:20}]},
+  {name:'Bill Huizenga',party:'R',role:'MI Representative',known:'Financial services committee',recent:'Bought bank stocks after Fed meeting',portfolio:[{sym:'JPM',pct:30},{sym:'WFC',pct:25},{sym:'MS',pct:25},{sym:'GS',pct:20}]},
+  {name:'Lori Chavez-DeRemer',party:'R',role:'OR Representative',known:'Agriculture & labor committee',recent:'Bought consumer staples',portfolio:[{sym:'WMT',pct:35},{sym:'COST',pct:30},{sym:'TGT',pct:20},{sym:'Other',pct:15}]},
+  {name:'Tim Burchett',party:'R',role:'TN Representative',known:'Foreign affairs & UAP committee',recent:'Bought aerospace and defense',portfolio:[{sym:'BA',pct:30},{sym:'LMT',pct:30},{sym:'RTX',pct:25},{sym:'Other',pct:15}]},
 ];
 
 const whales=[
