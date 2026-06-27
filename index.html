@@ -206,6 +206,7 @@ input[type="number"],input[type="text"],select{background:#1a1a1a;border:1px sol
     <div class="card"><div class="sec">🚀 Big Tech</div><div id="bigTechRows"></div></div>
     <div class="card"><div class="sec">🤖 AI Infrastructure</div><div id="aiRows"></div></div>
     <div class="card"><div class="sec">🏥 Healthcare / MedAI</div><div id="healthRows"></div></div>
+    <div class="card" id="customCard" style="display:none"><div class="sec">📌 My Custom Picks</div><div id="customRows"></div></div>
   </div>
 </div>
 
@@ -476,13 +477,15 @@ async function loadKeys(){
 const defaultWatchlist={
   'Big Tech':['AAPL','MSFT','GOOGL','META','AMZN','TSLA','SPCX','DELL','INTC','SNDK'],
   'AI Infrastructure':['NVDA','TSM','MU','ANET','AMD','PLTR','CRWV','IREN','CEG','BE','SMCI'],
-  'Healthcare / MedAI':['TEM','ISRG','LLY','GEHC','RXRX','SYK','SDGR']
+  'Healthcare / MedAI':['TEM','ISRG','LLY','GEHC','RXRX','SYK','SDGR'],
+  'My Custom Picks':[]
 };
 
 const watchlist={
   'Big Tech':[{sym:'AAPL',name:'Apple'},{sym:'MSFT',name:'Microsoft'},{sym:'GOOGL',name:'Google'},{sym:'META',name:'Meta'},{sym:'AMZN',name:'Amazon'},{sym:'TSLA',name:'Tesla'},{sym:'SPCX',name:'SpaceX 🚀'},{sym:'DELL',name:'Dell'},{sym:'INTC',name:'Intel'},{sym:'SNDK',name:'Sandisk'}],
   'AI Infrastructure':[{sym:'NVDA',name:'Nvidia'},{sym:'TSM',name:'TSMC'},{sym:'MU',name:'Micron'},{sym:'ANET',name:'Arista'},{sym:'AMD',name:'AMD'},{sym:'PLTR',name:'Palantir'},{sym:'CRWV',name:'CoreWeave'},{sym:'IREN',name:'IREN Ltd'},{sym:'CEG',name:'Constellation'},{sym:'BE',name:'Bloom Energy'},{sym:'SMCI',name:'Super Micro'}],
-  'Healthcare / MedAI':[{sym:'TEM',name:'Tempus AI'},{sym:'ISRG',name:'Intuitive Surgical'},{sym:'LLY',name:'Eli Lilly'},{sym:'GEHC',name:'GE HealthCare'},{sym:'RXRX',name:'Recursion'},{sym:'SYK',name:'Stryker'},{sym:'SDGR',name:'Schrödinger'}]
+  'Healthcare / MedAI':[{sym:'TEM',name:'Tempus AI'},{sym:'ISRG',name:'Intuitive Surgical'},{sym:'LLY',name:'Eli Lilly'},{sym:'GEHC',name:'GE HealthCare'},{sym:'RXRX',name:'Recursion'},{sym:'SYK',name:'Stryker'},{sym:'SDGR',name:'Schrödinger'}],
+  'My Custom Picks':[]
 };
 
 // Load saved custom tickers from localStorage
@@ -780,6 +783,10 @@ function renderWL(){
   renderRows(watchlist['Big Tech'],'bigTechRows','Big Tech');
   renderRows(watchlist['AI Infrastructure'],'aiRows','AI Infrastructure');
   renderRows(watchlist['Healthcare / MedAI'],'healthRows','Healthcare / MedAI');
+  const custom=watchlist['My Custom Picks'];
+  const card=document.getElementById('customCard');
+  if(card) card.style.display=custom.length?'block':'none';
+  renderRows(custom,'customRows','My Custom Picks');
 }
 
 function renderMovers(){
@@ -1089,15 +1096,15 @@ function sendRecap(type){
 
 function addTicker(){
   const sym=document.getElementById('newTicker').value.toUpperCase().trim();
-  const sec=document.getElementById('newSector').value;
   if(!sym) return;
-  if(!watchlist[sec].find(s=>s.sym===sym)){
-    watchlist[sec].push({sym,name:sym});
+  // Always add to My Custom Picks
+  if(!watchlist['My Custom Picks'].find(s=>s.sym===sym)){
+    watchlist['My Custom Picks'].push({sym,name:sym});
     saveCustomTickers();
     doRefresh();
     document.getElementById('newTicker').value='';
     const el=document.getElementById('savedmsg');
-    el.textContent=`✓ ${sym} added to ${sec}!`;
+    el.textContent=`✓ ${sym} added to My Custom Picks!`;
     el.style.display='block';
     setTimeout(()=>el.style.display='none',2000);
   } else {
