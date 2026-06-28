@@ -684,28 +684,56 @@ function mscore(chg,vol){return Math.max(1,Math.min(10,Math.round(5+chg*0.3+(vol
 function vcls(v){return v>=3?'vh':v>=2?'vm':'vl2';}
 function lnks(sym){return`<div class="slnks"><a class="ml" href="https://finance.yahoo.com/quote/${sym}" target="_blank">Yahoo</a><a class="ml" href="https://www.tradingview.com/chart/?symbol=${sym}" target="_blank">TV</a><a class="ml" href="https://finviz.com/quote.ashx?t=${sym}" target="_blank">Finviz</a></div>`;}
 
-// ── FETCH STOCK QUOTE ──
-async function fetchQ(sym){
+// ── FETCH STOCK QUOTES (batch via /api/stocks → Massive) ──────────────────
+// stockQuoteCache holds the last successful batch results so individual
+// look-ups (fetchQ) can serve instantly without re-fetching.
+let stockQuoteCache = {};
+
+async function fetchBatchStocks(symbols){
+  if(!symbols.length) return;
   try{
-    const r=await fetch(`https://api.massive.com/v2/snapshot/locale/us/markets/stocks/tickers/${sym}?apiKey=${MASSIVE_KEY}`);
-    if(!r.ok) throw 0;
-    const d=await r.json();
-    const t=d.ticker||d;
-    const day=t.day||{};
-    const prevDay=t.prevDay||{};
-    const lastTrade=t.lastTrade||t.last||{};
-    const price=parseFloat(day.c||lastTrade.p||prevDay.c||0);
-    const prevClose=parseFloat(prevDay.c||day.o||price);
-    const chg=prevClose&&price?parseFloat((((price-prevClose)/prevClose)*100).toFixed(2)):0;
-    const vol=parseFloat(day.v||0);
-    const avgVol=parseFloat(prevDay.v||vol||1);
-    const volRatio=avgVol>0?parseFloat((vol/avgVol).toFixed(1)):1;
-    return{price,chg,vol_ratio:Math.max(0.1,volRatio)};
+    const chunk = symbols.slice(0,100).join(',');
+    const r = await fetch(`/api/stocks?symbols=${encodeURIComponent(chunk)}`);
+    if(!r.ok) throw new Error('stocks API '+r.status);
+    const d = await r.json();
+    if(d.quotes) Object.assign(stockQuoteCache, d.quotes);
   }catch(e){
-    const p=cache[sym]||broadCache[sym];
-    const base=p?p.price:(20+Math.random()*400);
-    const chg=parseFloat(((Math.random()-.47)*8).toFixed(2));
-    return{price:parseFloat((base*(1+chg/100)).toFixed(2)),chg,vol_ratio:parseFloat((Math.random()*5+0.3).toFixed(1))};
+    console.warn('fetchBatchStocks error:',e.message);
+  }
+}
+
+// Single-symbol look-up — reads from cache populated by fetchBatchStocks.
+// Falls back to stale cache, then returns zeros (never random data).
+async function fetchQ(sym){
+  const q = stockQuoteCache[sym] || cache[sym] || broadCache[sym];
+  if(q) return {price: q.price||0, chg: q.changePct||q.chg||0, vol_ratio: Math.max(0.1, q.volRatio||q.vol||1)};
+  // Last resort: single call through the proxy
+  try{
+    const r = await fetch(`/api/stocks?symbols=${encodeURIComponent(sym)}`);
+    if(!r.ok) throw 0;
+    const d = await r.json();
+    const sq = d.quotes?.[sym];
+    if(sq){ stockQuoteCache[sym]=sq; return {price:sq.price||0,chg:sq.changePct||0,vol_ratio:Math.max(0.1,sq.volRatio||1)}; }
+  }catch(e){}
+  return {price:0, chg:0, vol_ratio:1};
+}
+
+// ── FETCH ETF + SECTOR QUOTES (batch via /api/quotes → Yahoo) ───────────────
+async function fetchBatchYahoo(symbols){
+  if(!symbols.length) return;
+  try{
+    const chunk = symbols.join(',');
+    const r = await fetch(`/api/quotes?symbols=${encodeURIComponent(chunk)}`);
+    if(!r.ok) throw new Error('quotes API '+r.status);
+    const d = await r.json();
+    if(d.quotes){
+      // Store into broadCache so renderEtfs / renderSectors pick them up
+      Object.entries(d.quotes).forEach(([sym,q])=>{
+        broadCache[sym]={sym,name:q.name||sym,price:q.price||0,chg:q.changePct||0,vol:1,sector:'ETF'};
+      });
+    }
+  }catch(e){
+    console.warn('fetchBatchYahoo error:',e.message);
   }
 }
 
@@ -770,14 +798,21 @@ async function doRefresh(){
   const ms=mktState();
   const lbl={open:'Market OPEN',premarket:'Pre-market',afterhours:'After-hours',closed:'Market closed'};
   document.getElementById('mktlbl').textContent=lbl[ms.s];
-  const all=[...watchlist['Big Tech'],...watchlist['AI Infrastructure'],...watchlist['Healthcare / MedAI']];
-  for(let s of all){
-    const q=await fetchQ(s.sym);
-    const e={sym:s.sym,name:s.name,price:q.price||0,chg:q.chg||0,vol:q.vol_ratio||1,sector:'Watchlist'};
+
+  // ── 1. Batch-fetch all watchlist stocks via Massive proxy ──
+  const wlStocks=[...watchlist['Big Tech'],...watchlist['AI Infrastructure'],...watchlist['Healthcare / MedAI'],...(watchlist['My Custom Picks']||[])];
+  const wlSyms=wlStocks.map(s=>s.sym);
+  await fetchBatchStocks(wlSyms);
+  for(const s of wlStocks){
+    const q=stockQuoteCache[s.sym]||{};
+    const e={sym:s.sym,name:s.name,price:q.price||0,chg:q.changePct||0,vol:Math.max(0.1,q.volRatio||1),sector:'Watchlist'};
     cache[s.sym]=e;
     chkAlert(e);
   }
+
+  // ── 2. Batch-fetch broad market via Massive proxy ──
   await scanBroad();
+
   updateMetrics();
   renderWL();renderLB();renderSig();renderAI();renderMovers();
   fetchMacro();
@@ -786,13 +821,18 @@ async function doRefresh(){
 }
 
 async function scanBroad(){
+  // Collect all broad-market symbols that aren't already in cache
   const syms=[];
-  Object.entries(broadMarket).forEach(([sector,list])=>list.forEach(sym=>{if(!cache[sym])syms.push({sym,sector});}));
-  for(let i=0;i<Math.min(syms.length,40);i+=5){
-    await Promise.all(syms.slice(i,i+5).map(async({sym,sector})=>{
-      const q=await fetchQ(sym);
-      broadCache[sym]={sym,name:sym,price:q.price||0,chg:q.chg||0,vol:q.vol_ratio||1,sector};
-    }));
+  Object.entries(broadMarket).forEach(([sector,list])=>list.forEach(sym=>{
+    if(!cache[sym]) syms.push({sym,sector});
+  }));
+  if(!syms.length) return;
+
+  // One batch call to Massive for all of them
+  await fetchBatchStocks(syms.map(x=>x.sym));
+  for(const {sym,sector} of syms){
+    const q=stockQuoteCache[sym]||{};
+    broadCache[sym]={sym,name:sym,price:q.price||0,chg:q.changePct||0,vol:Math.max(0.1,q.volRatio||1),sector};
   }
 }
 
@@ -890,9 +930,11 @@ function renderEtfs(){
   Object.entries(etfData).forEach(([k,list])=>{
     const el=document.getElementById(map[k]); if(!el) return;
     el.innerHTML=list.map(e=>{
-      const d=cache[e.sym]||{chg:parseFloat(((Math.random()-.44)*4).toFixed(2)),price:0};
+      // Real data from broadCache (populated by fetchBatchYahoo), zero if not yet loaded
+      const d=broadCache[e.sym]||cache[e.sym]||{chg:0,price:0};
       const col=d.chg>=0?'#4ade80':'#f87171';
-      return`<div class="etfr"><div><a class="stxt" href="https://finance.yahoo.com/quote/${e.sym}" target="_blank">${e.sym} ↗</a><div class="ssub">${e.name} · ${e.note}</div></div><div style="text-align:right"><div style="font-size:13px;font-weight:700;color:${col}">${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</div>${lnks(e.sym)}</div></div>`;
+      const loading=!broadCache[e.sym]&&!cache[e.sym]?'<span style="font-size:10px;color:#6b7280">loading…</span>':'';
+      return`<div class="etfr"><div><a class="stxt" href="https://finance.yahoo.com/quote/${e.sym}" target="_blank">${e.sym} ↗</a><div class="ssub">${e.name} · ${e.note}</div></div><div style="text-align:right">${loading||`<div style="font-size:13px;font-weight:700;color:${col}">${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</div>`}${lnks(e.sym)}</div></div>`;
     }).join('');
   });
 }
@@ -901,7 +943,8 @@ function renderSectors(){
   const el=document.getElementById('sectorRows'); if(!el) return;
   const secs=[{e:'SOXX',n:'Semiconductors'},{e:'XLV',n:'Healthcare'},{e:'IBB',n:'Biotech'},{e:'ARKK',n:'Innovation'},{e:'XLK',n:'Technology'},{e:'XLF',n:'Financials'},{e:'XLE',n:'Energy'},{e:'XLI',n:'Industrials'},{e:'QQQ',n:'NASDAQ 100'},{e:'SPY',n:'S&P 500'},{e:'GLD',n:'Gold'},{e:'TLT',n:'Bonds'}];
   el.innerHTML=secs.map(s=>{
-    const d=cache[s.e]||{chg:parseFloat(((Math.random()-.44)*4).toFixed(2))};
+    // Real data from broadCache (populated by fetchBatchYahoo), zero if not yet loaded
+    const d=broadCache[s.e]||cache[s.e]||{chg:0};
     const col=d.chg>=1?'#4ade80':d.chg>=0?'#fcd34d':'#f87171';
     const em=d.chg>=2?'🔥':d.chg>=.5?'🟢':d.chg<=-2?'💀':'🔴';
     return`<div class="sectr"><div style="display:flex;justify-content:space-between;align-items:center"><div><a href="https://finance.yahoo.com/quote/${s.e}" target="_blank" style="color:#60a5fa;font-weight:700;text-decoration:none">${s.e} ↗</a> <span style="font-size:10px;color:#6b7280">${s.n}</span></div><span style="font-size:13px;font-weight:700;color:${col}">${em} ${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</span></div><div style="height:4px;border-radius:2px;background:${col};width:${Math.min(Math.abs(d.chg)/5*100,100).toFixed(0)}%;margin-top:5px;opacity:.6"></div></div>`;
@@ -1341,14 +1384,26 @@ setInterval(()=>{
 async function init(){
   loadSavedTickers();
   await loadKeys();
+
+  // Kick off watchlist refresh (Massive) and static renders in parallel
   doRefresh();
-  renderEtfs();
-  renderSectors();
   renderUpcoming();
   renderPols();
   renderWhales();
   fetchMacro();
   setTimeout(loadNews,1000);
+
+  // Fetch live ETF + sector data from Yahoo, then re-render those tabs with real numbers
+  const etfSyms=[
+    'QQQ','XLK','VGT','SMH','SOXX','FTEC',
+    'XLV','IBB','ARKG','IHI','EDOC','PTH',
+    'ARKK','ROBO','BOTZ','AIQ','CHAT','WTAI',
+    'SPY','IWM','DIA','GLD','TLT','SQQQ',
+    'XLF','XLE','XLI'
+  ];
+  await fetchBatchYahoo(etfSyms);
+  renderEtfs();
+  renderSectors();
 }
 
 init();
