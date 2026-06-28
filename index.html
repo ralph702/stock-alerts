@@ -926,14 +926,29 @@ function renderLB(){
 
 function setSector(sec,el){curSector=sec;document.querySelectorAll('.pbtn').forEach(b=>b.classList.remove('active'));el.classList.add('active');renderLB();}
 
+function sigMeta(chg,vol){
+  // Derive signal label, color, and bar width directly from the same
+  // thresholds used by emoji() so the two always agree.
+  const em=emoji(chg,vol);
+  if(em==='🚀') return{col:'#4ade80',lbl:'Rocket 🚀',w:100};
+  if(em==='🔥') return{col:'#4ade80',lbl:'Bullish 🔥',w:85};
+  if(em==='🟢') return{col:'#4ade80',lbl:'Bullish 🟢',w:70};
+  if(em==='⚡') return{col:'#fcd34d',lbl:'Vol Spike ⚡',w:60};
+  if(em==='⏸️') return{col:'#fcd34d',lbl:'Neutral ⏸️',w:50};
+  if(em==='😴') return{col:'#6b7280',lbl:'Sleeping 😴',w:30};
+  if(em==='🔴') return{col:'#f87171',lbl:'Bearish 🔴',w:35};
+  if(em==='📉') return{col:'#f87171',lbl:'Declining 📉',w:20};
+  if(em==='💀') return{col:'#f87171',lbl:'Tanking 💀',w:5};
+  return{col:'#fcd34d',lbl:'Neutral ⏸️',w:50};
+}
+
 function renderSig(){
   const el=document.getElementById('signalsTable'); if(!el) return;
   const all=[...Object.values(cache),...Object.values(broadCache)].slice(0,30);
   el.innerHTML=all.map(s=>{
-    const sc=mscore(s.chg,s.vol);
-    const col=sc>=7?'#4ade80':sc>=4?'#fcd34d':'#f87171';
-    const lbl=sc>=7?'Bullish 🟢':sc>=4?'Neutral ⏸️':'Bearish 🔴';
-    return`<div class="sigr"><div style="display:flex;align-items:center;gap:6px;flex:1"><span style="font-size:13px">${emoji(s.chg,s.vol)}</span><div><div style="font-weight:700;color:#60a5fa">${s.sym}</div><div style="font-size:10px;color:#6b7280">${s.chg>=0?'+':''}${s.chg.toFixed(1)}% · ${s.vol.toFixed(1)}x</div></div></div><div style="display:flex;align-items:center;gap:5px"><div class="scbar"><div class="scfill" style="width:${sc*10}%;background:${col}"></div></div><div style="font-size:10px;color:${col};font-weight:600;min-width:55px;text-align:right">${lbl}</div></div></div>`;
+    const em=emoji(s.chg,s.vol);
+    const{col,lbl,w}=sigMeta(s.chg,s.vol);
+    return`<div class="sigr"><div style="display:flex;align-items:center;gap:6px;flex:1"><span style="font-size:13px">${em}</span><div><div style="font-weight:700;color:#60a5fa">${s.sym}</div><div style="font-size:10px;color:#6b7280">${s.chg>=0?'+':''}${s.chg.toFixed(1)}% · ${s.vol.toFixed(1)}x</div></div></div><div style="display:flex;align-items:center;gap:5px"><div class="scbar"><div class="scfill" style="width:${w}%;background:${col}"></div></div><div style="font-size:10px;color:${col};font-weight:600;min-width:65px;text-align:right">${lbl}</div></div></div>`;
   }).join('');
 }
 
