@@ -3,8 +3,8 @@
 //
 // Handles the fact that Massive snapshots CLEAR at 3:30 AM EST daily
 // and only repopulate when exchanges open. On weekends/holidays the
-// snapshot is empty. This file falls back to the Previous Day endpoint
-// so you always see real prices.
+// snapshot returns prevDay only. This code detects that and calculates
+// change% from prevDay's open→close so you never see flat 0.0%.
 // ─────────────────────────────────────────────────────────────────────
 
 export default async function handler(req, res) {
@@ -24,7 +24,7 @@ export default async function handler(req, res) {
 
   const quotes = {};
 
-  // ── ATTEMPT 1: Batch snapshot (works when market is open/recently closed) ──
+  // ── ATTEMPT 1: Batch snapshot ──
   try {
     const url =
       `https://api.massive.com/v2/snapshot/locale/us/markets/stocks/tickers` +
@@ -39,37 +39,42 @@ export default async function handler(req, res) {
         const sym = t.ticker;
         if (!sym) continue;
 
-        // Price priority: lastTrade > min > day close > prevDay close
-        const price =
-          (t.lastTrade && t.lastTrade.p) ||
-          (t.min && t.min.c) ||
-          (t.day && t.day.c) ||
-          (t.prevDay && t.prevDay.c) ||
-          0;
+        // Check if "today" data exists (market is/was open)
+        const hasToday = (t.day && t.day.c > 0) || (t.lastTrade && t.lastTrade.p > 0) || (t.min && t.min.c > 0);
+        const hasPrev = t.prevDay && t.prevDay.c > 0;
 
-        // Change: use Massive's built-in field, fall back to manual calc
+        let price = 0;
         let changePct = 0;
-        if (t.todaysChangePerc != null && t.todaysChangePerc !== 0) {
-          changePct = parseFloat(t.todaysChangePerc.toFixed(2));
-        } else if (t.prevDay && t.prevDay.c && price) {
-          changePct = parseFloat((((price - t.prevDay.c) / t.prevDay.c) * 100).toFixed(2));
+        let vol = 0;
+        let avgVol = 1;
+
+        if (hasToday) {
+          // Market open or recently closed — use live data
+          price = (t.lastTrade && t.lastTrade.p) || (t.min && t.min.c) || (t.day && t.day.c) || 0;
+          changePct = (t.todaysChangePerc != null) ? parseFloat(t.todaysChangePerc.toFixed(2)) : 0;
+          vol = (t.day && t.day.v) || 0;
+          avgVol = (t.prevDay && t.prevDay.v) || vol || 1;
+        } else if (hasPrev) {
+          // Market closed / weekend — use last trading day's data
+          price = t.prevDay.c;
+          // Show that day's open→close change (not 0%)
+          const prevOpen = t.prevDay.o || t.prevDay.c;
+          changePct = prevOpen > 0 ? parseFloat((((t.prevDay.c - prevOpen) / prevOpen) * 100).toFixed(2)) : 0;
+          vol = t.prevDay.v || 0;
+          avgVol = vol || 1;
         }
 
-        // Volume ratio
-        const vol = (t.day && t.day.v) || 0;
-        const avgVol = (t.prevDay && t.prevDay.v) || vol || 1;
-        const volRatio = avgVol > 0 ? parseFloat((vol / avgVol).toFixed(2)) : 1;
-
         if (price > 0) {
+          const volRatio = avgVol > 0 ? parseFloat((vol / avgVol).toFixed(2)) : 1;
           quotes[sym] = {
-            price: parseFloat(price.toFixed ? price.toFixed(2) : price),
+            price: parseFloat(typeof price === 'number' ? price.toFixed(2) : price),
             changePct,
-            change: t.todaysChange || 0,
+            change: t.todaysChange || (price - (t.prevDay && t.prevDay.o || price)),
             volume: vol,
-            avgVolume: avgVol,
+            avgVolume: Math.round(avgVol),
             volRatio: Math.max(0.1, volRatio),
             prevClose: (t.prevDay && t.prevDay.c) || 0,
-            source: 'snapshot',
+            source: hasToday ? 'snapshot-live' : 'snapshot-prevDay',
           };
         }
       }
@@ -78,7 +83,7 @@ export default async function handler(req, res) {
     console.error('Snapshot error:', e.message);
   }
 
-  // ── ATTEMPT 2: Fill gaps with Previous Day endpoint (always has data) ──
+  // ── ATTEMPT 2: Fill gaps with Previous Day endpoint ──
   const missing = symbols.filter(s => !quotes[s]);
   if (missing.length > 0) {
     await Promise.all(
@@ -91,17 +96,18 @@ export default async function handler(req, res) {
           if (!r.ok) return;
           const data = await r.json();
           const bar = data.results && data.results[0];
-          if (!bar) return;
+          if (!bar || !bar.c) return;
 
+          const prevOpen = bar.o || bar.c;
           quotes[sym] = {
-            price: bar.c || 0,
-            changePct: bar.o ? parseFloat((((bar.c - bar.o) / bar.o) * 100).toFixed(2)) : 0,
-            change: bar.c - bar.o || 0,
+            price: bar.c,
+            changePct: prevOpen > 0 ? parseFloat((((bar.c - prevOpen) / prevOpen) * 100).toFixed(2)) : 0,
+            change: bar.c - prevOpen,
             volume: bar.v || 0,
             avgVolume: bar.v || 1,
             volRatio: 1,
-            prevClose: bar.o || 0,
-            source: 'prevDay',
+            prevClose: prevOpen,
+            source: 'prevDay-endpoint',
           };
         } catch (e) {}
       })
