@@ -755,30 +755,42 @@ async function fetchMacro(){
     }
   }catch(e){}
 
-  // Finnhub for indices & commodities
-  if(!FINNHUB_KEY) return;
-  const targets=[
-    {id:'spx',sym:'^GSPC',fmt:v=>v.toLocaleString(undefined,{maximumFractionDigits:0})},
-    {id:'dow',sym:'^DJI',fmt:v=>v.toLocaleString(undefined,{maximumFractionDigits:0})},
-    {id:'naq',sym:'^IXIC',fmt:v=>v.toLocaleString(undefined,{maximumFractionDigits:0})},
-    {id:'vix',sym:'^VIX',fmt:v=>v.toFixed(2)},
-    {id:'gold',sym:'OANDA:XAU_USD',fmt:v=>'$'+v.toLocaleString(undefined,{maximumFractionDigits:0})},
-    {id:'silver',sym:'OANDA:XAG_USD',fmt:v=>'$'+v.toFixed(2)},
-    {id:'oil',sym:'OANDA:BCO_USD',fmt:v=>'$'+v.toFixed(2)},
-    {id:'copper',sym:'OANDA:XCU_USD',fmt:v=>'$'+v.toFixed(2)},
-  ];
-  for(const t of targets){
-    try{
-      const r=await fetch(`https://finnhub.io/api/v1/quote?symbol=${encodeURIComponent(t.sym)}&token=${FINNHUB_KEY}`);
-      if(!r.ok) continue;
-      const d=await r.json();
-      const price=d.c||0;
-      const prev=d.pc||price;
-      const chg=prev?((price-prev)/prev*100):0;
-      const el=document.getElementById(t.id);
-      if(el&&price>0){el.textContent=t.fmt(price);el.className=chg>=0?'up':'dn';}
-    }catch(e){}
+  // Finnhub for indices only (free tier supports these)
+  if(FINNHUB_KEY){
+    const indices=[
+      {id:'spx',sym:'^GSPC',fmt:v=>v.toLocaleString(undefined,{maximumFractionDigits:0})},
+      {id:'dow',sym:'^DJI',fmt:v=>v.toLocaleString(undefined,{maximumFractionDigits:0})},
+      {id:'naq',sym:'^IXIC',fmt:v=>v.toLocaleString(undefined,{maximumFractionDigits:0})},
+      {id:'vix',sym:'^VIX',fmt:v=>v.toFixed(2)},
+    ];
+    for(const t of indices){
+      try{
+        const r=await fetch(`https://finnhub.io/api/v1/quote?symbol=${encodeURIComponent(t.sym)}&token=${FINNHUB_KEY}`);
+        if(!r.ok) continue;
+        const d=await r.json();
+        const price=d.c||0;
+        const prev=d.pc||price;
+        const chg=prev?((price-prev)/prev*100):0;
+        const el=document.getElementById(t.id);
+        if(el&&price>0){el.textContent=t.fmt(price);el.className=chg>=0?'up':'dn';}
+      }catch(e){}
+    }
   }
+
+  // Yahoo (via our proxy) for commodities — Finnhub OANDA needs paid plan
+  try{
+    const r=await fetch('/api/quotes?symbols=GC%3DF,SI%3DF,BZ%3DF,HG%3DF');
+    if(r.ok){
+      const d=await r.json();
+      const q=d.quotes||{};
+      const map={'GC=F':{id:'gold',fmt:v=>'$'+v.toLocaleString(undefined,{maximumFractionDigits:0})},'SI=F':{id:'silver',fmt:v=>'$'+v.toFixed(2)},'BZ=F':{id:'oil',fmt:v=>'$'+v.toFixed(2)},'HG=F':{id:'copper',fmt:v=>'$'+v.toFixed(2)}};
+      Object.entries(map).forEach(([sym,cfg])=>{
+        const s=q[sym]; if(!s||!s.price) return;
+        const el=document.getElementById(cfg.id);
+        if(el){el.textContent=cfg.fmt(s.price);el.className=(s.changePct||0)>=0?'up':'dn';}
+      });
+    }
+  }catch(e){}
 }
 
 // ── CLAUDE API CALL (via backend) ──
