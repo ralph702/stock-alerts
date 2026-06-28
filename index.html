@@ -1102,6 +1102,139 @@ Repeat for PREDICTION 2, 3, 4. Be aggressive and specific.`);
   }catch(e){el.innerHTML='<div style="color:#6b7280;font-size:12px">⚠ Try again.</div>';}
 }
 
+// ── NEWS ──
+let allNews=[], newsFilter='all';
+
+function userSyms(kind){
+  if(kind==='custom') return watchlist['My Custom Picks'].map(s=>s.sym);
+  return [...watchlist['Big Tech'],...watchlist['AI Infrastructure'],...watchlist['Healthcare / MedAI'],...watchlist['My Custom Picks']].map(s=>s.sym);
+}
+
+function normalizeNews(a){
+  const related=(a.related||'').split(',').map(s=>s.trim().toUpperCase()).filter(Boolean);
+  return {id:a.id,headline:a.headline||'',summary:a.summary||'',source:a.source||'',url:a.url||'#',datetime:a.datetime||0,syms:related};
+}
+
+async function loadNews(){
+  const feed=document.getElementById('newsFeed'); if(!feed) return;
+  feed.innerHTML='<div class="loading-pulse">Loading news...</div>';
+  if(!FINNHUB_KEY){feed.innerHTML='<div style="color:#6b7280;font-size:12px;padding:8px 0">⚠ News key not configured.</div>';return;}
+  const collected={};
+  // 1) general market news
+  try{
+    const r=await fetch(`https://finnhub.io/api/v1/news?category=general&token=${FINNHUB_KEY}`);
+    if(r.ok)(await r.json()).forEach(a=>{if(a.id!=null)collected[a.id]=normalizeNews(a);});
+  }catch(e){}
+  // 2) company news for watchlist + custom (capped to stay under rate limits)
+  const syms=[...new Set(userSyms('watchlist'))].slice(0,12);
+  const fmt=d=>d.toISOString().slice(0,10);
+  const to=fmt(new Date()), from=fmt(new Date(Date.now()-7*864e5));
+  await Promise.all(syms.map(async sym=>{
+    try{
+      const r=await fetch(`https://finnhub.io/api/v1/company-news?symbol=${sym}&from=${from}&to=${to}&token=${FINNHUB_KEY}`);
+      if(!r.ok) return;
+      (await r.json()).slice(0,6).forEach(a=>{
+        if(a.id==null) return;
+        const n=collected[a.id]||normalizeNews(a);
+        if(!n.syms.includes(sym)) n.syms.push(sym);
+        collected[a.id]=n;
+      });
+    }catch(e){}
+  }));
+  allNews=Object.values(collected).sort((a,b)=>b.datetime-a.datetime);
+  renderNews();
+}
+
+function filterNews(f,el){
+  newsFilter=f;
+  document.querySelectorAll('[id^="newsFilter-"]').forEach(b=>b.classList.remove('active'));
+  if(el) el.classList.add('active');
+  renderNews();
+}
+
+function renderNews(){
+  const feed=document.getElementById('newsFeed'); if(!feed) return;
+  let list=allNews;
+  if(newsFilter!=='all'){
+    const set=new Set(userSyms(newsFilter==='custom'?'custom':'watchlist'));
+    list=allNews.filter(n=>n.syms.some(s=>set.has(s)));
+  }
+  if(!list.length){feed.innerHTML='<div style="color:#6b7280;font-size:12px;padding:8px 0">No headlines'+(newsFilter!=='all'?' for these tickers':'')+' right now. Tap ↻ Refresh News.</div>';return;}
+  const now=Date.now()/1000;
+  feed.innerHTML=list.slice(0,40).map(n=>{
+    const ageMin=(now-n.datetime)/60;
+    const breaking=ageMin>=0&&ageMin<60;
+    const ago=ageMin<0?'just now':ageMin<60?`${Math.max(1,Math.round(ageMin))}m ago`:ageMin<1440?`${Math.round(ageMin/60)}h ago`:`${Math.round(ageMin/1440)}d ago`;
+    const tags=n.syms.slice(0,4).map(s=>`<a href="https://finance.yahoo.com/quote/${s}" target="_blank" style="font-size:9px;background:#0f2744;border:1px solid #1e3a5f;border-radius:4px;padding:1px 5px;color:#60a5fa;text-decoration:none">${s}</a>`).join(' ');
+    const sum=n.summary?n.summary.slice(0,150)+(n.summary.length>150?'…':''):'';
+    return`<div style="padding:9px 0;border-bottom:1px solid #1a1a1a"><a href="${n.url}" target="_blank" style="font-size:13px;font-weight:600;color:#f0f0f0;text-decoration:none;line-height:1.4">${breaking?'<span style="color:#f87171;font-weight:800">🔴 </span>':''}${n.headline}</a>${sum?`<div style="font-size:11px;color:#9ca3af;margin-top:4px;line-height:1.5">${sum}</div>`:''}<div style="display:flex;align-items:center;gap:6px;margin-top:5px;flex-wrap:wrap"><span style="font-size:10px;color:#6b7280">${n.source}${n.source?' · ':''}${ago}</span>${tags}</div></div>`;
+  }).join('');
+}
+
+// ── RISING STARS (Claude-powered scanner) ──
+async function scanRisingStars(){
+  const hc=document.getElementById('highConviction'), ws=document.getElementById('watchSignals');
+  if(!hc||!ws) return;
+  const btn=document.querySelector('#tab-rising .refresh-claude');
+  if(btn){btn.textContent='⏳ Scanning...';btn.disabled=true;}
+  hc.innerHTML='<div class="loading-pulse">🌟 Scanning for rising stars...</div>';
+  ws.innerHTML='<div class="loading-pulse">👀 Finding early signals...</div>';
+  const all=[...Object.values(cache),...Object.values(broadCache)];
+  const ctx=[...all].sort((a,b)=>b.vol-a.vol).slice(0,12).map(s=>`${s.sym}(${s.chg>=0?'+':''}${s.chg.toFixed(1)}%,vol${s.vol.toFixed(1)}x)`).join(',');
+  try{
+    const text=await callClaude(`You are an aggressive small/mid-cap stock scout. Find rising stars showing EARLY explosion signals before mainstream coverage. Look for: volume trending up (institutional accumulation), relative strength vs sector, whale/insider buying, under-the-radar catalysts (contracts, patents, partnerships), small float under 500M, NOT yet covered by CNBC. Current market context: ${ctx||'n/a'}. Risk appetite: ${selectedRisk}.
+
+Respond in this EXACT format:
+
+HIGH CONVICTION:
+1. TICKER | catalyst in ~8 words | Target +XX% | why now in ~10 words
+2. TICKER | ... | Target +XX% | ...
+3. TICKER | ... | Target +XX% | ...
+
+EARLY WATCH:
+1. TICKER | early signal in ~8 words | what to watch for entry
+2. TICKER | ... | ...
+3. TICKER | ... | ...
+
+Use real tickers only. Be specific and aggressive.`,1200);
+    const parsed=parseRisingStars(text);
+    hc.innerHTML=parsed.high.length?parsed.high.map(p=>risingCard(p,'high')).join(''):'<div style="color:#6b7280;font-size:12px;padding:8px 0">No high-conviction picks surfaced. Try again.</div>';
+    ws.innerHTML=parsed.watch.length?parsed.watch.map(p=>risingCard(p,'watch')).join(''):'<div style="color:#6b7280;font-size:12px;padding:8px 0">No early signals surfaced. Try again.</div>';
+    const sc=document.getElementById('starCount'); if(sc) sc.textContent=parsed.high.length+parsed.watch.length;
+    const lt=document.getElementById('lastScanTime'); if(lt) lt.textContent=new Date().toLocaleString([],{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+    const tog=document.getElementById('risingAlertToggle');
+    if(tog&&!tog.classList.contains('off')&&subs.length&&parsed.high.length)
+      subs.forEach(p=>sendSMS(p,`🌟 Rising Stars: ${parsed.high.slice(0,3).map(x=>x.sym).join(', ')} flagged high-conviction. Open the app for details.`));
+  }catch(e){
+    hc.innerHTML='<div style="color:#6b7280;font-size:12px;padding:8px 0">⚠ Scan failed. Try again.</div>';
+    ws.innerHTML='';
+  }
+  if(btn){btn.textContent='🌟 Scan For Rising Stars Now';btn.disabled=false;}
+}
+
+function parseRisingStars(text){
+  const out={high:[],watch:[]};
+  let mode='';
+  text.split('\n').forEach(line=>{
+    const lt=line.trim();
+    if(/^HIGH CONVICTION/i.test(lt)){mode='high';return;}
+    if(/^EARLY WATCH/i.test(lt)){mode='watch';return;}
+    if(!mode||!/^\d+\./.test(lt)) return;
+    const parts=lt.replace(/^\d+\.\s*/,'').split('|').map(s=>s.trim());
+    const sym=(parts[0]||'').split(/\s+/)[0].toUpperCase().replace(/[^A-Z.]/g,'');
+    if(!sym) return;
+    if(mode==='high') out.high.push({sym,catalyst:parts[1]||'',target:parts[2]||'',why:parts[3]||''});
+    else out.watch.push({sym,signal:parts[1]||'',entry:parts[2]||''});
+  });
+  return out;
+}
+
+function risingCard(p,kind){
+  if(kind==='high')
+    return`<div class="stock-pick"><div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:4px"><div><span class="sym">${p.sym}</span><span class="verdict vBULL">HIGH CONVICTION</span></div>${p.target?`<span style="font-size:11px;font-weight:700;color:#4ade80">🎯 ${p.target}</span>`:''}</div>${p.catalyst?`<div class="reasoning">📰 ${p.catalyst}</div>`:''}${p.why?`<div class="reasoning" style="color:#a5b4fc">⚡ ${p.why}</div>`:''}${lnks(p.sym)}</div>`;
+  return`<div class="stock-pick" style="border-color:#1a1a4a;background:#0f0f1a"><div><span class="sym" style="color:#a5b4fc">${p.sym}</span><span class="verdict" style="background:#1e3a5f;color:#93c5fd">EARLY WATCH</span></div>${p.signal?`<div class="reasoning">👀 ${p.signal}</div>`:''}${p.entry?`<div class="reasoning" style="color:#93c5fd">🎯 Entry: ${p.entry}</div>`:''}${lnks(p.sym)}</div>`;
+}
+
 // ── POLITICIANS & WHALES ──
 function renderPols(){
   const el=document.getElementById('polList'); if(!el) return;
@@ -1215,7 +1348,7 @@ async function init(){
   renderPols();
   renderWhales();
   fetchMacro();
-  setTimeout(()=>{ if(typeof loadNews==='function') loadNews(); },1000);
+  setTimeout(loadNews,1000);
 }
 
 init();
