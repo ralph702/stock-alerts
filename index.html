@@ -919,6 +919,11 @@ function subscribePhone(){
   sendSMS(fmt,'✅ Ralph\'s Stock Terminal — subscribed! You\'ll get 🔥💀⚡🚀 alerts.');
 }
 
+// ── COMPANY LOGOS (free, no key, keyed by ticker) ──
+function logoUrl(sym){
+  return `https://images.financialmodelingprep.com/symbol/${sym}.png`;
+}
+
 // ── RENDER FUNCTIONS ──
 function renderRows(stocks,id,sector){
   const el=document.getElementById(id); if(!el) return;
@@ -926,7 +931,7 @@ function renderRows(stocks,id,sector){
     const d=cache[s.sym]||{price:0,chg:0,vol:1};
     const em=emoji(d.chg,d.vol);
     const isCustom=!isDefault(s.sym,sector);
-    return`<div class="srow"><div class="sl"><div style="display:flex;align-items:center;gap:5px"><span style="font-size:14px">${em}</span><a class="stxt" href="https://finance.yahoo.com/quote/${s.sym}" target="_blank">${s.sym} ↗</a>${isCustom?`<span onclick="removeTicker('${s.sym}','${sector}')" style="font-size:10px;color:#f87171;cursor:pointer;padding:1px 5px;border:1px solid #4a1a1a;border-radius:4px;background:#1a0f0f">✕</span>`:''}</div><div class="ssub">${s.name} · vol ${d.vol.toFixed(1)}x</div>${lnks(s.sym)}</div><div class="sr"><span class="vb ${vcls(d.vol)}">${d.vol.toFixed(1)}x</span><div style="text-align:right"><div style="font-size:12px;font-weight:700">${d.price.toFixed(2)}</div><div class="${d.chg>=0?'up':'dn'}" style="font-size:11px;font-weight:600">${d.chg>=0?'+':''}${d.chg.toFixed(1)}%</div></div></div></div>`;
+    return`<div class="srow"><div class="sl"><div style="display:flex;align-items:center;gap:5px"><img src="${logoUrl(s.sym)}" onerror="this.style.display='none'" style="width:16px;height:16px;border-radius:4px;object-fit:contain;background:#0b0f17;flex-shrink:0" loading="lazy"/><span style="font-size:14px">${em}</span><a class="stxt" href="https://finance.yahoo.com/quote/${s.sym}" target="_blank">${s.sym} ↗</a>${isCustom?`<span onclick="removeTicker('${s.sym}','${sector}')" style="font-size:10px;color:#f87171;cursor:pointer;padding:1px 5px;border:1px solid #4a1a1a;border-radius:4px;background:#1a0f0f">✕</span>`:''}</div><div class="ssub">${s.name} · vol ${d.vol.toFixed(1)}x</div>${lnks(s.sym)}</div><div class="sr"><span class="vb ${vcls(d.vol)}">${d.vol.toFixed(1)}x</span><div style="text-align:right"><div style="font-size:12px;font-weight:700">${d.price.toFixed(2)}</div><div class="${d.chg>=0?'up':'dn'}" style="font-size:11px;font-weight:600">${d.chg>=0?'+':''}${d.chg.toFixed(1)}%</div></div></div></div>`;
   }).join('');
 }
 
