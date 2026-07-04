@@ -169,6 +169,7 @@ input[type="number"],input[type="text"],select{background:#1a1a1a;border:1px sol
   <button class="bsm" onclick="doRefresh()">↻ Refresh</button>
 </div>
 
+<div id="waveAlarm" style="display:none;background:linear-gradient(90deg,#7c2d12,#991b1b);border:1px solid #f87171;border-radius:12px;padding:10px 14px;margin-bottom:10px;cursor:pointer;animation:pulse 2s infinite" onclick="showTab('wave',document.querySelector('[onclick*=wave]'))"><div style="display:flex;align-items:center;gap:8px"><span style="font-size:18px">🚨🌊</span><div style="flex:1"><div style="font-size:13px;font-weight:800;color:#fff" id="waveAlarmTitle">OPPORTUNITY ALARM</div><div style="font-size:11px;color:#fecaca" id="waveAlarmMsg">Wave stocks breaking out — tap to see</div></div><span style="color:#fff;font-weight:800">▶</span></div></div>
 <div class="g4">
   <div class="met" onclick="showTab('movers',document.querySelector('[onclick*=movers]'))">
     <div class="lb">🔥 On Fire ▶</div><div class="vl up" id="mfire">—</div><div class="sb">tap to see all</div>
@@ -186,6 +187,7 @@ input[type="number"],input[type="text"],select{background:#1a1a1a;border:1px sol
 
 <div class="tbar">
   <button class="tab" onclick="showTab('watchlist',this)">📊 Watchlist</button>
+  <button class="tab" onclick="showTab('wave',this)">🌊 Wave</button>
   <button class="tab" onclick="showTab('movers',this)">🔥 Movers</button>
   <button class="tab" onclick="showTab('leaders',this)">🏆 Leaders</button>
   <button class="tab" onclick="showTab('rising',this)">🌟 Rising Stars</button>
@@ -213,6 +215,43 @@ input[type="number"],input[type="text"],select{background:#1a1a1a;border:1px sol
 </div>
 
 <!-- RISING STARS -->
+
+<!-- 🌊 WAVE HQ -->
+<div id="tab-wave" class="tc">
+  <div class="card" style="background:linear-gradient(135deg,#0a1420,#111);border-color:#1e3a5f">
+    <div style="font-size:13px;font-weight:700;color:#60a5fa;margin-bottom:4px">🌊 Wave HQ — Catch The Next NVDA Early</div>
+    <div style="font-size:11px;color:#6b7280;margin-bottom:8px">Tracks 36 small/mid-cap chip, AI-infra, data-center &amp; AI-energy stocks for institutional accumulation, plus IPO filings and catalyst news. Builds a persistent log — nothing gets wiped on refresh.</div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">
+      <span style="background:#111827;border:1px solid #1f2937;border-radius:8px;padding:4px 8px;font-size:10px;color:#9ca3af">📅 Last scan: <span id="waveLastScan">Never</span></span>
+      <span style="background:#111827;border:1px solid #1f2937;border-radius:8px;padding:4px 8px;font-size:10px;color:#9ca3af">🌊 Waves: <span id="waveCount">0</span></span>
+      <span style="background:#111827;border:1px solid #1f2937;border-radius:8px;padding:4px 8px;font-size:10px;color:#9ca3af">🚨 Alarms: <span id="waveAlarmCount">0</span></span>
+      <span style="background:#111827;border:1px solid #1f2937;border-radius:8px;padding:4px 8px;font-size:10px;color:#9ca3af">📊 vs SMH 60d: <span id="waveBench">—</span></span>
+    </div>
+    <button onclick="runWaveScan(true)" style="width:100%;background:#1e40af;border:none;border-radius:10px;padding:10px;color:#fff;font-weight:700;font-size:13px;cursor:pointer">🌊 Scan Now</button>
+  </div>
+  <div class="card"><div class="sec">🚨 BREAKOUT ALARMS — score 85+</div><div id="waveAlarmRows" style="font-size:12px;color:#6b7280;padding:8px 0">Run a scan to check for breakouts</div></div>
+  <div class="card"><div class="sec">🌊 RIDING THE WAVE — score 70–84</div><div id="waveRows" style="font-size:12px;color:#6b7280;padding:8px 0">Run a scan to find waves</div></div>
+  <div class="card" style="border-color:#3f2d12">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div class="sec" style="color:#fbbf24">📜 TRACKER LOG — persistent score history</div>
+      <button onclick="clearWaveLog()" style="background:none;border:1px solid #374151;border-radius:6px;color:#6b7280;font-size:9px;padding:3px 8px;cursor:pointer">clear</button>
+    </div>
+    <div id="waveLogRows" style="font-size:12px;color:#6b7280;padding:8px 0">Events appear here as scans run. Never resets on refresh.</div>
+  </div>
+  <div class="card" style="border-color:#14352b"><div class="sec" style="color:#4ade80">💡 EARLY OPPORTUNITIES — IPOs &amp; new listings (next 60 days)</div><div style="font-size:10px;color:#6b7280;margin-bottom:6px">Spinoffs &amp; fresh listings get force-sold, then re-rate. Chip/AI/data names flagged 🔥.</div><div id="waveIpoRows" style="font-size:12px;color:#6b7280;padding:4px 0">Loading IPO calendar...</div></div>
+  <div class="card" style="border-color:#1e2a4a"><div class="sec" style="color:#93c5fd">📰 CATALYST FEED — contracts, M&amp;A, partnerships</div><div style="font-size:10px;color:#6b7280;margin-bottom:6px">Big moves start with a contract or partnership headline.</div><div id="waveNewsRows" style="font-size:12px;color:#6b7280;padding:4px 0">Loading catalyst news...</div></div>
+  <div class="card"><div class="sec">👀 FULL RADAR — all 36 stocks ranked</div><div id="waveAllRows" style="font-size:12px;color:#6b7280;padding:8px 0">Run a scan to see the radar</div></div>
+  <div class="card" style="background:#0a0a14;border-color:#312e81">
+    <div class="sec" style="color:#a5b4fc">🔬 THE SCORE — built from NVDA, SNDK &amp; BE lookback</div>
+    <div style="font-size:12px;color:#9ca3af;line-height:1.7">
+      <div style="padding:5px 0;border-bottom:1px solid #1f2937"><b style="color:#e2e8f0">💰 Accumulation (25 pts)</b> — up-day vol ÷ down-day vol last 20 sessions. 2x+ = heavy quiet buying.</div>
+      <div style="padding:5px 0;border-bottom:1px solid #1f2937"><b style="color:#e2e8f0">🏁 Relative Strength (20 pts)</b> — 60-day return vs SMH sector ETF.</div>
+      <div style="padding:5px 0;border-bottom:1px solid #1f2937"><b style="color:#e2e8f0">📈 Stage Trend (20 pts)</b> — above a RISING 50-day average + higher lows.</div>
+      <div style="padding:5px 0;border-bottom:1px solid #1f2937"><b style="color:#e2e8f0">🎯 Base + Breakout (20 pts)</b> — tight coiled range near the 52-week high.</div>
+      <div style="padding:5px 0"><b style="color:#e2e8f0">⚡ Momentum (15 pts)</b> — steady gains full; parabolic halved.</div>
+    </div>
+  </div>
+</div>
 <div id="tab-rising" class="tc">
   <div class="card" style="background:linear-gradient(135deg,#0a1a0a,#111);border-color:#1a4a1a">
     <div style="font-size:13px;font-weight:700;color:#4ade80;margin-bottom:4px">🌟 Rising Stars — Next Big Thing Scanner</div>
@@ -1408,6 +1447,153 @@ setInterval(()=>{
 },1000);
 
 // ── INIT ──
+
+// ── 🌊 WAVE HQ v2 ──────────────────────────────────────────────
+function waveEmoji(s){return s>=85?'🚨🌊':s>=70?'🌊':s>=50?'👀':'💤';}
+function waveColor(s){return s>=85?'#f87171':s>=70?'#60a5fa':s>=50?'#fcd34d':'#4b5563';}
+function waveRow(s){
+  const col=waveColor(s.score);
+  const tags=[];
+  if(s.adRatio>=1.8) tags.push('💰 accumulating');
+  if(s.rs60>=10) tags.push('🏁 beating sector');
+  if(s.tightBase) tags.push('🎯 tight base');
+  if(s.newHigh) tags.push('🆕 52wk high');
+  return '<div style="display:flex;align-items:center;gap:8px;padding:10px 0;border-top:1px solid #1f2937">'+
+    '<span style="font-size:16px;min-width:34px">'+waveEmoji(s.score)+'</span>'+
+    '<div style="flex:1;min-width:0">'+
+    '<div><a href="https://finance.yahoo.com/quote/'+s.sym+'" target="_blank" style="color:#60a5fa;font-weight:700;text-decoration:none">'+s.sym+' ↗</a> <span style="font-size:10px;color:#6b7280">'+s.name+' · '+s.cat+'</span></div>'+
+    '<div style="font-size:10px;color:#9ca3af">$'+s.price+' · 20d '+(s.mom20>=0?'+':'')+s.mom20+'% · A/D '+s.adRatio+'x · vs sector '+(s.rs60>=0?'+':'')+s.rs60+'% · '+s.pctFromHigh+'% off high</div>'+
+    (tags.length?'<div style="font-size:9px;color:#4ade80;margin-top:2px">'+tags.join(' · ')+'</div>':'')+
+    '<div style="height:4px;border-radius:2px;background:#1f2937;margin-top:5px"><div style="height:4px;border-radius:2px;background:'+col+';width:'+s.score+'%"></div></div>'+
+    '</div>'+
+    '<div style="text-align:right;min-width:44px">'+
+    '<div style="font-size:16px;font-weight:800;color:'+col+'">'+s.score+'</div>'+
+    '<div style="font-size:9px;color:#6b7280">score</div></div></div>';
+}
+function updateWaveLog(stocks){
+  const prev=JSON.parse(localStorage.getItem('waveScores')||'{}');
+  const log=JSON.parse(localStorage.getItem('waveLog')||'[]');
+  const now=Date.now();
+  stocks.forEach(function(s){
+    const p=prev[s.sym];
+    if(p!=null){
+      if(p<85&&s.score>=85) log.unshift({t:now,sym:s.sym,msg:'🚨 BREAKOUT ALARM — score '+p+'→'+s.score});
+      else if(p<70&&s.score>=70) log.unshift({t:now,sym:s.sym,msg:'🌊 Entered the wave — score '+p+'→'+s.score});
+      else if(s.score-p>=8) log.unshift({t:now,sym:s.sym,msg:'📈 Score jump +'+(s.score-p)+' ('+p+'→'+s.score+')'});
+      else if(p-s.score>=8) log.unshift({t:now,sym:s.sym,msg:'📉 Cooling −'+(p-s.score)+' ('+p+'→'+s.score+')'});
+      if(s.newHigh&&p<s.score) log.unshift({t:now,sym:s.sym,msg:'🆕 New 52-week high at $'+s.price});
+    } else if(s.score>=70){
+      log.unshift({t:now,sym:s.sym,msg:'🌊 New on radar — debut score '+s.score});
+    }
+    prev[s.sym]=s.score;
+  });
+  localStorage.setItem('waveScores',JSON.stringify(prev));
+  localStorage.setItem('waveLog',JSON.stringify(log.slice(0,200)));
+  renderWaveLog();
+}
+function renderWaveLog(){
+  var el=document.getElementById('waveLogRows'); if(!el) return;
+  var log=JSON.parse(localStorage.getItem('waveLog')||'[]');
+  if(!log.length){el.innerHTML='<div style="padding:8px 0;color:#6b7280;font-size:12px">Events appear here as scans run. Never resets on refresh.</div>';return;}
+  el.innerHTML=log.slice(0,40).map(function(e){return '<div style="display:flex;gap:8px;padding:8px 0;border-top:1px solid #1f2937;font-size:12px;align-items:flex-start"><span style="color:#6b7280;font-size:10px;min-width:52px;padding-top:1px">'+new Date(e.t).toLocaleDateString([],{month:'short',day:'numeric'})+'</span><span style="color:#60a5fa;font-weight:700;min-width:44px">'+e.sym+'</span><span style="color:#d1d5db;flex:1">'+e.msg+'</span></div>';}).join('');
+}
+function clearWaveLog(){localStorage.removeItem('waveLog');renderWaveLog();}
+function renderWave(data){
+  if(!data||!data.stocks) return;
+  var alarms=data.stocks.filter(function(s){return s.score>=85;});
+  var waves=data.stocks.filter(function(s){return s.score>=70&&s.score<85;});
+  document.getElementById('waveLastScan').textContent=new Date(data.ts).toLocaleDateString([],{month:'short',day:'numeric'});
+  document.getElementById('waveCount').textContent=waves.length;
+  document.getElementById('waveAlarmCount').textContent=alarms.length;
+  if(data.benchRet60!=null) document.getElementById('waveBench').textContent=(data.benchRet60>=0?'+':'')+data.benchRet60+'%';
+  document.getElementById('waveAlarmRows').innerHTML=alarms.length?alarms.map(waveRow).join(''):'<div style="padding:8px 0;color:#6b7280;font-size:12px">No breakout alarms right now.</div>';
+  document.getElementById('waveRows').innerHTML=waves.length?waves.map(waveRow).join(''):'<div style="padding:8px 0;color:#6b7280;font-size:12px">No active waves this week.</div>';
+  document.getElementById('waveAllRows').innerHTML=data.stocks.map(waveRow).join('');
+  renderWaveLog();
+  var banner=document.getElementById('waveAlarm');
+  if(alarms.length>0){
+    banner.style.display='block';banner.style.background='linear-gradient(90deg,#7c2d12,#991b1b)';banner.style.border='1px solid #f87171';banner.style.animation='pulse 2s infinite';
+    document.getElementById('waveAlarmTitle').textContent='🚨 '+alarms.length+' BREAKOUT ALARM'+(alarms.length>1?'S':'');
+    document.getElementById('waveAlarmMsg').textContent=alarms.map(function(a){return a.sym;}).join(', ')+' — accumulation + breakout conditions. Tap to see.';
+  } else if(waves.length>0){
+    banner.style.display='block';banner.style.background='linear-gradient(90deg,#0c2340,#1e3a5f)';banner.style.border='1px solid #60a5fa';banner.style.animation='none';
+    document.getElementById('waveAlarmTitle').textContent='🌊 '+waves.length+' WAVE'+(waves.length>1?'S':'')+' BUILDING';
+    document.getElementById('waveAlarmMsg').textContent=waves.slice(0,4).map(function(w){return w.sym;}).join(', ')+' showing quiet accumulation. Tap to review.';
+  } else { banner.style.display='none'; }
+}
+async function runWaveScan(manual){
+  if(manual) document.getElementById('waveAlarmRows').innerHTML='<div style="padding:8px 0;color:#60a5fa;font-size:12px">🌊 Scanning 36 stocks...</div>';
+  try{
+    var r=await fetch('/api/wave');
+    if(!r.ok) throw new Error('wave scan failed '+r.status);
+    var data=await r.json();
+    if(data.ok){
+      localStorage.setItem('waveData',JSON.stringify(data));
+      localStorage.setItem('waveLastRun',Date.now().toString());
+      updateWaveLog(data.stocks);
+      renderWave(data);
+      loadWaveCatalysts(manual);
+    }
+  }catch(e){
+    console.warn('Wave scan error:',e.message);
+    if(manual) document.getElementById('waveAlarmRows').innerHTML='<div style="padding:8px 0;color:#f87171;font-size:12px">Scan failed — try again in a minute.</div>';
+  }
+}
+function waveWeeklyCheck(){
+  var cached=localStorage.getItem('waveData');
+  if(cached){try{renderWave(JSON.parse(cached));}catch(e){}}
+  renderWaveLog();
+  var last=parseInt(localStorage.getItem('waveLastRun')||'0');
+  if(Date.now()-last>7*24*3600*1000) runWaveScan(false);
+}
+var CATALYST_WORDS=[
+  {re:/merger|acquisit|acquire|takeover|buyout/i, tag:'🤝 M&A'},
+  {re:/contract|order|wins|award|deploy/i, tag:'📋 Contract'},
+  {re:/partner|collaborat|alliance|joint venture/i, tag:'🤝 Partnership'},
+  {re:/ipo|spin-?off|s-1|public offering|debut/i, tag:'🚀 IPO/Spin'},
+  {re:/guidance|raises|beats|record revenue|upgrade/i, tag:'📈 Guidance'},
+  {re:/government|pentagon|defense|federal|grant/i, tag:'🏛️ Gov'}
+];
+var HOT_IPO_WORDS=/chip|semi|ai|artificial|data|cloud|compute|energy|nuclear|quantum|robot|battery|grid/i;
+async function loadWaveCatalysts(force){
+  if(!FINNHUB_KEY) return;
+  var cached=localStorage.getItem('waveCatalysts');
+  if(cached&&!force){try{var c=JSON.parse(cached);if(Date.now()-c.ts<12*3600*1000){renderCatalysts(c);return;}}catch(e){}}
+  var out={ts:Date.now(),ipos:[],news:[]};
+  try{
+    var today=new Date().toISOString().slice(0,10);
+    var plus60=new Date(Date.now()+60*24*3600*1000).toISOString().slice(0,10);
+    var r=await fetch('https://finnhub.io/api/v1/calendar/ipo?from='+today+'&to='+plus60+'&token='+FINNHUB_KEY);
+    if(r.ok){var d=await r.json();out.ipos=(d.ipoCalendar||[]).slice(0,25).map(function(i){return{name:i.name||i.symbol||'?',sym:i.symbol||'',date:i.date||'',price:i.price||'',exchange:i.exchange||'',hot:HOT_IPO_WORDS.test(i.name||'')};}).sort(function(a,b){return(b.hot?1:0)-(a.hot?1:0);});}
+  }catch(e){}
+  try{
+    var wd=JSON.parse(localStorage.getItem('waveData')||'{}');
+    var top=(wd.stocks||[]).slice(0,10).map(function(s){return s.sym;});
+    var from=new Date(Date.now()-7*24*3600*1000).toISOString().slice(0,10);
+    var to=new Date().toISOString().slice(0,10);
+    for(var si=0;si<top.length;si++){
+      try{
+        var r2=await fetch('https://finnhub.io/api/v1/company-news?symbol='+top[si]+'&from='+from+'&to='+to+'&token='+FINNHUB_KEY);
+        if(!r2.ok) continue;
+        var items=await r2.json();
+        for(var ii=0;ii<Math.min((items||[]).length,15);ii++){
+          var it=items[ii];
+          var hit=CATALYST_WORDS.find(function(c){return c.re.test(it.headline||'');});
+          if(hit) out.news.push({sym:top[si],tag:hit.tag,headline:it.headline,url:it.url,t:(it.datetime||0)*1000});
+        }
+      }catch(e){}
+    }
+    out.news.sort(function(a,b){return b.t-a.t;});out.news=out.news.slice(0,20);
+  }catch(e){}
+  localStorage.setItem('waveCatalysts',JSON.stringify(out));
+  renderCatalysts(out);
+}
+function renderCatalysts(c){
+  var ipoEl=document.getElementById('waveIpoRows');
+  if(ipoEl){ipoEl.innerHTML=c.ipos&&c.ipos.length?c.ipos.slice(0,12).map(function(i){return '<div style="display:flex;gap:8px;padding:8px 0;border-top:1px solid #1f2937;font-size:12px"><span style="min-width:20px">'+(i.hot?'🔥':'📄')+'</span><div style="flex:1"><span style="color:#e2e8f0;font-weight:600">'+i.name+'</span> <span style="color:#6b7280;font-size:10px">'+(i.sym?'· '+i.sym:'')+' '+(i.exchange?'· '+i.exchange:'')+'</span><div style="font-size:10px;color:#9ca3af">📅 '+i.date+(i.price?' · ~$'+i.price:'')+'</div></div></div>';}).join(''):'<div style="padding:8px 0;color:#6b7280;font-size:12px">No IPOs on the calendar.</div>';}
+  var newsEl=document.getElementById('waveNewsRows');
+  if(newsEl){newsEl.innerHTML=c.news&&c.news.length?c.news.map(function(n){return '<div style="display:flex;gap:8px;padding:8px 0;border-top:1px solid #1f2937;font-size:12px"><span style="color:#60a5fa;font-weight:700;min-width:44px">'+n.sym+'</span><div style="flex:1"><a href="'+n.url+'" target="_blank" style="color:#d1d5db;text-decoration:none">'+n.headline+'</a><div style="font-size:9px;color:#4ade80;margin-top:2px">'+n.tag+' · '+new Date(n.t).toLocaleDateString([],{month:'short',day:'numeric'})+'</div></div></div>';}).join(''):'<div style="padding:8px 0;color:#6b7280;font-size:12px">No catalyst headlines this week.</div>';}
+}
 async function init(){
   loadSavedTickers();
   await loadKeys();
@@ -1418,6 +1604,8 @@ async function init(){
   renderPols();
   renderWhales();
   fetchMacro();
+  waveWeeklyCheck();
+  setTimeout(function(){loadWaveCatalysts(false);},2000);
   setTimeout(loadNews,1000);
 
   // Fetch live ETF + sector data from Yahoo, then re-render those tabs with real numbers
