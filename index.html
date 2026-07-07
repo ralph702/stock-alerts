@@ -608,10 +608,10 @@ const defaultWatchlist={
   'Big Tech':['AAPL','MSFT','GOOGL','META','AMZN','TSLA','SPCX','DELL','INTC','SNDK'],
   'AI Infrastructure':['NVDA','TSM','MU','ANET','AMD','PLTR','CRWV','IREN','CEG','BE','SMCI'],
   'Healthcare / MedAI':['TEM','ISRG','LLY','GEHC','RXRX','SYK','SDGR'],
-  'AI Energy':[{sym:'VST',name:'Vistra'},{sym:'CEG',name:'Constellation'},{sym:'BE',name:'Bloom Energy'},{sym:'OKLO',name:'Oklo'},{sym:'TLN',name:'Talen Energy'},{sym:'SMR',name:'NuScale'}],
-  'Financials':[{sym:'JPM',name:'JPMorgan'},{sym:'V',name:'Visa'},{sym:'MA',name:'Mastercard'},{sym:'GS',name:'Goldman Sachs'},{sym:'BAC',name:'Bank of America'}],
-  'Consumer':[{sym:'WMT',name:'Walmart'},{sym:'COST',name:'Costco'},{sym:'NKE',name:'Nike'},{sym:'MCD',name:'McDonalds'},{sym:'SBUX',name:'Starbucks'}],
-  'Defense & Aero':[{sym:'LMT',name:'Lockheed'},{sym:'RTX',name:'RTX'},{sym:'NOC',name:'Northrop'},{sym:'GD',name:'General Dynamics'},{sym:'BA',name:'Boeing'}],
+  'AI Energy':['VST','CEG','BE','OKLO','TLN','SMR'],
+  'Financials':['JPM','V','MA','GS','BAC'],
+  'Consumer':['WMT','COST','NKE','MCD','SBUX'],
+  'Defense & Aero':['LMT','RTX','NOC','GD','BA'],
   'My Custom Picks':[]
 };
 
@@ -619,6 +619,10 @@ const watchlist={
   'Big Tech':[{sym:'AAPL',name:'Apple'},{sym:'MSFT',name:'Microsoft'},{sym:'GOOGL',name:'Google'},{sym:'META',name:'Meta'},{sym:'AMZN',name:'Amazon'},{sym:'TSLA',name:'Tesla'},{sym:'SPCX',name:'SpaceX 🚀'},{sym:'DELL',name:'Dell'},{sym:'INTC',name:'Intel'},{sym:'SNDK',name:'Sandisk'}],
   'AI Infrastructure':[{sym:'NVDA',name:'Nvidia'},{sym:'TSM',name:'TSMC'},{sym:'MU',name:'Micron'},{sym:'ANET',name:'Arista'},{sym:'AMD',name:'AMD'},{sym:'PLTR',name:'Palantir'},{sym:'CRWV',name:'CoreWeave'},{sym:'IREN',name:'IREN Ltd'},{sym:'CEG',name:'Constellation'},{sym:'BE',name:'Bloom Energy'},{sym:'SMCI',name:'Super Micro'}],
   'Healthcare / MedAI':[{sym:'TEM',name:'Tempus AI'},{sym:'ISRG',name:'Intuitive Surgical'},{sym:'LLY',name:'Eli Lilly'},{sym:'GEHC',name:'GE HealthCare'},{sym:'RXRX',name:'Recursion'},{sym:'SYK',name:'Stryker'},{sym:'SDGR',name:'Schrödinger'}],
+  'AI Energy':[{sym:'VST',name:'Vistra'},{sym:'CEG',name:'Constellation'},{sym:'BE',name:'Bloom Energy'},{sym:'OKLO',name:'Oklo'},{sym:'TLN',name:'Talen Energy'},{sym:'SMR',name:'NuScale'}],
+  'Financials':[{sym:'JPM',name:'JPMorgan'},{sym:'V',name:'Visa'},{sym:'MA',name:'Mastercard'},{sym:'GS',name:'Goldman Sachs'},{sym:'BAC',name:'Bank of America'}],
+  'Consumer':[{sym:'WMT',name:'Walmart'},{sym:'COST',name:'Costco'},{sym:'NKE',name:'Nike'},{sym:'MCD',name:"McDonald's"},{sym:'SBUX',name:'Starbucks'}],
+  'Defense & Aero':[{sym:'LMT',name:'Lockheed'},{sym:'RTX',name:'RTX'},{sym:'NOC',name:'Northrop'},{sym:'GD',name:'General Dynamics'},{sym:'BA',name:'Boeing'}],
   'My Custom Picks':[]
 };
 
@@ -1549,7 +1553,7 @@ async function explainStock(sym){
   var out=document.getElementById('explainOut');
   if(out){out.style.display='block';out.innerHTML='<div style="color:#60a5fa;font-size:13px">🧠 Reading the tape in plain English...</div>';}
   var d=cache[sym]||{price:0,chg:0,vol:1};
-  var prompt='In exactly 3 short sentences, explain to a nervous beginner investor what is going on with '+sym+' stock right now. It is at $'+d.price.toFixed(2)+', '+(d.chg>=0?'up':'down')+' '+Math.abs(d.chg).toFixed(1)+'% today on '+d.vol.toFixed(1)+'x normal volume. Plain English, no jargon, no buy or sell advice, calm and factual. End by saying whether this is normal noise or actually worth paying attention to.';
+  var prompt='In exactly 3 short sentences, explain to a nervous beginner investor what is going on with '+sym+' stock right now. It is at $'+d.price.toFixed(2)+', '+(d.chg>=0?'up':'down')+' '+Math.abs(d.chg).toFixed(1)+'% today on '+d.vol.toFixed(1)+'x normal volume. Plain English, no jargon, no buy or sell advice, calm and factual. End by saying whether this is normal noise or actually worth paying attention to. Do NOT say you lack data - use the numbers provided above.';
   try{
     var r=await fetch('/api/alert',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:'claude',prompt:prompt})});
     var data=await r.json();
@@ -1564,14 +1568,17 @@ async function loadDailyBrief(force){
   var el=document.getElementById('dailyBrief'); if(!el) return;
   var cached=localStorage.getItem('dailyBrief');
   if(cached&&!force){try{var c=JSON.parse(cached);if(new Date().toDateString()===c.day){el.innerHTML=c.html;return;}}catch(e){}}
-  el.innerHTML='<div style="color:#60a5fa;font-size:12px">☕ Brewing today\'s market summary...</div>';
-  var spx=document.getElementById('spx')?document.getElementById('spx').textContent:'';
-  var prompt='Write a calm 2-sentence plain-English summary of the US stock market today for a nervous beginner. Mention the general mood and the single most important thing to know. No jargon, no advice. Keep it under 45 words.';
+  el.innerHTML='<div style="color:#60a5fa;font-size:12px">\u2615 Brewing today\'s market summary...</div>';
+  function g(id){var e=document.getElementById(id);return e?e.textContent.trim():'';}
+  var spx=g('spx'),dow=g('dow'),naq=g('naq'),vix=g('vix');
+  var movers=[];
+  try{var arr=Object.values(cache).filter(function(s){return s&&s.chg!=null&&s.price>0;});arr.sort(function(a,b){return Math.abs(b.chg)-Math.abs(a.chg);});movers=arr.slice(0,4).map(function(s){return s.sym+' '+(s.chg>=0?'+':'')+s.chg.toFixed(1)+'%';});}catch(e){}
+  var prompt='You are given today\'s live US market data. Write a calm 2-3 sentence plain-English summary for a nervous beginner investor. Data: S&P 500 '+spx+', Dow '+dow+', Nasdaq '+naq+', VIX (fear gauge) '+vix+'. Notable watchlist movers: '+(movers.join(', ')||'none notable')+'. Describe the overall mood based on the VIX and movers, and the single most useful thing to know. No jargon, no buy/sell advice, under 50 words. Do NOT say you lack data - summarize the numbers provided.';
   try{
     var r=await fetch('/api/alert',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:'claude',prompt:prompt})});
     var data=await r.json();
-    var txt=data.text||data.reply||data.content||'Markets are open. Check back for today\'s summary.';
-    var html='<div style="font-size:11px;color:#6b7280;margin-bottom:4px">☕ Market in plain English</div><div style="font-size:14px;line-height:1.6;color:#e2e8f0">'+txt+'</div>';
+    var txt=data.text||data.reply||data.content||'Market summary unavailable right now.';
+    var html='<div style="font-size:11px;color:#6b7280;margin-bottom:4px">\u2615 Market in plain English</div><div style="font-size:14px;line-height:1.6;color:#e2e8f0">'+txt+'</div><div style="font-size:9px;color:#4b5563;margin-top:6px">Not financial advice \u00b7 based on today\'s index levels</div>';
     el.innerHTML=html;
     localStorage.setItem('dailyBrief',JSON.stringify({day:new Date().toDateString(),html:html}));
   }catch(e){el.innerHTML='<div style="color:#6b7280;font-size:12px">Market summary unavailable right now.</div>';}
