@@ -122,6 +122,11 @@ input[type="number"],input[type="text"],select{background:#1a1a1a;border:1px sol
 .pred-reason{font-size:11px;color:#9ca3af;margin-top:4px;line-height:1.6}
 .pred-target{font-size:12px;color:#a5b4fc;font-weight:700;margin-top:4px}
 @media(min-width:600px){.g4{grid-template-columns:repeat(4,1fr)}.g2{grid-template-columns:1fr 1fr}.ekey{grid-template-columns:repeat(3,1fr)}}
+body.simple .g4{display:none!important}
+body.simple .slnks{display:none!important}
+body.simple .vb{display:none!important}
+#modeBtn{border-color:#3f2d12!important;color:#fbbf24!important}
+.pdpill{background:#111827;border:1px solid #1f2937;border-radius:8px;padding:4px 8px;font-size:10px;color:#9ca3af}
 </style>
 </head>
 <body>
@@ -186,9 +191,11 @@ input[type="number"],input[type="text"],select{background:#1a1a1a;border:1px sol
 </div>
 
 <div class="tbar">
+  <button class="tab" id="modeBtn" onclick="toggleViewMode()">🧘 Simple</button>
   <button class="tab" onclick="showTab('watchlist',this)">📊 Watchlist</button>
   <button class="tab" onclick="showTab('wave',this)">🌊 Wave</button>
   <button class="tab" onclick="showTab('favorites',this)">⭐ Favorites</button>
+  <button class="tab" onclick="showTab('paper',this)">📓 Paper</button>
   <button class="tab" onclick="showTab('movers',this)">🔥 Movers</button>
   <button class="tab" onclick="showTab('leaders',this)">🏆 Leaders</button>
   <button class="tab" onclick="showTab('rising',this)">🌟 Rising Stars</button>
@@ -207,6 +214,14 @@ input[type="number"],input[type="text"],select{background:#1a1a1a;border:1px sol
 
 <!-- WATCHLIST -->
 <div id="tab-watchlist" class="tc active">
+  <div class="card" id="levCard" style="border-color:#3f2d12;margin-bottom:10px;padding:10px 14px">
+    <div style="display:flex;align-items:center;gap:10px">
+      <span id="levDot" style="width:12px;height:12px;border-radius:50%;background:#4b5563;flex-shrink:0"></span>
+      <div style="flex:1"><div style="font-size:12px;font-weight:700;color:#e2e8f0">⚖️ Leverage Light <span style="font-size:9px;color:#6b7280;font-weight:400">2x/3x ETF conditions</span></div>
+      <div id="levMsg" style="font-size:11px;color:#9ca3af">Reading VIX regime...</div></div>
+    </div>
+    <div style="font-size:8px;color:#4b5563;margin-top:6px">Leveraged ETFs decay in choppy markets and can lose fast — this light reads historical volatility regimes only. Never a signal to buy. Not financial advice.</div>
+  </div>
   <div class="card" style="background:linear-gradient(135deg,#0a1420,#111);border-color:#1e3a5f;margin-bottom:10px">
     <div id="dailyBrief"><div style="color:#6b7280;font-size:12px">☕ Loading today's market summary...</div></div>
   </div>
@@ -218,10 +233,37 @@ input[type="number"],input[type="text"],select{background:#1a1a1a;border:1px sol
     <div class="card"><div class="sec">🏦 Financials</div><div id="finRows"></div></div>
     <div class="card"><div class="sec">🛒 Consumer</div><div id="consRows"></div></div>
     <div class="card"><div class="sec">🛡️ Defense &amp; Aero</div><div id="defRows"></div></div>
+    <div class="card" style="border-color:#312e81"><div class="sec" style="color:#a5b4fc">🌊3 Efficiency Wave <span style="font-size:9px;color:#6b7280;font-weight:400">high-labor cos AI will streamline (Camillo W3)</span></div><div id="wave3Rows"></div></div>
+    <div class="card" style="border-color:#14352b"><div class="sec" style="color:#4ade80">💊 Peptides <span style="font-size:9px;color:#6b7280;font-weight:400">GLP-1 &amp; next-gen — watch trial readouts</span></div><div id="peptideRows"></div></div>
     <div class="card" id="customCard" style="display:none"><div class="sec">📌 My Custom Picks</div><div id="customRows"></div></div>
   </div>
 </div>
 
+
+<!-- 📓 PAPER DESK -->
+<div id="tab-paper" class="tc">
+  <div class="card" style="background:linear-gradient(135deg,#14100a,#111);border-color:#3f2d12">
+    <div style="font-size:13px;font-weight:700;color:#fbbf24;margin-bottom:4px">📓 Claude's Paper Desk — $5,000 virtual account</div>
+    <div style="font-size:11px;color:#6b7280;margin-bottom:8px">Aggressive swing picks with full written reasoning, tracked forever vs just holding SPY. Every win AND loss logged — the data decides if the approach works, not confidence. 15-min delayed quotes · paper only · not advice · no profit promises.</div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">
+      <span class="pdpill">💰 Value: <b id="pdTotal" style="color:#e2e8f0">$5,000</b></span>
+      <span class="pdpill">📈 Return: <b id="pdRet" style="color:#e2e8f0">0.0%</b></span>
+      <span class="pdpill">🆚 SPY: <b id="pdSpy" style="color:#e2e8f0">—</b></span>
+      <span class="pdpill">🎯 Win rate: <b id="pdWin" style="color:#e2e8f0">—</b></span>
+      <span class="pdpill">💵 Cash: <b id="pdCash" style="color:#e2e8f0">$5,000</b></span>
+    </div>
+    <button onclick="pdGetPicks()" style="width:100%;background:#b45309;border:none;border-radius:10px;padding:10px;color:#fff;font-weight:700;font-size:13px;cursor:pointer">🧠 Get today's aggressive picks</button>
+    <div id="pdProposals" style="margin-top:8px"></div>
+  </div>
+  <div class="card"><div class="sec">📌 OPEN POSITIONS</div><div id="pdPositions" style="font-size:12px;color:#6b7280;padding:8px 0">No open positions — get picks above.</div></div>
+  <div class="card" style="border-color:#3f2d12">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div class="sec" style="color:#fbbf24">📜 TRADE LOG — every call, forever</div>
+      <button onclick="pdReset()" style="background:none;border:1px solid #374151;border-radius:6px;color:#6b7280;font-size:9px;padding:3px 8px;cursor:pointer">reset desk</button>
+    </div>
+    <div id="pdLog" style="font-size:12px;color:#6b7280;padding:8px 0">Trades appear here with entry, exit, P&amp;L and the reasoning behind each.</div>
+  </div>
+</div>
 
 <!-- ⭐ FAVORITES -->
 <div id="tab-favorites" class="tc">
@@ -271,6 +313,15 @@ input[type="number"],input[type="text"],select{background:#1a1a1a;border:1px sol
       <div style="padding:5px 0;border-bottom:1px solid #1f2937"><b style="color:#e2e8f0">📈 Stage Trend (20 pts)</b> — above a RISING 50-day average + higher lows.</div>
       <div style="padding:5px 0;border-bottom:1px solid #1f2937"><b style="color:#e2e8f0">🎯 Base + Breakout (20 pts)</b> — tight coiled range near the 52-week high.</div>
       <div style="padding:5px 0"><b style="color:#e2e8f0">⚡ Momentum (15 pts)</b> — steady gains full; parabolic halved.</div>
+    </div>
+  </div>
+  <div class="card" style="background:#0a0a14;border-color:#1e3a5f">
+    <div class="sec" style="color:#60a5fa">🌊×3 THE THREE AI WAVES — the Camillo framework</div>
+    <div style="font-size:12px;color:#9ca3af;line-height:1.7">
+      <div style="padding:5px 0;border-bottom:1px solid #1f2937"><b style="color:#e2e8f0">Wave 1 — The Magic</b> ✅ happened. The apps and models themselves. The obvious winners already ran.</div>
+      <div style="padding:5px 0;border-bottom:1px solid #1f2937"><b style="color:#e2e8f0">Wave 2 — The Infrastructure</b> ⬅️ WE ARE HERE. Chips, data centers, power. This is exactly what the Wave Scanner above hunts.</div>
+      <div style="padding:5px 0;border-bottom:1px solid #1f2937"><b style="color:#e2e8f0">Wave 3 — The Efficiency</b> 🔭 NEXT. Boring companies drowning in labor cost — customer service, admin, logistics, white-collar repetition — that AI makes suddenly profitable. Watch the 🌊3 category: the tell is SG&A costs falling while revenue holds and margins inflect up.</div>
+      <div style="padding:5px 0"><b style="color:#e2e8f0">💊 Side wave — Peptides.</b> GLP-1 was chapter one; next-gen (oral, muscle-sparing) is chapter two. The catalyst type is trial readouts — watch the 💊 category + catalyst feed.</div>
     </div>
   </div>
 </div>
@@ -546,6 +597,7 @@ input[type="number"],input[type="text"],select{background:#1a1a1a;border:1px sol
       <div class="eitem"><span style="font-size:20px">🔴</span><div><div style="font-size:12px;font-weight:600">Red</div><div style="font-size:10px;color:#9ca3af">Negative move</div></div></div>
       <div class="eitem"><span style="font-size:20px">⏸️</span><div><div style="font-size:12px;font-weight:600">Paused</div><div style="font-size:10px;color:#9ca3af">Flat consolidating</div></div></div>
       <div class="eitem"><span style="font-size:20px">📰</span><div><div style="font-size:12px;font-weight:600">News</div><div style="font-size:10px;color:#9ca3af">Catalyst today</div></div></div>
+      <div class="eitem"><span style="font-size:20px">🐋</span><div><div style="font-size:12px;font-weight:600">Whale Volume</div><div style="font-size:10px;color:#9ca3af">5x+ volume, price quiet — big money repositioning</div></div></div>
     </div>
   </div>
 </div>
@@ -612,6 +664,8 @@ const defaultWatchlist={
   'Financials':['JPM','V','MA','GS','BAC'],
   'Consumer':['WMT','COST','NKE','MCD','SBUX'],
   'Defense & Aero':['LMT','RTX','NOC','GD','BA'],
+  'Wave 3: Efficiency':['UNH','CVS','PGR','ALL','UPS','FDX'],
+  'Peptides':['LLY','NVO','VKTX','ALT','AMGN'],
   'My Custom Picks':[]
 };
 
@@ -623,6 +677,8 @@ const watchlist={
   'Financials':[{sym:'JPM',name:'JPMorgan'},{sym:'V',name:'Visa'},{sym:'MA',name:'Mastercard'},{sym:'GS',name:'Goldman Sachs'},{sym:'BAC',name:'Bank of America'}],
   'Consumer':[{sym:'WMT',name:'Walmart'},{sym:'COST',name:'Costco'},{sym:'NKE',name:'Nike'},{sym:'MCD',name:"McDonald's"},{sym:'SBUX',name:'Starbucks'}],
   'Defense & Aero':[{sym:'LMT',name:'Lockheed'},{sym:'RTX',name:'RTX'},{sym:'NOC',name:'Northrop'},{sym:'GD',name:'General Dynamics'},{sym:'BA',name:'Boeing'}],
+  'Wave 3: Efficiency':[{sym:'UNH',name:'UnitedHealth'},{sym:'CVS',name:'CVS Health'},{sym:'PGR',name:'Progressive'},{sym:'ALL',name:'Allstate'},{sym:'UPS',name:'UPS'},{sym:'FDX',name:'FedEx'}],
+  'Peptides':[{sym:'LLY',name:'Eli Lilly'},{sym:'NVO',name:'Novo Nordisk'},{sym:'VKTX',name:'Viking Therapeutics'},{sym:'ALT',name:'Altimmune'},{sym:'AMGN',name:'Amgen'}],
   'My Custom Picks':[]
 };
 
@@ -669,7 +725,7 @@ const broadMarket={
 };
 
 const etfData={
-  tech:[{sym:'QQQ',name:'NASDAQ 100',note:'Top 100 tech'},{sym:'XLK',name:'Tech Select',note:'S&P tech'},{sym:'VGT',name:'Vanguard IT',note:'Broad tech'},{sym:'SMH',name:'Semiconductors',note:'Chips'},{sym:'SOXX',name:'iShares Semis',note:'Semi index'},{sym:'FTEC',name:'Fidelity Tech',note:'Low fee'}],
+  tech:[{sym:'QQQ',name:'NASDAQ 100',note:'Top 100 tech'},{sym:'XLK',name:'Tech Select',note:'S&P tech'},{sym:'VGT',name:'Vanguard IT',note:'Broad tech'},{sym:'VTI',name:'Vanguard Total Mkt'},{sym:'VOO',name:'Vanguard S&P500'},{sym:'VGT',name:'Vanguard Tech'},{sym:'SMH',name:'Semiconductors',note:'Chips'},{sym:'SOXX',name:'iShares Semis',note:'Semi index'},{sym:'FTEC',name:'Fidelity Tech',note:'Low fee'}],
   health:[{sym:'XLV',name:'Health Select',note:'S&P health'},{sym:'IBB',name:'iShares Biotech',note:'Biotech'},{sym:'ARKG',name:'ARK Genomic',note:'Genomics'},{sym:'IHI',name:'Medical Devices',note:'Med devices'},{sym:'EDOC',name:'Digital Health',note:'Digital health'},{sym:'PTH',name:'Pacer Health',note:'Health tech'}],
   ai:[{sym:'ARKK',name:'ARK Innovation',note:'Cathie Wood'},{sym:'ROBO',name:'Robotics & AI',note:'Automation'},{sym:'BOTZ',name:'Global Robotics',note:'Robotics'},{sym:'AIQ',name:'AI & Big Data',note:'AI play'},{sym:'CHAT',name:'Generative AI',note:'GenAI'},{sym:'WTAI',name:'WisdomTree AI',note:'Broad AI'}],
   broad:[{sym:'SPY',name:'S&P 500',note:'Benchmark'},{sym:'IWM',name:'Russell 2000',note:'Small caps'},{sym:'DIA',name:'Dow Jones',note:'Blue chips'},{sym:'GLD',name:'Gold ETF',note:'Gold hedge'},{sym:'TLT',name:'20yr Treasury',note:'Rates'},{sym:'SQQQ',name:'3x Inverse QQQ',note:'Bear play'}]
@@ -747,6 +803,7 @@ function mktState(){
 }
 
 function emoji(chg,vol){
+  if(vol>=5&&Math.abs(chg)<5)return'🐋';
   if(chg>=rockT) return'🚀';
   if(chg>=fireT&&vol>=2) return'🔥';
   if(chg<=-tankT) return'💀';
@@ -936,7 +993,7 @@ function updateMetrics(){
 
 function chkAlert(e){
   const em=emoji(e.chg,e.vol);
-  if(['🔥','🚀','💀','⚡'].includes(em)){
+  if(['🔥','🚀','💀','⚡','🐋'].includes(em)){
     fired++;
     subs.forEach(p=>sendSMS(p,`${em} ${e.sym} — ${e.chg>=0?'+':''}${e.chg.toFixed(1)}% · Vol ${e.vol.toFixed(1)}x — $${e.price.toFixed(2)}`));
   }
@@ -982,6 +1039,8 @@ function renderWL(){
   renderRows(watchlist['Financials'],'finRows','Financials');
   renderRows(watchlist['Consumer'],'consRows','Consumer');
   renderRows(watchlist['Defense & Aero'],'defRows','Defense & Aero');
+  renderRows(watchlist['Wave 3: Efficiency'],'wave3Rows','Wave 3: Efficiency');
+  renderRows(watchlist['Peptides'],'peptideRows','Peptides');
   const custom=watchlist['My Custom Picks'];
   const card=document.getElementById('customCard');
   if(card) card.style.display=custom.length?'block':'none';
@@ -1014,6 +1073,7 @@ function renderLB(){
 function setSector(sec,el){curSector=sec;document.querySelectorAll('.pbtn').forEach(b=>b.classList.remove('active'));el.classList.add('active');renderLB();}
 
 function sigMeta(chg,vol){
+  if(emoji(chg,vol)==='🐋')return{col:'#a78bfa',lbl:'Big Money Vol',w:80};
   // Derive signal label, color, and bar width directly from the same
   // thresholds used by emoji() so the two always agree.
   const em=emoji(chg,vol);
@@ -1484,6 +1544,7 @@ function showTab(name,el){
   document.getElementById('tab-'+name).classList.add('active');
   if(el) el.classList.add('active');
   if(name==='favorites'){try{renderFavs();}catch(e){}}
+  if(name==='paper'){try{renderPD();}catch(e){}}
 }
 
 // ── COUNTDOWN ──
@@ -1494,6 +1555,130 @@ setInterval(()=>{
   document.getElementById('nxtlbl').textContent=`next refresh in ${sLeft}s`;
   if(sLeft<=0){doRefresh();sLeft=ms.i||60;}
 },1000);
+
+
+// ── 🧘 SIMPLE / PRO MODE ──────────────────────────────────────
+var ADV_TABS=['movers','leaders','rising','signals','etfs','sectors','upcoming','ai','pol','whales','key','manage'];
+function applyViewMode(){
+  var simple=localStorage.getItem('viewMode')==='simple';
+  document.body.classList.toggle('simple',simple);
+  var btn=document.getElementById('modeBtn');
+  if(btn) btn.textContent=simple?'⚡ Pro':'🧘 Simple';
+  document.querySelectorAll('.tab').forEach(function(b){
+    var oc=b.getAttribute('onclick')||'';
+    for(var i=0;i<ADV_TABS.length;i++){
+      if(oc.indexOf("'"+ADV_TABS[i]+"'")>-1){b.style.display=simple?'none':'';return;}
+    }
+  });
+}
+function toggleViewMode(){
+  var s=localStorage.getItem('viewMode')==='simple';
+  localStorage.setItem('viewMode',s?'pro':'simple');
+  applyViewMode();
+}
+
+// ── ⚖️ LEVERAGE LIGHT ─────────────────────────────────────────
+function renderLevLight(){
+  var el=document.getElementById('levMsg'),dot=document.getElementById('levDot');
+  if(!el||!dot) return;
+  var vt=(document.getElementById('vix')||{}).textContent||'';
+  var v=parseFloat(String(vt).replace(/[^0-9.]/g,''));
+  if(!v||isNaN(v)){el.textContent='VIX unavailable — no read.';return;}
+  if(v<15){dot.style.background='#4ade80';el.innerHTML='<b style="color:#4ade80">GREEN</b> — VIX '+v.toFixed(1)+': calm regime. Historically the least hostile conditions for 2x/3x — decay risk lowest. Still not a buy signal.';}
+  else if(v<20){dot.style.background='#fcd34d';el.innerHTML='<b style="color:#fcd34d">YELLOW</b> — VIX '+v.toFixed(1)+': choppy. Leveraged ETFs bleed in chop. Caution.';}
+  else{dot.style.background='#f87171';el.innerHTML='<b style="color:#f87171">RED</b> — VIX '+v.toFixed(1)+': volatile regime. Historically where 2x/3x accounts die. Stand back.';}
+}
+
+// ── 📓 CLAUDE'S PAPER DESK ────────────────────────────────────
+function pdState(){try{var s=JSON.parse(localStorage.getItem('paperDesk'));if(s&&s.positions)return s;}catch(e){}return null;}
+function pdSave(s){localStorage.setItem('paperDesk',JSON.stringify(s));}
+function pdEnsure(){
+  var s=pdState();
+  if(!s){s={cash:5000,start:5000,startDate:Date.now(),spyStart:null,positions:[],log:[]};pdSave(s);}
+  if(s.spyStart==null){fetchQ('SPY').then(function(){var q=cache['SPY'];if(q&&q.price>0){var st=pdState();st.spyStart=q.price;pdSave(st);renderPD();}}).catch(function(){});}
+  return s;
+}
+function pdPrice(sym){var q=cache[sym];return q&&q.price>0?q.price:0;}
+function pdReset(){if(confirm('Reset the paper desk to $5,000 and wipe the log?')){localStorage.removeItem('paperDesk');pdEnsure();renderPD();}}
+function renderPD(){
+  var s=pdEnsure();
+  var posEl=document.getElementById('pdPositions'),logEl=document.getElementById('pdLog');
+  if(!posEl) return;
+  var posVal=0;
+  s.positions.forEach(function(p){var pr=pdPrice(p.sym)||p.entry;posVal+=p.shares*pr;});
+  var total=s.cash+posVal, ret=(total/s.start-1)*100;
+  var g=function(id){return document.getElementById(id);};
+  if(g('pdTotal'))g('pdTotal').textContent='$'+total.toFixed(0);
+  if(g('pdRet')){g('pdRet').textContent=(ret>=0?'+':'')+ret.toFixed(1)+'%';g('pdRet').style.color=ret>=0?'#4ade80':'#f87171';}
+  if(g('pdCash'))g('pdCash').textContent='$'+s.cash.toFixed(0);
+  if(g('pdSpy')){var sq=cache['SPY'];if(s.spyStart&&sq&&sq.price>0){var sr=(sq.price/s.spyStart-1)*100;var d=ret-sr;g('pdSpy').textContent=(sr>=0?'+':'')+sr.toFixed(1)+'% ('+(d>=0?'beating +':'trailing ')+d.toFixed(1)+'%)';g('pdSpy').style.color=d>=0?'#4ade80':'#f87171';}}
+  var sells=s.log.filter(function(t){return t.type==='SELL';});
+  var wins=sells.filter(function(t){return t.pnl>0;}).length;
+  if(g('pdWin'))g('pdWin').textContent=sells.length?(wins+'/'+sells.length+' ('+Math.round(wins/sells.length*100)+'%)'):'—';
+  if(!s.positions.length){posEl.innerHTML='<div style="padding:8px 0;color:#6b7280;font-size:12px">No open positions — get picks above.</div>';}
+  else{
+    posEl.innerHTML=s.positions.map(function(p,i){
+      var pr=pdPrice(p.sym)||p.entry, pnl=(pr-p.entry)*p.shares, pct=(pr/p.entry-1)*100;
+      return '<div style="padding:10px 0;border-top:1px solid #1f2937">'+
+        '<div style="display:flex;justify-content:space-between;align-items:center">'+
+        '<div><b style="color:#60a5fa">'+p.sym+'</b> <span style="font-size:10px;color:#6b7280">'+p.shares.toFixed(2)+' sh @ $'+p.entry.toFixed(2)+' · 🎯 +'+p.target+'% · 🛑 −'+p.stop+'%</span></div>'+
+        '<div style="text-align:right"><span class="'+(pnl>=0?'up':'dn')+'" style="font-weight:700">'+(pnl>=0?'+':'')+'$'+pnl.toFixed(0)+' ('+(pct>=0?'+':'')+pct.toFixed(1)+'%)</span> '+
+        '<button onclick="pdClose('+i+')" style="margin-left:8px;background:#7f1d1d;border:none;border-radius:6px;color:#fff;font-size:10px;padding:4px 8px;cursor:pointer">Close</button></div></div>'+
+        '<div style="font-size:10px;color:#9ca3af;margin-top:4px;line-height:1.5">🧠 '+p.reason+'</div></div>';
+    }).join('');
+  }
+  if(logEl){
+    if(!s.log.length){logEl.innerHTML='<div style="padding:8px 0;color:#6b7280;font-size:12px">Trades appear here with entry, exit, P&L and reasoning.</div>';}
+    else{logEl.innerHTML=s.log.slice(0,50).map(function(t){
+      var d=new Date(t.t).toLocaleDateString([],{month:'short',day:'numeric'});
+      if(t.type==='BUY')return '<div style="display:flex;gap:8px;padding:8px 0;border-top:1px solid #1f2937;font-size:12px"><span style="color:#6b7280;font-size:10px;min-width:48px">'+d+'</span><span style="color:#4ade80;min-width:36px">BUY</span><span style="color:#60a5fa;font-weight:700;min-width:44px">'+t.sym+'</span><span style="color:#9ca3af;flex:1">'+t.shares.toFixed(2)+' sh @ $'+t.price.toFixed(2)+'</span></div>';
+      return '<div style="padding:8px 0;border-top:1px solid #1f2937;font-size:12px"><div style="display:flex;gap:8px"><span style="color:#6b7280;font-size:10px;min-width:48px">'+d+'</span><span style="color:#f87171;min-width:36px">SELL</span><span style="color:#60a5fa;font-weight:700;min-width:44px">'+t.sym+'</span><span class="'+(t.pnl>=0?'up':'dn')+'" style="font-weight:700;flex:1">'+(t.pnl>=0?'+':'')+'$'+t.pnl.toFixed(0)+' ('+(t.pct>=0?'+':'')+t.pct.toFixed(1)+'%)</span></div>'+(t.note?'<div style="font-size:10px;color:#9ca3af;margin-top:3px">'+t.note+'</div>':'')+'</div>';
+    }).join('');}
+  }
+}
+async function pdGetPicks(){
+  var box=document.getElementById('pdProposals');
+  box.innerHTML='<div style="color:#fbbf24;font-size:12px;padding:6px 0">🧠 Analyzing today\'s tape — movers, waves, volume...</div>';
+  var s=pdEnsure();
+  var movers=[];try{var arr=Object.values(cache).filter(function(x){return x&&x.price>0&&x.chg!=null;});arr.sort(function(a,b){return Math.abs(b.chg)-Math.abs(a.chg);});movers=arr.slice(0,10).map(function(x){return x.sym+' $'+x.price.toFixed(2)+' '+(x.chg>=0?'+':'')+x.chg.toFixed(1)+'% vol'+x.vol.toFixed(1)+'x';});}catch(e){}
+  var waves=[];try{var wd=JSON.parse(localStorage.getItem('waveData')||'{}');waves=(wd.stocks||[]).slice(0,6).map(function(w){return w.sym+' score'+w.score+' acc'+w.adRatio+'x';});}catch(e){}
+  var held=s.positions.map(function(p){return p.sym;}).join(',')||'none';
+  var prompt='You are an aggressive but disciplined swing trader managing a $'+s.cash.toFixed(0)+'-cash paper account (total incl. positions started at $5000). Current holdings: '+held+'. Today\'s biggest watchlist movers: '+movers.join('; ')+'. Wave scanner accumulation leaders: '+(waves.join('; ')||'none')+'. Propose up to 2 NEW swing entries (not already held) using ONLY tickers from the data above. Respond with STRICT JSON only, no prose, no markdown fences: [{"sym":"XXX","alloc_pct":25,"target_pct":8,"stop_pct":4,"reasoning":"2 sentences max citing the specific numbers above"}] . alloc_pct = % of available cash (max 40 each). If nothing looks good, return [] and nothing else — do not force trades.';
+  try{
+    var r=await fetch('/api/alert',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:'claude',prompt:prompt})});
+    var data=await r.json();
+    var txt=(data.text||data.reply||data.content||'').replace(/```json|```/g,'').trim();
+    var picks=JSON.parse(txt);
+    if(!picks.length){box.innerHTML='<div style="color:#9ca3af;font-size:12px;padding:6px 0">🧠 Verdict: nothing worth chasing today. Sitting on cash IS a position — forced trades are how accounts bleed.</div>';return;}
+    box.innerHTML=picks.map(function(p,i){
+      return '<div style="padding:10px;background:#0b0f17;border:1px solid #3f2d12;border-radius:8px;margin-top:6px">'+
+        '<div style="display:flex;justify-content:space-between;align-items:center"><b style="color:#fbbf24">'+p.sym+'</b><span style="font-size:10px;color:#9ca3af">'+p.alloc_pct+'% of cash · 🎯+'+p.target_pct+'% · 🛑−'+p.stop_pct+'%</span></div>'+
+        '<div style="font-size:11px;color:#d1d5db;margin:6px 0;line-height:1.5">🧠 '+p.reasoning+'</div>'+
+        '<button onclick=\'pdExec('+JSON.stringify(JSON.stringify(p))+')\' style="background:#166534;border:none;border-radius:6px;color:#fff;font-size:11px;font-weight:700;padding:6px 12px;cursor:pointer">✅ Execute paper trade</button></div>';
+    }).join('');
+  }catch(e){box.innerHTML='<div style="color:#f87171;font-size:12px;padding:6px 0">Could not get picks — '+(e.message||'try again')+'.</div>';}
+}
+async function pdExec(pj){
+  var p=JSON.parse(pj); var s=pdEnsure();
+  if(!cache[p.sym]||!cache[p.sym].price){try{await fetchQ(p.sym);}catch(e){}}
+  var price=pdPrice(p.sym);
+  if(!price){alert('No price for '+p.sym+' — cannot execute.');return;}
+  var alloc=Math.min(40,Math.max(5,p.alloc_pct||20))/100;
+  var spend=s.cash*alloc; if(spend<50){alert('Not enough cash.');return;}
+  var shares=Math.floor(spend/price*100)/100;
+  s.cash-=shares*price;
+  s.positions.push({sym:p.sym,shares:shares,entry:price,t:Date.now(),target:p.target_pct||8,stop:p.stop_pct||4,reason:p.reasoning||''});
+  s.log.unshift({type:'BUY',sym:p.sym,shares:shares,price:price,t:Date.now()});
+  pdSave(s);document.getElementById('pdProposals').innerHTML='';renderPD();
+}
+function pdClose(i){
+  var s=pdEnsure(); var p=s.positions[i]; if(!p)return;
+  var price=pdPrice(p.sym)||p.entry;
+  var pnl=(price-p.entry)*p.shares, pct=(price/p.entry-1)*100;
+  s.cash+=p.shares*price;
+  s.log.unshift({type:'SELL',sym:p.sym,entry:p.entry,exit:price,pnl:pnl,pct:pct,t:Date.now(),note:(pct>=0?'Target ride':'Cut loss')+' — entered @$'+p.entry.toFixed(2)+', out @$'+price.toFixed(2)});
+  s.positions.splice(i,1);pdSave(s);renderPD();
+}
 
 // ── INIT ──
 
@@ -1689,7 +1874,9 @@ var CATALYST_WORDS=[
   {re:/partner|collaborat|alliance|joint venture/i, tag:'🤝 Partnership'},
   {re:/ipo|spin-?off|s-1|public offering|debut/i, tag:'🚀 IPO/Spin'},
   {re:/guidance|raises|beats|record revenue|upgrade/i, tag:'📈 Guidance'},
-  {re:/government|pentagon|defense|federal|grant/i, tag:'🏛️ Gov'}
+  {re:/government|pentagon|defense|federal|grant/i, tag:'🏛️ Gov'},
+  {re:/layoff|automation|restructur|cost.?cut|efficienc|headcount/i, tag:'🤖 Efficiency'},
+  {re:/peptide|GLP-?1|obesity|weight.?loss drug|FDA approv|phase (2|3|II|III)|trial (data|result)/i, tag:'💊 Biotech'}
 ];
 var HOT_IPO_WORDS=/chip|semi|ai|artificial|data|cloud|compute|energy|nuclear|quantum|robot|battery|grid/i;
 async function loadWaveCatalysts(force){
@@ -1744,6 +1931,9 @@ async function init(){
   waveWeeklyCheck();
   setTimeout(function(){loadWaveCatalysts(false);},2000);
   setTimeout(function(){loadDailyBrief(false);},1500);
+  applyViewMode();
+  setTimeout(renderLevLight,3000);
+  setTimeout(function(){pdEnsure();renderPD();},2500);
   setTimeout(loadNews,1000);
 
   // Fetch live ETF + sector data from Yahoo, then re-render those tabs with real numbers
