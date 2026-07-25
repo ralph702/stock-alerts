@@ -263,6 +263,18 @@ body.simple .vb{display:none!important}
     </div>
     <div id="pdLog" style="font-size:12px;color:#6b7280;padding:8px 0">Trades appear here with entry, exit, P&amp;L and the reasoning behind each.</div>
   </div>
+
+  <!-- ── divider: everything below is the 17-agent system's OWN separate ledger ── -->
+  <div style="height:1px;background:linear-gradient(90deg,transparent,#1e3a5f,transparent);margin:14px 0"></div>
+
+  <div class="card" style="background:linear-gradient(135deg,#0a1420,#111);border-color:#1e3a5f">
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px">
+      <div style="font-size:13px;font-weight:700;color:#60a5fa">🤖 17-Agent System — Paper Trading (Validation Phase)</div>
+      <span style="font-size:9px;background:#3f2d12;color:#fbbf24;padding:2px 6px;border-radius:4px">VALIDATION PHASE</span>
+    </div>
+    <div style="font-size:11px;color:#6b7280;margin-bottom:8px">Separate ledger from Claude's Paper Desk above — driven by the 17-agent research system's conviction protocol, risk sizing, and portfolio allocation. Two ledgers, tracked independently, never merged.</div>
+    <div id="masStatusBody"><div style="color:#6b7280;font-size:12px;padding:8px 0">Loading agent system status...</div></div>
+  </div>
 </div>
 
 <!-- ⭐ FAVORITES -->
@@ -323,6 +335,14 @@ body.simple .vb{display:none!important}
       <div style="padding:5px 0;border-bottom:1px solid #1f2937"><b style="color:#e2e8f0">Wave 3 — The Efficiency</b> 🔭 NEXT. Boring companies drowning in labor cost — customer service, admin, logistics, white-collar repetition — that AI makes suddenly profitable. Watch the 🌊3 category: the tell is SG&A costs falling while revenue holds and margins inflect up.</div>
       <div style="padding:5px 0"><b style="color:#e2e8f0">💊 Side wave — Peptides.</b> GLP-1 was chapter one; next-gen (oral, muscle-sparing) is chapter two. The catalyst type is trial readouts — watch the 💊 category + catalyst feed.</div>
     </div>
+  </div>
+  <div class="card" style="background:#0a0a14;border-color:#1e3a5f">
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px">
+      <div class="sec" style="color:#93c5fd;margin-bottom:0">🔮 Oracle Status — 17-Agent Research System</div>
+      <span style="font-size:9px;background:#3f2d12;color:#fbbf24;padding:2px 6px;border-radius:4px">VALIDATION PHASE</span>
+    </div>
+    <div style="font-size:11px;color:#6b7280;margin-bottom:8px">Independent of the Wave Scanner above — this is Agent 14's daily conviction picture plus Ralph's own gut theses, from the paper-trading validation run.</div>
+    <div id="oracleStatusBody"><div style="color:#6b7280;font-size:12px;padding:8px 0">Loading oracle status...</div></div>
   </div>
 </div>
 <div id="tab-rising" class="tc">
@@ -1141,9 +1161,17 @@ async function claudeStock(sym,price,chg,vol,btn){
   const el=document.getElementById('ai-'+sym); if(!el) return;
   el.style.display='block'; el.textContent='🤖 Analyzing '+sym+'...';
   btn.disabled=true; btn.textContent='⏳...';
+  var enrichment='', enriched=false;
   try{
-    const text=await callClaude(`Analyze stock ${sym}: price $${price}, change ${chg}%, volume ${vol}x avg. 3-4 sentences on price action, volume, key levels, outlook. End with BULLISH/NEUTRAL/BEARISH and one sentence why.`);
-    el.textContent=text;
+    var d=await masFetch();
+    var conv=(d.oracle_conviction||[]).find(function(c){return c.ticker===sym;});
+    var pos=(d.open_positions||[]).find(function(p){return p.ticker===sym;});
+    if(conv){enrichment=' The 17-agent research system currently has '+(conv.conviction_level!=null?conv.conviction_level+'% ':'')+'conviction on this ticker.';enriched=true;}
+    else if(pos){enrichment=' The 17-agent research system holds this in paper trading at $'+(pos.entry_price!=null?pos.entry_price.toFixed(2):'?')+' entry.';enriched=true;}
+  }catch(e){}
+  try{
+    const text=await callClaude(`Analyze stock ${sym}: price $${price}, change ${chg}%, volume ${vol}x avg. 3-4 sentences on price action, volume, key levels, outlook. End with BULLISH/NEUTRAL/BEARISH and one sentence why.`+enrichment);
+    el.textContent=text+(enriched?' — Context includes 17-agent system data (validation phase)':'');
   }catch(e){el.textContent='⚠ Analysis unavailable';}
   btn.textContent='🤖 Ask Claude'; btn.disabled=false;
 }
@@ -1544,7 +1572,8 @@ function showTab(name,el){
   document.getElementById('tab-'+name).classList.add('active');
   if(el) el.classList.add('active');
   if(name==='favorites'){try{renderFavs();}catch(e){}}
-  if(name==='paper'){try{renderPD();}catch(e){}}
+  if(name==='paper'){try{renderPD();}catch(e){}try{loadMasStatus();}catch(e){}}
+  if(name==='wave'){try{loadOracleStatus();}catch(e){}}
 }
 
 // ── COUNTDOWN ──
@@ -1678,6 +1707,84 @@ function pdClose(i){
   s.cash+=p.shares*price;
   s.log.unshift({type:'SELL',sym:p.sym,entry:p.entry,exit:price,pnl:pnl,pct:pct,t:Date.now(),note:(pct>=0?'Target ride':'Cut loss')+' — entered @$'+p.entry.toFixed(2)+', out @$'+price.toFixed(2)});
   s.positions.splice(i,1);pdSave(s);renderPD();
+}
+
+// ── 🤖 MARKET_AGENTS STATUS (W2.1/W2.2 — Eyes<->Brain bridge) ──────────
+// Reads /data/ralph_capital_status.json, generated daily by Market_agents'
+// Agent 17 (agents/_shared/status_export.py) and synced in by
+// run_eval_daily.sh. validation_phase is always true right now -- the
+// Sharpe gate hasn't cleared -- so every section fed by this data must
+// say so visibly. Cached in-memory for 5 minutes so switching tabs
+// doesn't refetch on every click.
+var masStatus={data:null,fetchedAt:0};
+function masFetch(force){
+  var fresh=masStatus.data&&(Date.now()-masStatus.fetchedAt<5*60*1000);
+  if(fresh&&!force) return Promise.resolve(masStatus.data);
+  return fetch('/data/ralph_capital_status.json').then(function(r){
+    if(!r.ok) throw new Error('status '+r.status);
+    return r.json();
+  }).then(function(d){masStatus={data:d,fetchedAt:Date.now()};return d;});
+}
+function loadMasStatus(){
+  var el=document.getElementById('masStatusBody'); if(!el) return;
+  masFetch().then(renderMasStatusBody).catch(function(e){
+    el.innerHTML='<div style="color:#f87171;font-size:12px;padding:8px 0">Could not load agent system status'+(e&&e.message?': '+e.message:'')+'.</div>';
+  });
+}
+function renderMasStatusBody(d){
+  var el=document.getElementById('masStatusBody'); if(!el) return;
+  var s=d.running_stats||{};
+  var pills='<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">'+
+    '<span class="pdpill">🎯 Win rate: <b style="color:#e2e8f0">'+(s.win_rate!=null?s.win_rate+'%':'—')+'</b></span>'+
+    '<span class="pdpill">📊 Expectancy (adj): <b style="color:#e2e8f0">'+(s.expectancy_slippage_adjusted!=null?'$'+s.expectancy_slippage_adjusted:'—')+'</b></span>'+
+    '<span class="pdpill">📉 Drawdown: <b style="color:#e2e8f0">'+(s.current_drawdown_pct!=null?s.current_drawdown_pct+'% (floor -15%)':'— (floor -15%)')+'</b></span>'+
+    '<span class="pdpill">🆚 vs SPY: <b style="color:#e2e8f0">'+(s.vs_spy_pct!=null?(s.vs_spy_pct>=0?'+':'')+s.vs_spy_pct+'%':'—')+'</b></span>'+
+  '</div>';
+  var positions=d.open_positions||[];
+  var posHtml=!positions.length
+    ? '<div style="color:#6b7280;font-size:12px;padding:8px 0">No positions yet — agents haven\'t reached conviction threshold.</div>'
+    : positions.map(function(p){
+        var rawUp=(p.current_pnl_raw||0)>=0, adjUp=(p.current_pnl_slippage_adjusted||0)>=0;
+        return '<div style="padding:8px 0;border-top:1px solid #1f2937;font-size:12px">'+
+          '<div style="display:flex;justify-content:space-between"><b style="color:#60a5fa">'+p.ticker+'</b>'+
+          '<span style="color:#9ca3af">'+(p.days_held!=null?p.days_held+'d held':'')+'</span></div>'+
+          '<div style="font-size:10px;color:#9ca3af;margin-top:2px">Entry $'+(p.entry_price!=null?p.entry_price.toFixed(2):'—')+
+          ' · 🛑 '+(p.stop_price!=null?'$'+p.stop_price.toFixed(2):'—')+' · 🎯 '+(p.target_price!=null?'$'+p.target_price.toFixed(2):'—')+'</div>'+
+          '<div style="font-size:11px;margin-top:3px">P&amp;L raw: <span class="'+(rawUp?'up':'dn')+'">'+(p.current_pnl_raw!=null?(rawUp?'+':'')+'$'+p.current_pnl_raw.toFixed(0):'—')+'</span>'+
+          ' · slippage-adj: <span class="'+(adjUp?'up':'dn')+'">'+(p.current_pnl_slippage_adjusted!=null?(adjUp?'+':'')+'$'+p.current_pnl_slippage_adjusted.toFixed(0):'—')+'</span></div>'+
+          (p.contributing_agents&&p.contributing_agents.length?'<div style="font-size:9px;color:#4b5563;margin-top:2px">via '+p.contributing_agents.join(', ')+'</div>':'')+
+        '</div>';
+      }).join('');
+  el.innerHTML=pills+
+    (d.daily_summary?'<div style="font-size:10px;color:#6b7280;margin-bottom:6px">'+d.daily_summary+'</div>':'')+
+    posHtml+
+    '<div style="margin-top:10px;font-size:9px;color:#fbbf24;background:#1a1407;border:1px solid #3f2d12;border-radius:6px;padding:5px 8px">⚠️ Validation phase — not live trading. Paper only, tracked toward the Sharpe gate.</div>';
+}
+function loadOracleStatus(){
+  var el=document.getElementById('oracleStatusBody'); if(!el) return;
+  masFetch().then(renderOracleStatusBody).catch(function(e){
+    el.innerHTML='<div style="color:#f87171;font-size:12px;padding:8px 0">Could not load oracle status'+(e&&e.message?': '+e.message:'')+'.</div>';
+  });
+}
+function renderOracleStatusBody(d){
+  var el=document.getElementById('oracleStatusBody'); if(!el) return;
+  var conv=d.oracle_conviction||[], theses=d.active_theses||[];
+  var convHtml=!conv.length
+    ? '<div style="color:#6b7280;font-size:12px;padding:6px 0">No active conviction today.</div>'
+    : conv.map(function(c){
+        return '<div style="display:flex;justify-content:space-between;padding:5px 0;border-top:1px solid #1f2937;font-size:12px">'+
+          '<b style="color:#60a5fa">'+c.ticker+'</b>'+
+          '<span style="color:#9ca3af">'+(c.direction?c.direction+' · ':'')+(c.conviction_level!=null?c.conviction_level+'% conviction':'—')+'</span></div>';
+      }).join('');
+  var thesesHtml=!theses.length
+    ? '<div style="color:#6b7280;font-size:12px;padding:6px 0">No active Ralph theses right now.</div>'
+    : theses.map(function(t){
+        return '<div style="padding:5px 0;border-top:1px solid #1f2937;font-size:12px">'+
+          '<div style="color:#d1d5db">'+t.summary+'</div><div style="font-size:10px;color:#9ca3af;margin-top:2px">'+(t.theme_tag||'untagged')+' · '+t.alignment_count+' alignment(s)</div></div>';
+      }).join('');
+  el.innerHTML='<div style="font-size:10px;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Today\'s conviction</div>'+convHtml+
+    '<div style="font-size:10px;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;margin-top:10px;margin-bottom:4px">Ralph\'s active theses</div>'+thesesHtml+
+    '<div style="margin-top:10px;font-size:9px;color:#fbbf24;background:#1a1407;border:1px solid #3f2d12;border-radius:6px;padding:5px 8px">⚠️ Validation phase — not live trading, paper-trading proof window.</div>';
 }
 
 // ── INIT ──
