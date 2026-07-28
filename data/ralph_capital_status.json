@@ -1,6 +1,6 @@
 {
   "open_positions": [],
-  "daily_summary": "No trades opened or closed today. 0 position(s) currently open, account drawdown is 0.0% from peak. 1 anomaly flag(s) need review.",
+  "daily_summary": "No trades opened or closed today. 0 position(s) currently open, account drawdown is 0.0% from peak. 2 anomaly flag(s) need review.",
   "running_stats": {
     "win_rate": null,
     "expectancy_slippage_adjusted": null,
@@ -82,9 +82,54 @@
       "ticker": "ALAB",
       "conviction_level": 55,
       "direction": "up"
+    },
+    {
+      "ticker": "NVO",
+      "conviction_level": 55,
+      "direction": "up"
+    },
+    {
+      "ticker": "CTAS",
+      "conviction_level": 46,
+      "direction": "up"
+    },
+    {
+      "ticker": "ALAB",
+      "conviction_level": 55,
+      "direction": "up"
+    },
+    {
+      "ticker": "NVDA",
+      "conviction_level": 62,
+      "direction": "up"
+    },
+    {
+      "ticker": "SERV",
+      "conviction_level": 15,
+      "direction": "up"
+    },
+    {
+      "ticker": "AMD",
+      "conviction_level": 62,
+      "direction": "up"
+    },
+    {
+      "ticker": "ARM",
+      "conviction_level": 52,
+      "direction": "up"
+    },
+    {
+      "ticker": "MU",
+      "conviction_level": 60,
+      "direction": "down"
+    },
+    {
+      "ticker": "AMGN",
+      "conviction_level": 58,
+      "direction": "up"
     }
   ],
   "active_theses": [],
-  "generated_at": "2026-07-28T00:07:45.680884+00:00",
+  "generated_at": "2026-07-28T11:26:13.077008+00:00",
   "validation_phase": true
 }
