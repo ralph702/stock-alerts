@@ -1566,6 +1566,7 @@ function saveSettings(){
   setTimeout(()=>el.style.display='none',2000);
 }
 
+let _waveAutoScanned=false, _risingAutoScanned=false;
 function showTab(name,el){
   document.querySelectorAll('.tc').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
@@ -1573,7 +1574,8 @@ function showTab(name,el){
   if(el) el.classList.add('active');
   if(name==='favorites'){try{renderFavs();}catch(e){}}
   if(name==='paper'){try{renderPD();}catch(e){}try{loadMasStatus();}catch(e){}}
-  if(name==='wave'){try{loadOracleStatus();}catch(e){}}
+  if(name==='wave'){try{loadOracleStatus();}catch(e){}if(!_waveAutoScanned){_waveAutoScanned=true;try{runWaveScan(false);}catch(e){}}}
+  if(name==='rising'){if(!_risingAutoScanned){_risingAutoScanned=true;try{scanRisingStars();}catch(e){}}}
 }
 
 // ── COUNTDOWN ──
