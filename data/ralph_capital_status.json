@@ -1,6 +1,22 @@
 {
-  "open_positions": [],
-  "daily_summary": "No trades opened or closed today. 0 position(s) currently open, account drawdown is 0.0% from peak. 2 anomaly flag(s) need review.",
+  "open_positions": [
+    {
+      "ticker": "LLY",
+      "entry_price": 1211.23,
+      "entry_timestamp": "2026-07-29T20:49:21.793650+00:00",
+      "current_pnl_raw": -14.52,
+      "current_pnl_slippage_adjusted": -87.19,
+      "days_held": 0,
+      "stop_price": 1114.33,
+      "target_price": 1453.48,
+      "contributing_agents": [
+        "catalyst",
+        "chart",
+        "options"
+      ]
+    }
+  ],
+  "daily_summary": "Today the system opened 1 and closed 0 trade(s), for $0.00 in realized P&L. 1 position(s) currently open, account drawdown is 0.0% from peak. 3 anomaly flag(s) need review.",
   "running_stats": {
     "win_rate": null,
     "expectancy_slippage_adjusted": null,
@@ -9,212 +25,87 @@
   },
   "oracle_conviction": [
     {
-      "ticker": "CTAS",
-      "conviction_level": 52,
-      "direction": "up"
-    },
-    {
-      "ticker": "SMCI",
-      "conviction_level": 55,
-      "direction": "up"
-    },
-    {
-      "ticker": "NVO",
-      "conviction_level": 52,
-      "direction": "up"
-    },
-    {
-      "ticker": "LLY",
-      "conviction_level": 58,
-      "direction": "down"
-    },
-    {
-      "ticker": "MRVL",
-      "conviction_level": 58,
-      "direction": "up"
-    },
-    {
-      "ticker": "MU",
-      "conviction_level": 55,
-      "direction": "down"
-    },
-    {
-      "ticker": "NVDA",
-      "conviction_level": 62,
-      "direction": "up"
-    },
-    {
-      "ticker": "AMD",
-      "conviction_level": 62,
-      "direction": "up"
-    },
-    {
-      "ticker": "TSM",
-      "conviction_level": 58,
-      "direction": "up"
-    },
-    {
-      "ticker": "NRG",
-      "conviction_level": 55,
-      "direction": "up"
-    },
-    {
-      "ticker": "VST",
-      "conviction_level": 55,
-      "direction": "down"
-    },
-    {
-      "ticker": "AMGN",
-      "conviction_level": 58,
-      "direction": "up"
-    },
-    {
-      "ticker": "ARM",
-      "conviction_level": 52,
-      "direction": "up"
-    },
-    {
-      "ticker": "ANET",
-      "conviction_level": 55,
-      "direction": "down"
-    },
-    {
-      "ticker": "ALAB",
-      "conviction_level": 55,
-      "direction": "up"
-    },
-    {
-      "ticker": "NVO",
-      "conviction_level": 55,
-      "direction": "up"
-    },
-    {
-      "ticker": "CTAS",
-      "conviction_level": 46,
-      "direction": "up"
-    },
-    {
-      "ticker": "ALAB",
-      "conviction_level": 55,
-      "direction": "up"
-    },
-    {
-      "ticker": "NVDA",
-      "conviction_level": 62,
-      "direction": "up"
-    },
-    {
-      "ticker": "SERV",
-      "conviction_level": 15,
-      "direction": "up"
-    },
-    {
-      "ticker": "AMD",
-      "conviction_level": 62,
-      "direction": "up"
-    },
-    {
-      "ticker": "ARM",
-      "conviction_level": 52,
-      "direction": "up"
-    },
-    {
       "ticker": "MU",
       "conviction_level": 60,
-      "direction": "down"
-    },
-    {
-      "ticker": "AMGN",
-      "conviction_level": 58,
-      "direction": "up"
-    },
-    {
-      "ticker": "MU",
-      "conviction_level": 58,
-      "direction": "up"
-    },
-    {
-      "ticker": "TSM",
-      "conviction_level": 58,
-      "direction": "up"
-    },
-    {
-      "ticker": "ARM",
-      "conviction_level": 58,
-      "direction": "down"
-    },
-    {
-      "ticker": "CTAS",
-      "conviction_level": 52,
-      "direction": "up"
-    },
-    {
-      "ticker": "MRVL",
-      "conviction_level": 58,
-      "direction": "up"
-    },
-    {
-      "ticker": "LLY",
-      "conviction_level": 58,
-      "direction": "down"
-    },
-    {
-      "ticker": "OKLO",
-      "conviction_level": 57,
       "direction": "up"
     },
     {
       "ticker": "SERV",
-      "conviction_level": 25,
+      "conviction_level": 10,
       "direction": "up"
     },
     {
       "ticker": "ITRI",
-      "conviction_level": 60,
-      "direction": "up"
-    },
-    {
-      "ticker": "VST",
-      "conviction_level": 55,
-      "direction": "down"
-    },
-    {
-      "ticker": "NVDA",
-      "conviction_level": 62,
-      "direction": "up"
-    },
-    {
-      "ticker": "AMGN",
       "conviction_level": 58,
       "direction": "up"
     },
     {
-      "ticker": "VRT",
-      "conviction_level": 58,
-      "direction": "up"
-    },
-    {
-      "ticker": "NVO",
+      "ticker": "AVGO",
       "conviction_level": 62,
       "direction": "up"
     },
     {
-      "ticker": "AMD",
+      "ticker": "ARM",
+      "conviction_level": 58,
+      "direction": "up"
+    },
+    {
+      "ticker": "SMCI",
       "conviction_level": 58,
       "direction": "up"
     },
     {
       "ticker": "ALAB",
+      "conviction_level": 55,
+      "direction": "up"
+    },
+    {
+      "ticker": "TSM",
+      "conviction_level": 63,
+      "direction": "up"
+    },
+    {
+      "ticker": "NRG",
+      "conviction_level": 62,
+      "direction": "up"
+    },
+    {
+      "ticker": "LLY",
+      "conviction_level": 58,
+      "direction": "down"
+    },
+    {
+      "ticker": "VRT",
       "conviction_level": 60,
       "direction": "up"
     },
     {
-      "ticker": "SMCI",
-      "conviction_level": 55,
+      "ticker": "MRVL",
+      "conviction_level": 62,
+      "direction": "up"
+    },
+    {
+      "ticker": "AMGN",
+      "conviction_level": 62,
+      "direction": "up"
+    },
+    {
+      "ticker": "CTAS",
+      "conviction_level": 58,
+      "direction": "up"
+    },
+    {
+      "ticker": "NVO",
+      "conviction_level": 58,
+      "direction": "up"
+    },
+    {
+      "ticker": "ANET",
+      "conviction_level": 62,
       "direction": "up"
     }
   ],
   "active_theses": [],
-  "generated_at": "2026-07-28T22:10:02.285231+00:00",
+  "generated_at": "2026-07-29T21:00:34.417587+00:00",
   "validation_phase": true
 }
