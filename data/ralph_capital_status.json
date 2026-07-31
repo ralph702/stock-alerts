@@ -203,9 +203,94 @@
       "ticker": "CTAS",
       "conviction_level": 58,
       "direction": "up"
+    },
+    {
+      "ticker": "OKLO",
+      "conviction_level": 55,
+      "direction": "down"
+    },
+    {
+      "ticker": "CTAS",
+      "conviction_level": 58,
+      "direction": "up"
+    },
+    {
+      "ticker": "AMZN",
+      "conviction_level": 62,
+      "direction": "up"
+    },
+    {
+      "ticker": "SMCI",
+      "conviction_level": 58,
+      "direction": "down"
+    },
+    {
+      "ticker": "ITRI",
+      "conviction_level": 58,
+      "direction": "up"
+    },
+    {
+      "ticker": "AVGO",
+      "conviction_level": 55,
+      "direction": "down"
+    },
+    {
+      "ticker": "MU",
+      "conviction_level": 62,
+      "direction": "up"
+    },
+    {
+      "ticker": "AMD",
+      "conviction_level": 62,
+      "direction": "up"
+    },
+    {
+      "ticker": "SERV",
+      "conviction_level": 30,
+      "direction": "up"
+    },
+    {
+      "ticker": "MRVL",
+      "conviction_level": 58,
+      "direction": "up"
+    },
+    {
+      "ticker": "ANET",
+      "conviction_level": 61,
+      "direction": "up"
+    },
+    {
+      "ticker": "ARM",
+      "conviction_level": 58,
+      "direction": "up"
+    },
+    {
+      "ticker": "LLY",
+      "conviction_level": 55,
+      "direction": "down"
+    },
+    {
+      "ticker": "ALAB",
+      "conviction_level": 58,
+      "direction": "up"
+    },
+    {
+      "ticker": "NVDA",
+      "conviction_level": 58,
+      "direction": "down"
+    },
+    {
+      "ticker": "VST",
+      "conviction_level": 55,
+      "direction": "down"
+    },
+    {
+      "ticker": "NVO",
+      "conviction_level": 52,
+      "direction": "up"
     }
   ],
   "active_theses": [],
-  "generated_at": "2026-07-31T21:09:40.687106+00:00",
+  "generated_at": "2026-07-31T22:00:43.637496+00:00",
   "validation_phase": true
 }
