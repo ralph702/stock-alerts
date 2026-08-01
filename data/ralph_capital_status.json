@@ -31,7 +31,7 @@
       ]
     }
   ],
-  "daily_summary": "No trades opened or closed today. 2 position(s) currently open, account drawdown is -14.7% from peak. 2 anomaly flag(s) need review.",
+  "daily_summary": "No trades opened or closed today. 2 position(s) currently open, account drawdown is -14.7% from peak. 1 anomaly flag(s) need review.",
   "running_stats": {
     "win_rate": null,
     "expectancy_slippage_adjusted": null,
@@ -40,13 +40,43 @@
   },
   "oracle_conviction": [
     {
-      "ticker": "MU",
-      "conviction_level": 62,
+      "ticker": "CTAS",
+      "conviction_level": 58,
       "direction": "up"
+    },
+    {
+      "ticker": "SMCI",
+      "conviction_level": 56,
+      "direction": "down"
+    },
+    {
+      "ticker": "AMGN",
+      "conviction_level": 58,
+      "direction": "up"
+    },
+    {
+      "ticker": "NVO",
+      "conviction_level": 47,
+      "direction": "up"
+    },
+    {
+      "ticker": "AVGO",
+      "conviction_level": 58,
+      "direction": "down"
     },
     {
       "ticker": "MRVL",
       "conviction_level": 58,
+      "direction": "up"
+    },
+    {
+      "ticker": "OKLO",
+      "conviction_level": 55,
+      "direction": "down"
+    },
+    {
+      "ticker": "AMZN",
+      "conviction_level": 62,
       "direction": "up"
     },
     {
@@ -55,23 +85,8 @@
       "direction": "down"
     },
     {
-      "ticker": "CTAS",
+      "ticker": "ARM",
       "conviction_level": 58,
-      "direction": "up"
-    },
-    {
-      "ticker": "OKLO",
-      "conviction_level": 55,
-      "direction": "down"
-    },
-    {
-      "ticker": "AMD",
-      "conviction_level": 62,
-      "direction": "up"
-    },
-    {
-      "ticker": "NVO",
-      "conviction_level": 52,
       "direction": "up"
     },
     {
@@ -80,48 +95,68 @@
       "direction": "up"
     },
     {
-      "ticker": "SMCI",
-      "conviction_level": 55,
-      "direction": "down"
-    },
-    {
-      "ticker": "LLY",
-      "conviction_level": 56,
-      "direction": "down"
-    },
-    {
-      "ticker": "ARM",
-      "conviction_level": 57,
+      "ticker": "ITRI",
+      "conviction_level": 58,
       "direction": "up"
     },
     {
-      "ticker": "VST",
-      "conviction_level": 55,
+      "ticker": "LLY",
+      "conviction_level": 58,
       "direction": "down"
     },
     {
       "ticker": "NVDA",
       "conviction_level": 58,
-      "direction": "down"
+      "direction": "up"
     },
     {
-      "ticker": "AVGO",
-      "conviction_level": 55,
-      "direction": "down"
+      "ticker": "MU",
+      "conviction_level": 60,
+      "direction": "up"
     },
     {
-      "ticker": "ITRI",
-      "conviction_level": 58,
+      "ticker": "AMZN",
+      "conviction_level": 62,
+      "direction": "up"
+    },
+    {
+      "ticker": "NVDA",
+      "conviction_level": 56,
       "direction": "up"
     },
     {
       "ticker": "MRVL",
       "conviction_level": 58,
       "direction": "up"
+    },
+    {
+      "ticker": "MU",
+      "conviction_level": 60,
+      "direction": "up"
+    },
+    {
+      "ticker": "ANET",
+      "conviction_level": 58,
+      "direction": "up"
+    },
+    {
+      "ticker": "ALAB",
+      "conviction_level": 58,
+      "direction": "up"
+    },
+    {
+      "ticker": "AMD",
+      "conviction_level": 55,
+      "direction": "down"
+    },
+    {
+      "ticker": "TSM",
+      "conviction_level": 47,
+      "direction": "down"
     },
     {
       "ticker": "AMGN",
-      "conviction_level": 62,
+      "conviction_level": 58,
       "direction": "up"
     },
     {
@@ -130,74 +165,29 @@
       "direction": "up"
     },
     {
+      "ticker": "LLY",
+      "conviction_level": 55,
+      "direction": "down"
+    },
+    {
+      "ticker": "VRT",
+      "conviction_level": 55,
+      "direction": "down"
+    },
+    {
       "ticker": "ARM",
       "conviction_level": 58,
       "direction": "up"
     },
     {
-      "ticker": "MU",
-      "conviction_level": 62,
-      "direction": "up"
-    },
-    {
-      "ticker": "AVGO",
-      "conviction_level": 55,
-      "direction": "down"
-    },
-    {
-      "ticker": "OKLO",
-      "conviction_level": 55,
-      "direction": "down"
-    },
-    {
       "ticker": "NVO",
-      "conviction_level": 52,
+      "conviction_level": 48,
       "direction": "up"
-    },
-    {
-      "ticker": "VST",
-      "conviction_level": 55,
-      "direction": "down"
     },
     {
       "ticker": "SMCI",
-      "conviction_level": 58,
+      "conviction_level": 55,
       "direction": "down"
-    },
-    {
-      "ticker": "AMZN",
-      "conviction_level": 62,
-      "direction": "up"
-    },
-    {
-      "ticker": "ALAB",
-      "conviction_level": 60,
-      "direction": "up"
-    },
-    {
-      "ticker": "SERV",
-      "conviction_level": 15,
-      "direction": "up"
-    },
-    {
-      "ticker": "LLY",
-      "conviction_level": 57,
-      "direction": "down"
-    },
-    {
-      "ticker": "ANET",
-      "conviction_level": 58,
-      "direction": "up"
-    },
-    {
-      "ticker": "NVDA",
-      "conviction_level": 58,
-      "direction": "down"
-    },
-    {
-      "ticker": "AMD",
-      "conviction_level": 63,
-      "direction": "up"
     },
     {
       "ticker": "CTAS",
@@ -208,89 +198,271 @@
       "ticker": "OKLO",
       "conviction_level": 55,
       "direction": "down"
-    },
-    {
-      "ticker": "CTAS",
-      "conviction_level": 58,
-      "direction": "up"
-    },
-    {
-      "ticker": "AMZN",
-      "conviction_level": 62,
-      "direction": "up"
-    },
-    {
-      "ticker": "SMCI",
-      "conviction_level": 58,
-      "direction": "down"
-    },
-    {
-      "ticker": "ITRI",
-      "conviction_level": 58,
-      "direction": "up"
-    },
-    {
-      "ticker": "AVGO",
-      "conviction_level": 55,
-      "direction": "down"
-    },
-    {
-      "ticker": "MU",
-      "conviction_level": 62,
-      "direction": "up"
-    },
-    {
-      "ticker": "AMD",
-      "conviction_level": 62,
-      "direction": "up"
-    },
-    {
-      "ticker": "SERV",
-      "conviction_level": 30,
-      "direction": "up"
-    },
-    {
-      "ticker": "MRVL",
-      "conviction_level": 58,
-      "direction": "up"
-    },
-    {
-      "ticker": "ANET",
-      "conviction_level": 61,
-      "direction": "up"
-    },
-    {
-      "ticker": "ARM",
-      "conviction_level": 58,
-      "direction": "up"
-    },
-    {
-      "ticker": "LLY",
-      "conviction_level": 55,
-      "direction": "down"
-    },
-    {
-      "ticker": "ALAB",
-      "conviction_level": 58,
-      "direction": "up"
-    },
-    {
-      "ticker": "NVDA",
-      "conviction_level": 58,
-      "direction": "down"
-    },
-    {
-      "ticker": "VST",
-      "conviction_level": 55,
-      "direction": "down"
-    },
-    {
-      "ticker": "NVO",
-      "conviction_level": 52,
-      "direction": "up"
     }
   ],
   "active_theses": [],
-  "generated_at": "2026-07-31T22:00:43.637496+00:00",
+  "whale_activity": [
+    {
+      "entity_name": "Ken Griffin / Citadel Advisors",
+      "entity_type": "fund_manager",
+      "source": "sec_edgar_13f",
+      "source_label": "13F, filed 2026-05-15",
+      "recency": "2026-05-15",
+      "description": "Ken Griffin / Citadel Advisors exited position: JETBLUE AIRWAYS CORP",
+      "ticker": null,
+      "issuer": "JETBLUE AIRWAYS CORP",
+      "change_type": "exited",
+      "distressed_sale_tag": null,
+      "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1423053"
+    },
+    {
+      "entity_name": "Ken Griffin / Citadel Advisors",
+      "entity_type": "fund_manager",
+      "source": "sec_edgar_13f",
+      "source_label": "13F, filed 2026-05-15",
+      "recency": "2026-05-15",
+      "description": "Ken Griffin / Citadel Advisors exited position: GRANITE CONSTR INC",
+      "ticker": null,
+      "issuer": "GRANITE CONSTR INC",
+      "change_type": "exited",
+      "distressed_sale_tag": null,
+      "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1423053"
+    },
+    {
+      "entity_name": "Ken Griffin / Citadel Advisors",
+      "entity_type": "fund_manager",
+      "source": "sec_edgar_13f",
+      "source_label": "13F, filed 2026-05-15",
+      "recency": "2026-05-15",
+      "description": "Ken Griffin / Citadel Advisors exited position: BRIDGEBIO PHARMA INC",
+      "ticker": null,
+      "issuer": "BRIDGEBIO PHARMA INC",
+      "change_type": "exited",
+      "distressed_sale_tag": null,
+      "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1423053"
+    },
+    {
+      "entity_name": "Ken Griffin / Citadel Advisors",
+      "entity_type": "fund_manager",
+      "source": "sec_edgar_13f",
+      "source_label": "13F, filed 2026-05-15",
+      "recency": "2026-05-15",
+      "description": "Ken Griffin / Citadel Advisors exited position: DYNAVAX TECHNOLOGIES CORP",
+      "ticker": null,
+      "issuer": "DYNAVAX TECHNOLOGIES CORP",
+      "change_type": "exited",
+      "distressed_sale_tag": null,
+      "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1423053"
+    },
+    {
+      "entity_name": "Ken Griffin / Citadel Advisors",
+      "entity_type": "fund_manager",
+      "source": "sec_edgar_13f",
+      "source_label": "13F, filed 2026-05-15",
+      "recency": "2026-05-15",
+      "description": "Ken Griffin / Citadel Advisors exited position: SEAGATE HDD CAYMAN",
+      "ticker": null,
+      "issuer": "SEAGATE HDD CAYMAN",
+      "change_type": "exited",
+      "distressed_sale_tag": null,
+      "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1423053"
+    },
+    {
+      "entity_name": "Ken Griffin / Citadel Advisors",
+      "entity_type": "fund_manager",
+      "source": "sec_edgar_13f",
+      "source_label": "13F, filed 2026-05-15",
+      "recency": "2026-05-15",
+      "description": "Ken Griffin / Citadel Advisors decreased position: INTEL CORP",
+      "ticker": null,
+      "issuer": "INTEL CORP",
+      "change_type": "decreased",
+      "distressed_sale_tag": null,
+      "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1423053"
+    },
+    {
+      "entity_name": "Ken Griffin / Citadel Advisors",
+      "entity_type": "fund_manager",
+      "source": "sec_edgar_13f",
+      "source_label": "13F, filed 2026-05-15",
+      "recency": "2026-05-15",
+      "description": "Ken Griffin / Citadel Advisors decreased position: APPLE INC",
+      "ticker": null,
+      "issuer": "APPLE INC",
+      "change_type": "decreased",
+      "distressed_sale_tag": null,
+      "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1423053"
+    },
+    {
+      "entity_name": "Ken Griffin / Citadel Advisors",
+      "entity_type": "fund_manager",
+      "source": "sec_edgar_13f",
+      "source_label": "13F, filed 2026-05-15",
+      "recency": "2026-05-15",
+      "description": "Ken Griffin / Citadel Advisors decreased position: TESLA INC",
+      "ticker": null,
+      "issuer": "TESLA INC",
+      "change_type": "decreased",
+      "distressed_sale_tag": null,
+      "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1423053"
+    },
+    {
+      "entity_name": "Ken Griffin / Citadel Advisors",
+      "entity_type": "fund_manager",
+      "source": "sec_edgar_13f",
+      "source_label": "13F, filed 2026-05-15",
+      "recency": "2026-05-15",
+      "description": "Ken Griffin / Citadel Advisors decreased position: NETFLIX INC.",
+      "ticker": null,
+      "issuer": "NETFLIX INC.",
+      "change_type": "decreased",
+      "distressed_sale_tag": null,
+      "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1423053"
+    },
+    {
+      "entity_name": "Ken Griffin / Citadel Advisors",
+      "entity_type": "fund_manager",
+      "source": "sec_edgar_13f",
+      "source_label": "13F, filed 2026-05-15",
+      "recency": "2026-05-15",
+      "description": "Ken Griffin / Citadel Advisors decreased position: NVIDIA CORPORATION",
+      "ticker": null,
+      "issuer": "NVIDIA CORPORATION",
+      "change_type": "decreased",
+      "distressed_sale_tag": null,
+      "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1423053"
+    },
+    {
+      "entity_name": "Ken Griffin / Citadel Advisors",
+      "entity_type": "fund_manager",
+      "source": "sec_edgar_13f",
+      "source_label": "13F, filed 2026-05-15",
+      "recency": "2026-05-15",
+      "description": "Ken Griffin / Citadel Advisors increased position: PATRICK INDS INC",
+      "ticker": null,
+      "issuer": "PATRICK INDS INC",
+      "change_type": "increased",
+      "distressed_sale_tag": null,
+      "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1423053"
+    },
+    {
+      "entity_name": "Ken Griffin / Citadel Advisors",
+      "entity_type": "fund_manager",
+      "source": "sec_edgar_13f",
+      "source_label": "13F, filed 2026-05-15",
+      "recency": "2026-05-15",
+      "description": "Ken Griffin / Citadel Advisors increased position: STATE STR SPDR S&P 500 ETF T",
+      "ticker": null,
+      "issuer": "STATE STR SPDR S&P 500 ETF T",
+      "change_type": "increased",
+      "distressed_sale_tag": null,
+      "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1423053"
+    },
+    {
+      "entity_name": "Ken Griffin / Citadel Advisors",
+      "entity_type": "fund_manager",
+      "source": "sec_edgar_13f",
+      "source_label": "13F, filed 2026-05-15",
+      "recency": "2026-05-15",
+      "description": "Ken Griffin / Citadel Advisors increased position: ISHARES SILVER TR",
+      "ticker": null,
+      "issuer": "ISHARES SILVER TR",
+      "change_type": "increased",
+      "distressed_sale_tag": null,
+      "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1423053"
+    },
+    {
+      "entity_name": "Ken Griffin / Citadel Advisors",
+      "entity_type": "fund_manager",
+      "source": "sec_edgar_13f",
+      "source_label": "13F, filed 2026-05-15",
+      "recency": "2026-05-15",
+      "description": "Ken Griffin / Citadel Advisors increased position: WESTERN DIGITAL CORP",
+      "ticker": null,
+      "issuer": "WESTERN DIGITAL CORP",
+      "change_type": "increased",
+      "distressed_sale_tag": null,
+      "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1423053"
+    },
+    {
+      "entity_name": "Ken Griffin / Citadel Advisors",
+      "entity_type": "fund_manager",
+      "source": "sec_edgar_13f",
+      "source_label": "13F, filed 2026-05-15",
+      "recency": "2026-05-15",
+      "description": "Ken Griffin / Citadel Advisors increased position: LIVE NATION ENTERTAINMENT IN",
+      "ticker": null,
+      "issuer": "LIVE NATION ENTERTAINMENT IN",
+      "change_type": "increased",
+      "distressed_sale_tag": null,
+      "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1423053"
+    },
+    {
+      "entity_name": "Ken Griffin / Citadel Advisors",
+      "entity_type": "fund_manager",
+      "source": "sec_edgar_13f",
+      "source_label": "13F, filed 2026-05-15",
+      "recency": "2026-05-15",
+      "description": "Ken Griffin / Citadel Advisors new position: DEXCOM INC",
+      "ticker": null,
+      "issuer": "DEXCOM INC",
+      "change_type": "new",
+      "distressed_sale_tag": null,
+      "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1423053"
+    },
+    {
+      "entity_name": "Ken Griffin / Citadel Advisors",
+      "entity_type": "fund_manager",
+      "source": "sec_edgar_13f",
+      "source_label": "13F, filed 2026-05-15",
+      "recency": "2026-05-15",
+      "description": "Ken Griffin / Citadel Advisors new position: JOBY AVIATION INC",
+      "ticker": null,
+      "issuer": "JOBY AVIATION INC",
+      "change_type": "new",
+      "distressed_sale_tag": null,
+      "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1423053"
+    },
+    {
+      "entity_name": "Ken Griffin / Citadel Advisors",
+      "entity_type": "fund_manager",
+      "source": "sec_edgar_13f",
+      "source_label": "13F, filed 2026-05-15",
+      "recency": "2026-05-15",
+      "description": "Ken Griffin / Citadel Advisors new position: ECHOSTAR CORP",
+      "ticker": null,
+      "issuer": "ECHOSTAR CORP",
+      "change_type": "new",
+      "distressed_sale_tag": null,
+      "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1423053"
+    },
+    {
+      "entity_name": "Ken Griffin / Citadel Advisors",
+      "entity_type": "fund_manager",
+      "source": "sec_edgar_13f",
+      "source_label": "13F, filed 2026-05-15",
+      "recency": "2026-05-15",
+      "description": "Ken Griffin / Citadel Advisors new position: IONIS PHARMACEUTICALS INC",
+      "ticker": null,
+      "issuer": "IONIS PHARMACEUTICALS INC",
+      "change_type": "new",
+      "distressed_sale_tag": null,
+      "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1423053"
+    },
+    {
+      "entity_name": "Ken Griffin / Citadel Advisors",
+      "entity_type": "fund_manager",
+      "source": "sec_edgar_13f",
+      "source_label": "13F, filed 2026-05-15",
+      "recency": "2026-05-15",
+      "description": "Ken Griffin / Citadel Advisors new position: UGI CORP NEW",
+      "ticker": null,
+      "issuer": "UGI CORP NEW",
+      "change_type": "new",
+      "distressed_sale_tag": null,
+      "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1423053"
+    }
+  ],
+  "generated_at": "2026-08-01T11:15:59.168079+00:00",
   "validation_phase": true
 }

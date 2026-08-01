@@ -591,13 +591,17 @@ body.simple .vb{display:none!important}
 <!-- WHALES -->
 <div id="tab-whales" class="tc">
   <div class="card" style="background:linear-gradient(135deg,#0a1a0a,#111);border-color:#1a3a1a">
-    <div style="font-size:13px;font-weight:700;color:#4ade80;margin-bottom:4px">🐋 Market Whales — Tap for pie chart 📊</div>
-    <div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:6px">
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px">
+      <div style="font-size:13px;font-weight:700;color:#4ade80">🐋 Named Person Watch — 17-Agent System</div>
+      <span style="font-size:9px;background:#3f2d12;color:#fbbf24;padding:2px 6px;border-radius:4px">VALIDATION PHASE · WATCH-ONLY</span>
+    </div>
+    <div style="font-size:11px;color:#6b7280;margin-bottom:8px">Chris Camillo, Leopold Aschenbrenner / Situational Awareness LP, Ken Griffin / Citadel Advisors — tracked by Agent 20. Every entry below is real, sourced, and dated. Watch-only: none of this counts toward the 3-family conviction threshold yet — Ralph is collecting performance data before deciding whether to promote it.</div>
+    <div style="display:flex;gap:5px;flex-wrap:wrap">
       <a href="https://www.dataroma.com" target="_blank" class="ml" style="padding:4px 8px;font-size:11px">Dataroma ↗</a>
       <a href="https://whalewisdom.com" target="_blank" class="ml" style="padding:4px 8px;font-size:11px">WhaleWisdom ↗</a>
     </div>
   </div>
-  <div id="whaleGrid"></div>
+  <div id="whaleGrid"><div style="color:#6b7280;font-size:12px;padding:8px 0">Loading whale activity...</div></div>
 </div>
 
 <!-- KEY -->
@@ -778,22 +782,6 @@ const politicians=[
   {name:'Bill Huizenga',party:'R',role:'MI Representative',known:'Financial services committee',recent:'Bought bank stocks after Fed meeting',portfolio:[{sym:'JPM',pct:30},{sym:'WFC',pct:25},{sym:'MS',pct:25},{sym:'GS',pct:20}]},
   {name:'Lori Chavez-DeRemer',party:'R',role:'OR Representative',known:'Agriculture & labor committee',recent:'Bought consumer staples',portfolio:[{sym:'WMT',pct:35},{sym:'COST',pct:30},{sym:'TGT',pct:20},{sym:'Other',pct:15}]},
   {name:'Tim Burchett',party:'R',role:'TN Representative',known:'Foreign affairs & UAP committee',recent:'Bought aerospace and defense',portfolio:[{sym:'BA',pct:30},{sym:'LMT',pct:30},{sym:'RTX',pct:25},{sym:'Other',pct:15}]},
-];
-
-const whales=[
-  {name:'Warren Buffett',firm:'Berkshire Hathaway',style:'Value',known:'Buy and hold forever — value investing legend',portfolio:[{sym:'AAPL',pct:42},{sym:'BAC',pct:11},{sym:'AXP',pct:9},{sym:'KO',pct:8},{sym:'CVX',pct:7},{sym:'OXY',pct:6},{sym:'Other',pct:17}]},
-  {name:'Cathie Wood',firm:'ARK Invest',style:'Innovation',known:'Disruptive tech — TSLA, AI early bets',portfolio:[{sym:'TSLA',pct:15},{sym:'PLTR',pct:11},{sym:'RXRX',pct:9},{sym:'COIN',pct:8},{sym:'RKLB',pct:7},{sym:'AMD',pct:6},{sym:'Other',pct:44}]},
-  {name:'Stanley Druckenmiller',firm:'Duquesne',style:'Macro',known:'Soros protégé — macro legend, broke Bank of England',portfolio:[{sym:'NVDA',pct:22},{sym:'MSFT',pct:16},{sym:'AMZN',pct:13},{sym:'SPCX',pct:11},{sym:'META',pct:10},{sym:'Other',pct:28}]},
-  {name:'Michael Burry',firm:'Scion Asset Mgmt',style:'Contrarian',known:'The Big Short — predicted 2008 housing crash',portfolio:[{sym:'BABA',pct:20},{sym:'JD',pct:15},{sym:'GEO',pct:12},{sym:'SIRI',pct:10},{sym:'HCA',pct:9},{sym:'Other',pct:34}]},
-  {name:'Bill Ackman',firm:'Pershing Square',style:'Activist',known:'Concentrated activist bets — very vocal',portfolio:[{sym:'HHH',pct:20},{sym:'QSR',pct:18},{sym:'HLT',pct:16},{sym:'CMG',pct:14},{sym:'GOOGL',pct:12},{sym:'Other',pct:20}]},
-  {name:'David Tepper',firm:'Appaloosa',style:'Distressed',known:'Distressed debt king — buys what everyone fears',portfolio:[{sym:'META',pct:18},{sym:'NVDA',pct:16},{sym:'AMZN',pct:14},{sym:'MSFT',pct:12},{sym:'AAPL',pct:10},{sym:'Other',pct:30}]},
-  {name:'George Soros',firm:'Soros Fund',style:'Macro/Political',known:'Broke the Bank of England — macro legend',portfolio:[{sym:'NVDA',pct:14},{sym:'AMZN',pct:13},{sym:'TSLA',pct:11},{sym:'INTC',pct:10},{sym:'GOOGL',pct:9},{sym:'Other',pct:43}]},
-  {name:'Ray Dalio',firm:'Bridgewater',style:'All Weather',known:'World\'s largest hedge fund',portfolio:[{sym:'SPY',pct:18},{sym:'GLD',pct:15},{sym:'EEM',pct:12},{sym:'VWO',pct:10},{sym:'IEMG',pct:9},{sym:'Other',pct:36}]},
-  {name:'Keith Gill (Roaring Kitty)',firm:'Individual Trader',style:'YOLO/Meme',known:'GameStop legend — turned $50K into $50M, moves markets alone',portfolio:[{sym:'GME',pct:45},{sym:'PLTR',pct:20},{sym:'AAPL',pct:15},{sym:'AMC',pct:10},{sym:'Other',pct:10}]},
-  {name:'Chamath Palihapitiya',firm:'Social Capital',style:'VC/SPAC',known:'Facebook early exec — bold SPACs, calls out Wall St',portfolio:[{sym:'AMZN',pct:25},{sym:'GOOGL',pct:20},{sym:'META',pct:18},{sym:'COIN',pct:15},{sym:'Other',pct:22}]},
-  {name:'Mark Cuban',firm:'Individual/Shark Tank',style:'Aggressive Growth',known:'Sold Broadcast.com to Yahoo $5.7B — loves high risk',portfolio:[{sym:'AAPL',pct:20},{sym:'AMZN',pct:18},{sym:'TSLA',pct:15},{sym:'NVDA',pct:12},{sym:'COIN',pct:10},{sym:'Other',pct:25}]},
-  {name:'Dan Loeb',firm:'Third Point LLC',style:'Activist/Aggressive',known:'Activist letters to CEOs — ruthless profitable campaigns',portfolio:[{sym:'META',pct:22},{sym:'AMZN',pct:18},{sym:'MSFT',pct:15},{sym:'GOOGL',pct:12},{sym:'UBER',pct:10},{sym:'Other',pct:23}]},
-  {name:'David Einhorn',firm:'Greenlight Capital',style:'Short Seller',known:'Shorted Lehman before 2008 — legendary short calls',portfolio:[{sym:'AAPL',pct:18},{sym:'GOOG',pct:15},{sym:'BRK',pct:12},{sym:'AER',pct:10},{sym:'CNX',pct:8},{sym:'Other',pct:37}]}
 ];
 
 const upcoming=[
@@ -1492,16 +1480,35 @@ function renderPols(){
   se.innerHTML=Object.entries(cnt).sort((a,b)=>b[1]-a[1]).slice(0,8).map(([sym,n],i)=>`<div class="lbr"><div class="lbrk">${med[i]}</div><div style="flex:1"><a href="https://finance.yahoo.com/quote/${sym}" target="_blank" style="color:#60a5fa;font-weight:700;text-decoration:none">${sym} ↗</a></div><div style="font-size:12px;color:#9ca3af">${n} pols</div></div>`).join('');
 }
 
-function renderWhales(){
+function loadWhaleActivity(){
+  var el=document.getElementById('whaleGrid'); if(!el) return;
+  masFetch().then(renderWhales).catch(function(e){
+    el.innerHTML='<div style="color:#f87171;font-size:12px;padding:8px 0">Could not load whale activity'+(e&&e.message?': '+e.message:'')+'.</div>';
+  });
+}
+function renderWhales(d){
   const el=document.getElementById('whaleGrid'); if(!el) return;
-  el.innerHTML=whales.map((w,i)=>`<div class="wcrd" onclick="showPie('whale',${i})"><div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:5px"><div><div class="wnm">🐋 ${w.name} 📊</div><div class="wtl">${w.firm}</div></div><span style="font-size:10px;padding:2px 7px;border-radius:5px;background:#1a1a1a;border:1px solid #333;color:#9ca3af">${w.style}</span></div><div class="wkn">${w.known}</div><div style="display:flex;gap:4px;margin-top:6px;flex-wrap:wrap">${w.portfolio.slice(0,4).map(h=>`<span style="font-size:10px;background:#1a1a1a;border:1px solid #333;border-radius:4px;padding:2px 5px;color:#60a5fa">${h.sym} ${h.pct}%</span>`).join('')}</div></div>`).join('');
+  const activity=(d&&d.whale_activity)||[];
+  if(!activity.length){
+    el.innerHTML='<div style="color:#6b7280;font-size:12px;padding:8px 0">No whale activity detected yet.</div>';
+    return;
+  }
+  el.innerHTML=activity.map(w=>{
+    const symLine=w.ticker
+      ? `<a href="https://finance.yahoo.com/quote/${w.ticker}" target="_blank" style="color:#60a5fa;font-weight:700;text-decoration:none">${w.ticker} ↗</a>`
+      : (w.issuer?`<span style="color:#9ca3af">${w.issuer}</span>`:'');
+    const changeBadge=w.change_type?`<span style="font-size:10px;padding:2px 7px;border-radius:5px;background:#1a1a1a;border:1px solid #333;color:#9ca3af;text-transform:uppercase">${w.change_type}</span>`:'';
+    const distressed=w.distressed_sale_tag?`<div style="font-size:10px;color:#fbbf24;margin-top:4px">⚠️ ${w.distressed_sale_tag} — read as liquidity/dip-buying, not a directional bet</div>`:'';
+    const link=w.url?`<a href="${w.url}" target="_blank" style="font-size:10px;color:#60a5fa;text-decoration:none">source ↗</a>`:'';
+    return `<div class="wcrd"><div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:5px"><div><div class="wnm">🐋 ${w.entity_name}</div><div class="wtl">${w.source_label||w.source||''}</div></div>${changeBadge}</div><div class="wkn">${w.description||''}</div><div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;flex-wrap:wrap;gap:6px"><div>${symLine}</div>${link}</div>${distressed}</div>`;
+  }).join('');
 }
 
 function showPie(type,idx){
-  const d=type==='pol'?politicians[idx]:whales[idx];
+  const d=politicians[idx];
   const port=d.portfolio;
-  document.getElementById('pietitle').textContent=type==='pol'?d.name:d.name+' — '+d.firm;
-  document.getElementById('piesub').textContent=type==='pol'?`${d.party==='D'?'🔵 Dem':'🔴 Rep'} · ${d.role} · ${d.known}`:`${d.style} · ${d.known}`;
+  document.getElementById('pietitle').textContent=d.name;
+  document.getElementById('piesub').textContent=`${d.party==='D'?'🔵 Dem':'🔴 Rep'} · ${d.role} · ${d.known}`;
   const cvs=document.getElementById('piecvs');
   const ctx=cvs.getContext('2d');
   const cx=130,cy=130,r=105;
@@ -1576,6 +1583,7 @@ function showTab(name,el){
   if(name==='paper'){try{renderPD();}catch(e){}try{loadMasStatus();}catch(e){}}
   if(name==='wave'){try{loadOracleStatus();}catch(e){}if(!_waveAutoScanned){_waveAutoScanned=true;try{runWaveScan(false);}catch(e){}}}
   if(name==='rising'){if(!_risingAutoScanned){_risingAutoScanned=true;try{scanRisingStars();}catch(e){}}}
+  if(name==='whales'){try{loadWhaleActivity();}catch(e){}}
 }
 
 // ── COUNTDOWN ──
