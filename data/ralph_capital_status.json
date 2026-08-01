@@ -31,7 +31,7 @@
       ]
     }
   ],
-  "daily_summary": "No trades opened or closed today. 2 position(s) currently open, account drawdown is -14.7% from peak. 1 anomaly flag(s) need review.",
+  "daily_summary": "No trades opened or closed today. 2 position(s) currently open, account drawdown is -14.7% from peak. 2 anomaly flag(s) need review.",
   "running_stats": {
     "win_rate": null,
     "expectancy_slippage_adjusted": null,
@@ -197,6 +197,96 @@
     {
       "ticker": "OKLO",
       "conviction_level": 55,
+      "direction": "down"
+    },
+    {
+      "ticker": "ALAB",
+      "conviction_level": 58,
+      "direction": "up"
+    },
+    {
+      "ticker": "MRVL",
+      "conviction_level": 58,
+      "direction": "up"
+    },
+    {
+      "ticker": "AMGN",
+      "conviction_level": 58,
+      "direction": "up"
+    },
+    {
+      "ticker": "ARM",
+      "conviction_level": 58,
+      "direction": "up"
+    },
+    {
+      "ticker": "ANET",
+      "conviction_level": 58,
+      "direction": "up"
+    },
+    {
+      "ticker": "VRT",
+      "conviction_level": 55,
+      "direction": "down"
+    },
+    {
+      "ticker": "AVGO",
+      "conviction_level": 58,
+      "direction": "down"
+    },
+    {
+      "ticker": "SMCI",
+      "conviction_level": 55,
+      "direction": "down"
+    },
+    {
+      "ticker": "AMD",
+      "conviction_level": 52,
+      "direction": "up"
+    },
+    {
+      "ticker": "NVO",
+      "conviction_level": 52,
+      "direction": "up"
+    },
+    {
+      "ticker": "MU",
+      "conviction_level": 60,
+      "direction": "up"
+    },
+    {
+      "ticker": "CTAS",
+      "conviction_level": 58,
+      "direction": "up"
+    },
+    {
+      "ticker": "NVDA",
+      "conviction_level": 58,
+      "direction": "up"
+    },
+    {
+      "ticker": "OKLO",
+      "conviction_level": 55,
+      "direction": "down"
+    },
+    {
+      "ticker": "LLY",
+      "conviction_level": 58,
+      "direction": "down"
+    },
+    {
+      "ticker": "AMZN",
+      "conviction_level": 62,
+      "direction": "up"
+    },
+    {
+      "ticker": "ITRI",
+      "conviction_level": 58,
+      "direction": "up"
+    },
+    {
+      "ticker": "TSM",
+      "conviction_level": 52,
       "direction": "down"
     }
   ],
@@ -463,6 +553,6 @@
       "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1423053"
     }
   ],
-  "generated_at": "2026-08-01T11:15:59.168079+00:00",
+  "generated_at": "2026-08-01T12:23:27.750447+00:00",
   "validation_phase": true
 }
