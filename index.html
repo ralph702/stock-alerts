@@ -344,6 +344,14 @@ body.simple .vb{display:none!important}
     <div style="font-size:11px;color:#6b7280;margin-bottom:8px">Independent of the Wave Scanner above — this is Agent 14's daily conviction picture plus Ralph's own gut theses, from the paper-trading validation run.</div>
     <div id="oracleStatusBody"><div style="color:#6b7280;font-size:12px;padding:8px 0">Loading oracle status...</div></div>
   </div>
+  <div class="card" style="background:#0a0a14;border-color:#1e3a5f">
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px">
+      <div class="sec" style="color:#93c5fd;margin-bottom:0">📉 Options Read — 17-Agent Research System</div>
+      <span style="font-size:9px;background:#3f2d12;color:#fbbf24;padding:2px 6px;border-radius:4px">FLOW SIGNAL ONLY</span>
+    </div>
+    <div style="font-size:11px;color:#6b7280;margin-bottom:8px">Unusual options flow direction from Agent 15 — not a trade recommendation, no pricing engine. No strikes or premiums are ever suggested here.</div>
+    <div id="optionsReadBody"><div style="color:#6b7280;font-size:12px;padding:8px 0">Loading options read...</div></div>
+  </div>
 </div>
 <div id="tab-rising" class="tc">
   <div class="card" style="background:linear-gradient(135deg,#0a1a0a,#111);border-color:#1a4a1a">
@@ -1581,7 +1589,7 @@ function showTab(name,el){
   if(el) el.classList.add('active');
   if(name==='favorites'){try{renderFavs();}catch(e){}}
   if(name==='paper'){try{renderPD();}catch(e){}try{loadMasStatus();}catch(e){}}
-  if(name==='wave'){try{loadOracleStatus();}catch(e){}if(!_waveAutoScanned){_waveAutoScanned=true;try{runWaveScan(false);}catch(e){}}}
+  if(name==='wave'){try{loadOracleStatus();}catch(e){}try{loadOptionsRead();}catch(e){}if(!_waveAutoScanned){_waveAutoScanned=true;try{runWaveScan(false);}catch(e){}}}
   if(name==='rising'){if(!_risingAutoScanned){_risingAutoScanned=true;try{scanRisingStars();}catch(e){}}}
   if(name==='whales'){try{loadWhaleActivity();}catch(e){}}
 }
@@ -1795,6 +1803,35 @@ function renderOracleStatusBody(d){
   el.innerHTML='<div style="font-size:10px;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Today\'s conviction</div>'+convHtml+
     '<div style="font-size:10px;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;margin-top:10px;margin-bottom:4px">Ralph\'s active theses</div>'+thesesHtml+
     '<div style="margin-top:10px;font-size:9px;color:#fbbf24;background:#1a1407;border:1px solid #3f2d12;border-radius:6px;padding:5px 8px">⚠️ Validation phase — not live trading, paper-trading proof window.</div>';
+}
+
+// ── 📉 OPTIONS READ (Phase OPTIONS-1) ────────────────────────
+// Flow direction only, from Agent 15's already-computed unusual-activity
+// read (agents/_shared/data/options.py:summarize_options_read). Never
+// renders a strike or premium — those fields don't exist in this data on
+// purpose; a real pricing/Greeks engine is a separate future phase.
+function loadOptionsRead(){
+  var el=document.getElementById('optionsReadBody'); if(!el) return;
+  masFetch().then(renderOptionsReadBody).catch(function(e){
+    el.innerHTML='<div style="color:#f87171;font-size:12px;padding:8px 0">Could not load options read'+(e&&e.message?': '+e.message:'')+'.</div>';
+  });
+}
+function renderOptionsReadBody(d){
+  var el=document.getElementById('optionsReadBody'); if(!el) return;
+  var reads=d.options_reads||[];
+  var html=!reads.length
+    ? '<div style="color:#6b7280;font-size:12px;padding:6px 0">No unusual options flow detected right now.</div>'
+    : reads.map(function(r){
+        var dirColor=r.direction==='bullish'?'#4ade80':(r.direction==='bearish'?'#f87171':'#9ca3af');
+        return '<div style="padding:8px 0;border-top:1px solid #1f2937;font-size:12px">'+
+          '<div style="display:flex;justify-content:space-between;align-items:center">'+
+          '<b style="color:#60a5fa">'+r.symbol+'</b>'+
+          '<span style="color:'+dirColor+';font-weight:700;text-transform:capitalize">'+(r.direction||'—')+'</span></div>'+
+          '<div style="font-size:11px;color:#c7d2fe;margin-top:4px">'+r.text+'</div>'+
+        '</div>';
+      }).join('');
+  el.innerHTML=html+
+    '<div style="margin-top:10px;font-size:9px;color:#fbbf24;background:#1a1407;border:1px solid #3f2d12;border-radius:6px;padding:5px 8px">⚠️ Flow signal only — not a trade recommendation, no pricing engine.</div>';
 }
 
 // ── INIT ──
