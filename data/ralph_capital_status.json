@@ -6,7 +6,7 @@
       "entry_timestamp": "2026-07-29T20:49:21.793650+00:00",
       "current_pnl_raw": 248.52,
       "current_pnl_slippage_adjusted": 175.85,
-      "days_held": 13,
+      "days_held": 17,
       "stop_price": 1114.33,
       "target_price": 1453.48,
       "contributing_agents": [
@@ -21,7 +21,7 @@
       "entry_timestamp": "2026-07-30T20:49:19.064162+00:00",
       "current_pnl_raw": 1668.04,
       "current_pnl_slippage_adjusted": 1540.87,
-      "days_held": 12,
+      "days_held": 16,
       "stop_price": 1063.63,
       "target_price": 1387.34,
       "contributing_agents": [
@@ -36,7 +36,7 @@
       "entry_timestamp": "2026-08-06T20:54:36.754972+00:00",
       "current_pnl_raw": -195.88,
       "current_pnl_slippage_adjusted": -325.21,
-      "days_held": 5,
+      "days_held": 9,
       "stop_price": 201.67,
       "target_price": 263.05,
       "contributing_agents": [
@@ -50,7 +50,7 @@
       "entry_timestamp": "2026-08-07T20:55:46.351981+00:00",
       "current_pnl_raw": -185.28,
       "current_pnl_slippage_adjusted": -253.79,
-      "days_held": 4,
+      "days_held": 8,
       "stop_price": 393.93,
       "target_price": 513.83,
       "contributing_agents": [
@@ -59,11 +59,11 @@
       ]
     }
   ],
-  "daily_summary": "No trades opened or closed today. 4 position(s) currently open, account drawdown is 0.4% from peak.",
+  "daily_summary": "No trades opened or closed today. 4 position(s) currently open, account drawdown is 0.6% from peak.",
   "running_stats": {
     "win_rate": null,
     "expectancy_slippage_adjusted": null,
-    "current_drawdown_pct": 0.37,
+    "current_drawdown_pct": 0.64,
     "vs_spy_pct": null
   },
   "oracle_conviction": [],
@@ -512,6 +512,6 @@
       "disclaimer": "No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only."
     }
   ],
-  "generated_at": "2026-08-12T03:25:02.842411+00:00",
+  "generated_at": "2026-08-15T22:14:47.773584+00:00",
   "validation_phase": true
 }
