@@ -4,26 +4,11 @@
       "ticker": "LLY",
       "entry_price": 1211.23,
       "entry_timestamp": "2026-07-29T20:49:21.793650+00:00",
-      "current_pnl_raw": -372.84,
-      "current_pnl_slippage_adjusted": -445.51,
-      "days_held": 20,
+      "current_pnl_raw": 829.32,
+      "current_pnl_slippage_adjusted": 756.65,
+      "days_held": 21,
       "stop_price": 1114.33,
       "target_price": 1453.48,
-      "contributing_agents": [
-        "catalyst",
-        "chart",
-        "options"
-      ]
-    },
-    {
-      "ticker": "LLY",
-      "entry_price": 1156.12,
-      "entry_timestamp": "2026-07-30T20:49:19.064162+00:00",
-      "current_pnl_raw": 528.88,
-      "current_pnl_slippage_adjusted": 401.71,
-      "days_held": 19,
-      "stop_price": 1063.63,
-      "target_price": 1387.34,
       "contributing_agents": [
         "catalyst",
         "chart",
@@ -34,25 +19,120 @@
       "ticker": "NVDA",
       "entry_price": 219.21,
       "entry_timestamp": "2026-08-06T20:54:36.754972+00:00",
-      "current_pnl_raw": 702.1,
-      "current_pnl_slippage_adjusted": 572.77,
-      "days_held": 12,
+      "current_pnl_raw": -194.7,
+      "current_pnl_slippage_adjusted": -324.03,
+      "days_held": 13,
       "stop_price": 201.67,
       "target_price": 263.05,
       "contributing_agents": [
         "catalyst",
         "options"
       ]
+    },
+    {
+      "ticker": "ETN",
+      "entry_price": 423.37,
+      "entry_timestamp": "2026-08-19T14:48:28.268043+00:00",
+      "current_pnl_raw": 62.4,
+      "current_pnl_slippage_adjusted": -39.21,
+      "days_held": 0,
+      "stop_price": 389.5,
+      "target_price": 508.04,
+      "contributing_agents": [
+        "catalyst",
+        "chart"
+      ]
     }
   ],
-  "daily_summary": "No trades opened or closed today. 3 position(s) currently open, account drawdown is -1.8% from peak.",
+  "daily_summary": "Today the system opened 1 and closed 1 trade(s), for $2,733.50 in realized P&L. 3 position(s) currently open, account drawdown is 0.8% from peak.",
   "running_stats": {
-    "win_rate": 0.0,
-    "expectancy_slippage_adjusted": -1207.39,
-    "current_drawdown_pct": -1.78,
-    "vs_spy_pct": 0.11
+    "win_rate": 50.0,
+    "expectancy_slippage_adjusted": 699.47,
+    "current_drawdown_pct": 0.78,
+    "vs_spy_pct": -1.4
   },
-  "oracle_conviction": [],
+  "oracle_conviction": [
+    {
+      "ticker": "SMCI",
+      "conviction_level": 52,
+      "direction": "up"
+    },
+    {
+      "ticker": "VKTX",
+      "conviction_level": 55,
+      "direction": "up"
+    },
+    {
+      "ticker": "AMZN",
+      "conviction_level": 58,
+      "direction": "up"
+    },
+    {
+      "ticker": "CTAS",
+      "conviction_level": 58,
+      "direction": "up"
+    },
+    {
+      "ticker": "ETN",
+      "conviction_level": 60,
+      "direction": "up"
+    },
+    {
+      "ticker": "NVO",
+      "conviction_level": 58,
+      "direction": "up"
+    },
+    {
+      "ticker": "ALT",
+      "conviction_level": 55,
+      "direction": "up"
+    },
+    {
+      "ticker": "ANET",
+      "conviction_level": 62,
+      "direction": "up"
+    },
+    {
+      "ticker": "AMGN",
+      "conviction_level": 58,
+      "direction": "up"
+    },
+    {
+      "ticker": "NVDA",
+      "conviction_level": 62,
+      "direction": "up"
+    },
+    {
+      "ticker": "LLY",
+      "conviction_level": 62,
+      "direction": "up"
+    },
+    {
+      "ticker": "TSM",
+      "conviction_level": 58,
+      "direction": "up"
+    },
+    {
+      "ticker": "AMD",
+      "conviction_level": 58,
+      "direction": "up"
+    },
+    {
+      "ticker": "ITRI",
+      "conviction_level": 62,
+      "direction": "up"
+    },
+    {
+      "ticker": "AVGO",
+      "conviction_level": 58,
+      "direction": "up"
+    },
+    {
+      "ticker": "MU",
+      "conviction_level": 55,
+      "direction": "down"
+    }
+  ],
   "active_theses": [],
   "whale_activity": [
     {
@@ -450,134 +530,154 @@
     {
       "symbol": "NVDA",
       "direction": "bullish",
-      "call_put_volume_ratio": 1.34,
+      "call_put_volume_ratio": 1.87,
       "dominant_expiry_cluster": "weekly",
-      "dominant_expiry": "2026-08-17",
-      "volume_vs_open_interest_multiple": 6.7,
-      "text": "NVDA options: unusual call volume in the 2026-08-17 (weekly) expiry, 6.7x normal, skewed bullish. No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only.",
+      "dominant_expiry": "2026-08-19",
+      "volume_vs_open_interest_multiple": 18.9,
+      "text": "NVDA options: unusual call volume in the 2026-08-19 (weekly) expiry, 18.9x normal, skewed bullish. No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only.",
       "disclaimer": "No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only."
     },
     {
       "symbol": "AVGO",
       "direction": "bullish",
-      "call_put_volume_ratio": 2.08,
+      "call_put_volume_ratio": 1.33,
       "dominant_expiry_cluster": "weekly",
-      "dominant_expiry": "2026-08-17",
-      "volume_vs_open_interest_multiple": 92.8,
-      "text": "AVGO options: unusual call volume in the 2026-08-17 (weekly) expiry, 92.8x normal, skewed bullish. No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only.",
+      "dominant_expiry": "2026-08-19",
+      "volume_vs_open_interest_multiple": 552.3,
+      "text": "AVGO options: unusual call volume in the 2026-08-19 (weekly) expiry, 552.3x normal, skewed bullish. No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only.",
       "disclaimer": "No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only."
     },
     {
       "symbol": "AMD",
       "direction": "bullish",
-      "call_put_volume_ratio": 1.05,
+      "call_put_volume_ratio": 1.54,
       "dominant_expiry_cluster": "weekly",
-      "dominant_expiry": "2026-08-17",
-      "volume_vs_open_interest_multiple": 15.5,
-      "text": "AMD options: unusual call volume in the 2026-08-17 (weekly) expiry, 15.5x normal, skewed bullish. No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only.",
+      "dominant_expiry": "2026-08-19",
+      "volume_vs_open_interest_multiple": 134.4,
+      "text": "AMD options: unusual call volume in the 2026-08-19 (weekly) expiry, 134.4x normal, skewed bullish. No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only.",
       "disclaimer": "No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only."
     },
     {
       "symbol": "TSM",
-      "direction": "bearish",
-      "call_put_volume_ratio": 0.71,
+      "direction": "bullish",
+      "call_put_volume_ratio": 1.73,
       "dominant_expiry_cluster": "weekly",
       "dominant_expiry": "2026-08-28",
-      "volume_vs_open_interest_multiple": 3.4,
-      "text": "TSM options: unusual put volume in the 2026-08-28 (weekly) expiry, 3.4x normal, skewed bearish. No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only.",
+      "volume_vs_open_interest_multiple": 26.2,
+      "text": "TSM options: unusual call volume in the 2026-08-28 (weekly) expiry, 26.2x normal, skewed bullish. No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only.",
       "disclaimer": "No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only."
     },
     {
       "symbol": "MU",
-      "direction": "bullish",
-      "call_put_volume_ratio": 1.85,
+      "direction": "bearish",
+      "call_put_volume_ratio": 1.07,
       "dominant_expiry_cluster": "weekly",
-      "dominant_expiry": "2026-08-17",
-      "volume_vs_open_interest_multiple": 9.7,
-      "text": "MU options: unusual call volume in the 2026-08-17 (weekly) expiry, 9.7x normal, skewed bullish. No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only.",
+      "dominant_expiry": "2026-08-19",
+      "volume_vs_open_interest_multiple": 12.5,
+      "text": "MU options: unusual put volume in the 2026-08-19 (weekly) expiry, 12.5x normal, skewed bearish. No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only.",
       "disclaimer": "No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only."
     },
     {
       "symbol": "SMCI",
-      "direction": "bearish",
-      "call_put_volume_ratio": 2.15,
+      "direction": "bullish",
+      "call_put_volume_ratio": 3.34,
       "dominant_expiry_cluster": "weekly",
-      "dominant_expiry": "2026-08-21",
-      "volume_vs_open_interest_multiple": 4.5,
-      "text": "SMCI options: unusual put volume in the 2026-08-21 (weekly) expiry, 4.5x normal, skewed bearish. No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only.",
+      "dominant_expiry": "2026-08-28",
+      "volume_vs_open_interest_multiple": 4.8,
+      "text": "SMCI options: unusual call volume in the 2026-08-28 (weekly) expiry, 4.8x normal, skewed bullish. No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only.",
+      "disclaimer": "No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only."
+    },
+    {
+      "symbol": "ANET",
+      "direction": "bearish",
+      "call_put_volume_ratio": 2.74,
+      "dominant_expiry_cluster": "weekly",
+      "dominant_expiry": "2026-08-28",
+      "volume_vs_open_interest_multiple": 6.6,
+      "text": "ANET options: unusual put volume in the 2026-08-28 (weekly) expiry, 6.6x normal, skewed bearish. No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only.",
       "disclaimer": "No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only."
     },
     {
       "symbol": "MRVL",
       "direction": "bullish",
-      "call_put_volume_ratio": 1.77,
+      "call_put_volume_ratio": 2.22,
       "dominant_expiry_cluster": "weekly",
-      "dominant_expiry": "2026-08-28",
-      "volume_vs_open_interest_multiple": 3.1,
-      "text": "MRVL options: unusual call volume in the 2026-08-28 (weekly) expiry, 3.1x normal, skewed bullish. No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only.",
+      "dominant_expiry": "2026-08-21",
+      "volume_vs_open_interest_multiple": 4.0,
+      "text": "MRVL options: unusual call volume in the 2026-08-21 (weekly) expiry, 4.0x normal, skewed bullish. No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only.",
       "disclaimer": "No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only."
     },
     {
       "symbol": "ALAB",
-      "direction": "bearish",
-      "call_put_volume_ratio": 1.07,
+      "direction": "bullish",
+      "call_put_volume_ratio": 3.1,
+      "dominant_expiry_cluster": "weekly",
+      "dominant_expiry": "2026-08-28",
+      "volume_vs_open_interest_multiple": 31.2,
+      "text": "ALAB options: unusual call volume in the 2026-08-28 (weekly) expiry, 31.2x normal, skewed bullish. No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only.",
+      "disclaimer": "No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only."
+    },
+    {
+      "symbol": "VST",
+      "direction": "bullish",
+      "call_put_volume_ratio": 1.32,
       "dominant_expiry_cluster": "weekly",
       "dominant_expiry": "2026-08-21",
-      "volume_vs_open_interest_multiple": 5.9,
-      "text": "ALAB options: unusual put volume in the 2026-08-21 (weekly) expiry, 5.9x normal, skewed bearish. No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only.",
+      "volume_vs_open_interest_multiple": 8.0,
+      "text": "VST options: unusual call volume in the 2026-08-21 (weekly) expiry, 8.0x normal, skewed bullish. No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only.",
       "disclaimer": "No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only."
     },
     {
       "symbol": "OKLO",
-      "direction": "bearish",
-      "call_put_volume_ratio": 0.73,
+      "direction": "bullish",
+      "call_put_volume_ratio": 2.6,
       "dominant_expiry_cluster": "weekly",
       "dominant_expiry": "2026-08-21",
-      "volume_vs_open_interest_multiple": 34.2,
-      "text": "OKLO options: unusual put volume in the 2026-08-21 (weekly) expiry, 34.2x normal, skewed bearish. No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only.",
+      "volume_vs_open_interest_multiple": 4.4,
+      "text": "OKLO options: unusual call volume in the 2026-08-21 (weekly) expiry, 4.4x normal, skewed bullish. No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only.",
       "disclaimer": "No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only."
     },
     {
       "symbol": "LLY",
       "direction": "bullish",
-      "call_put_volume_ratio": 0.94,
+      "call_put_volume_ratio": 1.37,
       "dominant_expiry_cluster": "weekly",
-      "dominant_expiry": "2026-08-28",
-      "volume_vs_open_interest_multiple": 6.1,
-      "text": "LLY options: unusual call volume in the 2026-08-28 (weekly) expiry, 6.1x normal, skewed bullish. No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only.",
+      "dominant_expiry": "2026-08-21",
+      "volume_vs_open_interest_multiple": 4.1,
+      "text": "LLY options: unusual call volume in the 2026-08-21 (weekly) expiry, 4.1x normal, skewed bullish. No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only.",
       "disclaimer": "No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only."
     },
     {
-      "symbol": "AMGN",
+      "symbol": "VKTX",
       "direction": "bearish",
-      "call_put_volume_ratio": 0.23,
+      "call_put_volume_ratio": 1.23,
       "dominant_expiry_cluster": "weekly",
       "dominant_expiry": "2026-08-21",
-      "volume_vs_open_interest_multiple": 7.4,
-      "text": "AMGN options: unusual put volume in the 2026-08-21 (weekly) expiry, 7.4x normal, skewed bearish. No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only.",
+      "volume_vs_open_interest_multiple": 65.2,
+      "text": "VKTX options: unusual put volume in the 2026-08-21 (weekly) expiry, 65.2x normal, skewed bearish. No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only.",
       "disclaimer": "No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only."
     },
     {
       "symbol": "AMZN",
       "direction": "bearish",
-      "call_put_volume_ratio": 1.29,
+      "call_put_volume_ratio": 1.04,
       "dominant_expiry_cluster": "weekly",
-      "dominant_expiry": "2026-08-17",
-      "volume_vs_open_interest_multiple": 8.9,
-      "text": "AMZN options: unusual put volume in the 2026-08-17 (weekly) expiry, 8.9x normal, skewed bearish. No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only.",
+      "dominant_expiry": "2026-08-19",
+      "volume_vs_open_interest_multiple": 13.3,
+      "text": "AMZN options: unusual put volume in the 2026-08-19 (weekly) expiry, 13.3x normal, skewed bearish. No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only.",
       "disclaimer": "No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only."
     },
     {
       "symbol": "MP",
       "direction": "bullish",
-      "call_put_volume_ratio": 1.19,
+      "call_put_volume_ratio": 3.4,
       "dominant_expiry_cluster": "weekly",
-      "dominant_expiry": "2026-08-28",
-      "volume_vs_open_interest_multiple": 3.9,
-      "text": "MP options: unusual call volume in the 2026-08-28 (weekly) expiry, 3.9x normal, skewed bullish. No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only.",
+      "dominant_expiry": "2026-08-21",
+      "volume_vs_open_interest_multiple": 3.8,
+      "text": "MP options: unusual call volume in the 2026-08-21 (weekly) expiry, 3.8x normal, skewed bullish. No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only.",
       "disclaimer": "No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only."
     }
   ],
-  "generated_at": "2026-08-19T14:34:07.768679+00:00",
+  "generated_at": "2026-08-19T21:00:05.954928+00:00",
   "validation_phase": true
 }
