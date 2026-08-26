@@ -4,9 +4,9 @@
       "ticker": "LLY",
       "entry_price": 1211.23,
       "entry_timestamp": "2026-07-29T20:49:21.793650+00:00",
-      "current_pnl_raw": 398.04,
-      "current_pnl_slippage_adjusted": 325.37,
-      "days_held": 26,
+      "current_pnl_raw": 428.4,
+      "current_pnl_slippage_adjusted": 355.73,
+      "days_held": 27,
       "stop_price": 1114.33,
       "target_price": 1453.48,
       "contributing_agents": [
@@ -19,9 +19,9 @@
       "ticker": "NVDA",
       "entry_price": 219.21,
       "entry_timestamp": "2026-08-06T20:54:36.754972+00:00",
-      "current_pnl_raw": -278.48,
-      "current_pnl_slippage_adjusted": -407.81,
-      "days_held": 18,
+      "current_pnl_raw": -1266.14,
+      "current_pnl_slippage_adjusted": -1395.47,
+      "days_held": 19,
       "stop_price": 201.67,
       "target_price": 263.05,
       "contributing_agents": [
@@ -33,9 +33,9 @@
       "ticker": "ETN",
       "entry_price": 423.37,
       "entry_timestamp": "2026-08-19T14:48:28.268043+00:00",
-      "current_pnl_raw": -387.84,
-      "current_pnl_slippage_adjusted": -489.45,
-      "days_held": 5,
+      "current_pnl_raw": -705.6,
+      "current_pnl_slippage_adjusted": -807.21,
+      "days_held": 6,
       "stop_price": 389.5,
       "target_price": 508.04,
       "contributing_agents": [
@@ -49,7 +49,7 @@
     "win_rate": 50.0,
     "expectancy_slippage_adjusted": 699.47,
     "current_drawdown_pct": -0.52,
-    "vs_spy_pct": -1.18
+    "vs_spy_pct": -2.82
   },
   "oracle_conviction": [],
   "active_theses": [],
@@ -567,6 +567,6 @@
       "disclaimer": "No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only."
     }
   ],
-  "generated_at": "2026-08-24T23:34:50.865177+00:00",
+  "generated_at": "2026-08-26T02:42:21.043433+00:00",
   "validation_phase": true
 }
