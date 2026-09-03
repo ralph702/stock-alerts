@@ -4,9 +4,9 @@
       "ticker": "LLY",
       "entry_price": 1211.23,
       "entry_timestamp": "2026-07-29T20:49:21.793650+00:00",
-      "current_pnl_raw": -613.8,
-      "current_pnl_slippage_adjusted": -686.47,
-      "days_held": 35,
+      "current_pnl_raw": -619.56,
+      "current_pnl_slippage_adjusted": -692.23,
+      "days_held": 36,
       "stop_price": 1114.33,
       "target_price": 1453.48,
       "contributing_agents": [
@@ -19,9 +19,9 @@
       "ticker": "NVDA",
       "entry_price": 219.21,
       "entry_timestamp": "2026-08-06T20:54:36.754972+00:00",
-      "current_pnl_raw": 613.6,
-      "current_pnl_slippage_adjusted": 484.27,
-      "days_held": 27,
+      "current_pnl_raw": 1090.32,
+      "current_pnl_slippage_adjusted": 960.99,
+      "days_held": 28,
       "stop_price": 201.67,
       "target_price": 263.05,
       "contributing_agents": [
@@ -33,9 +33,9 @@
       "ticker": "ETN",
       "entry_price": 423.37,
       "entry_timestamp": "2026-08-19T14:48:28.268043+00:00",
-      "current_pnl_raw": -1560.96,
-      "current_pnl_slippage_adjusted": -1662.57,
-      "days_held": 14,
+      "current_pnl_raw": -1260.0,
+      "current_pnl_slippage_adjusted": -1361.61,
+      "days_held": 15,
       "stop_price": 389.5,
       "target_price": 508.04,
       "contributing_agents": [
@@ -47,9 +47,9 @@
       "ticker": "MP",
       "entry_price": 56.19,
       "entry_timestamp": "2026-08-30T13:12:10.684102+00:00",
-      "current_pnl_raw": -67.05,
-      "current_pnl_slippage_adjusted": -83.26,
-      "days_held": 3,
+      "current_pnl_raw": -108.45,
+      "current_pnl_slippage_adjusted": -124.91,
+      "days_held": 4,
       "stop_price": 50.57,
       "target_price": null,
       "contributing_agents": [
@@ -60,9 +60,9 @@
       "ticker": "MU",
       "entry_price": 933.79,
       "entry_timestamp": "2026-08-30T13:12:10.686992+00:00",
-      "current_pnl_raw": 44.58,
-      "current_pnl_slippage_adjusted": 35.24,
-      "days_held": 3,
+      "current_pnl_raw": 48.74,
+      "current_pnl_slippage_adjusted": 39.4,
+      "days_held": 4,
       "stop_price": 840.41,
       "target_price": null,
       "contributing_agents": [
@@ -70,14 +70,195 @@
       ]
     }
   ],
-  "daily_summary": "No trades opened or closed today. 5 position(s) currently open, account drawdown is -2.0% from peak.",
+  "daily_summary": "No trades opened or closed today. 5 position(s) currently open, account drawdown is -1.5% from peak. 2 anomaly flag(s) need review.",
   "running_stats": {
     "win_rate": 50.0,
     "expectancy_slippage_adjusted": 699.47,
-    "current_drawdown_pct": -1.97,
-    "vs_spy_pct": -1.71
+    "current_drawdown_pct": -1.51,
+    "vs_spy_pct": -2.05
   },
-  "oracle_conviction": [],
+  "oracle_conviction": [
+    {
+      "ticker": "NVDA",
+      "conviction_level": 58,
+      "direction": "up"
+    },
+    {
+      "ticker": "VKTX",
+      "conviction_level": 55,
+      "direction": "up"
+    },
+    {
+      "ticker": "AMGN",
+      "conviction_level": 60,
+      "direction": "up"
+    },
+    {
+      "ticker": "AMZN",
+      "conviction_level": 58,
+      "direction": "up"
+    },
+    {
+      "ticker": "NVO",
+      "conviction_level": 52,
+      "direction": "up"
+    },
+    {
+      "ticker": "LLY",
+      "conviction_level": 56,
+      "direction": "down"
+    },
+    {
+      "ticker": "CTAS",
+      "conviction_level": 58,
+      "direction": "up"
+    },
+    {
+      "ticker": "USAR",
+      "conviction_level": 58,
+      "direction": "up"
+    },
+    {
+      "ticker": "MU",
+      "conviction_level": 62,
+      "direction": "up"
+    },
+    {
+      "ticker": "ITRI",
+      "conviction_level": 58,
+      "direction": "up"
+    },
+    {
+      "ticker": "ETN",
+      "conviction_level": 55,
+      "direction": "down"
+    },
+    {
+      "ticker": "CEG",
+      "conviction_level": 62,
+      "direction": "up"
+    },
+    {
+      "ticker": "ALAB",
+      "conviction_level": 58,
+      "direction": "up"
+    },
+    {
+      "ticker": "SMCI",
+      "conviction_level": 58,
+      "direction": "up"
+    },
+    {
+      "ticker": "VST",
+      "conviction_level": 58,
+      "direction": "up"
+    },
+    {
+      "ticker": "ANET",
+      "conviction_level": 60,
+      "direction": "up"
+    },
+    {
+      "ticker": "AMD",
+      "conviction_level": 58,
+      "direction": "up"
+    },
+    {
+      "ticker": "ALT",
+      "conviction_level": 55,
+      "direction": "up"
+    },
+    {
+      "ticker": "MP",
+      "conviction_level": 55,
+      "direction": "up"
+    },
+    {
+      "ticker": "MRVL",
+      "conviction_level": 58,
+      "direction": "up"
+    },
+    {
+      "ticker": "AMZN",
+      "conviction_level": 60,
+      "direction": "up"
+    },
+    {
+      "ticker": "VKTX",
+      "conviction_level": 56,
+      "direction": "up"
+    },
+    {
+      "ticker": "ITRI",
+      "conviction_level": 58,
+      "direction": "up"
+    },
+    {
+      "ticker": "CTAS",
+      "conviction_level": 58,
+      "direction": "up"
+    },
+    {
+      "ticker": "AVGO",
+      "conviction_level": 63,
+      "direction": "up"
+    },
+    {
+      "ticker": "TSM",
+      "conviction_level": 58,
+      "direction": "up"
+    },
+    {
+      "ticker": "CEG",
+      "conviction_level": 62,
+      "direction": "up"
+    },
+    {
+      "ticker": "ALT",
+      "conviction_level": 55,
+      "direction": "up"
+    },
+    {
+      "ticker": "NVDA",
+      "conviction_level": 62,
+      "direction": "up"
+    },
+    {
+      "ticker": "MRVL",
+      "conviction_level": 56,
+      "direction": "down"
+    },
+    {
+      "ticker": "AMD",
+      "conviction_level": 58,
+      "direction": "up"
+    },
+    {
+      "ticker": "AMGN",
+      "conviction_level": 62,
+      "direction": "up"
+    },
+    {
+      "ticker": "SMCI",
+      "conviction_level": 58,
+      "direction": "up"
+    },
+    {
+      "ticker": "ANET",
+      "conviction_level": 62,
+      "direction": "up"
+    },
+    {
+      "ticker": "MU",
+      "conviction_level": 62,
+      "direction": "up"
+    },
+    {
+      "ticker": "NVO",
+      "conviction_level": 58,
+      "direction": "up"
+    }
+  ],
   "active_theses": [],
   "whale_activity": [
     {
@@ -474,48 +655,68 @@
   "options_reads": [
     {
       "symbol": "NVDA",
-      "direction": "bearish",
-      "call_put_volume_ratio": 0.48,
+      "direction": "bullish",
+      "call_put_volume_ratio": 1.47,
       "dominant_expiry_cluster": "weekly",
-      "dominant_expiry": "2026-09-02",
-      "volume_vs_open_interest_multiple": 10.1,
-      "text": "NVDA options: unusual put volume in the 2026-09-02 (weekly) expiry, 10.1x normal, skewed bearish. No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only.",
+      "dominant_expiry": "2026-09-04",
+      "volume_vs_open_interest_multiple": 11.9,
+      "text": "NVDA options: unusual call volume in the 2026-09-04 (weekly) expiry, 11.9x normal, skewed bullish. No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only.",
+      "disclaimer": "No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only."
+    },
+    {
+      "symbol": "AVGO",
+      "direction": "bullish",
+      "call_put_volume_ratio": 1.44,
+      "dominant_expiry_cluster": "weekly",
+      "dominant_expiry": "2026-09-04",
+      "volume_vs_open_interest_multiple": 12.1,
+      "text": "AVGO options: unusual call volume in the 2026-09-04 (weekly) expiry, 12.1x normal, skewed bullish. No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only.",
       "disclaimer": "No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only."
     },
     {
       "symbol": "AMD",
       "direction": "bullish",
-      "call_put_volume_ratio": 1.2,
+      "call_put_volume_ratio": 1.25,
       "dominant_expiry_cluster": "weekly",
-      "dominant_expiry": "2026-09-02",
-      "volume_vs_open_interest_multiple": 7.4,
-      "text": "AMD options: unusual call volume in the 2026-09-02 (weekly) expiry, 7.4x normal, skewed bullish. No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only.",
+      "dominant_expiry": "2026-09-04",
+      "volume_vs_open_interest_multiple": 7.0,
+      "text": "AMD options: unusual call volume in the 2026-09-04 (weekly) expiry, 7.0x normal, skewed bullish. No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only.",
+      "disclaimer": "No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only."
+    },
+    {
+      "symbol": "TSM",
+      "direction": "bullish",
+      "call_put_volume_ratio": 3.25,
+      "dominant_expiry_cluster": "weekly",
+      "dominant_expiry": "2026-09-11",
+      "volume_vs_open_interest_multiple": 4.9,
+      "text": "TSM options: unusual call volume in the 2026-09-11 (weekly) expiry, 4.9x normal, skewed bullish. No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only.",
       "disclaimer": "No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only."
     },
     {
       "symbol": "MU",
       "direction": "bullish",
-      "call_put_volume_ratio": 2.36,
+      "call_put_volume_ratio": 1.85,
       "dominant_expiry_cluster": "weekly",
-      "dominant_expiry": "2026-09-02",
-      "volume_vs_open_interest_multiple": 5.4,
-      "text": "MU options: unusual call volume in the 2026-09-02 (weekly) expiry, 5.4x normal, skewed bullish. No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only.",
+      "dominant_expiry": "2026-09-04",
+      "volume_vs_open_interest_multiple": 7.6,
+      "text": "MU options: unusual call volume in the 2026-09-04 (weekly) expiry, 7.6x normal, skewed bullish. No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only.",
       "disclaimer": "No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only."
     },
     {
       "symbol": "SMCI",
       "direction": "bullish",
-      "call_put_volume_ratio": 5.92,
+      "call_put_volume_ratio": 3.99,
       "dominant_expiry_cluster": "weekly",
       "dominant_expiry": "2026-09-11",
-      "volume_vs_open_interest_multiple": 13.9,
-      "text": "SMCI options: unusual call volume in the 2026-09-11 (weekly) expiry, 13.9x normal, skewed bullish. No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only.",
+      "volume_vs_open_interest_multiple": 3.7,
+      "text": "SMCI options: unusual call volume in the 2026-09-11 (weekly) expiry, 3.7x normal, skewed bullish. No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only.",
       "disclaimer": "No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only."
     },
     {
       "symbol": "ANET",
       "direction": "bullish",
-      "call_put_volume_ratio": 1.5,
+      "call_put_volume_ratio": 1.61,
       "dominant_expiry_cluster": "weekly",
       "dominant_expiry": "2026-09-11",
       "volume_vs_open_interest_multiple": 8.8,
@@ -523,46 +724,26 @@
       "disclaimer": "No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only."
     },
     {
-      "symbol": "ETN",
-      "direction": "bullish",
-      "call_put_volume_ratio": 3.04,
-      "dominant_expiry_cluster": "weekly",
-      "dominant_expiry": "2026-09-11",
-      "volume_vs_open_interest_multiple": 21.0,
-      "text": "ETN options: unusual call volume in the 2026-09-11 (weekly) expiry, 21.0x normal, skewed bullish. No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only.",
-      "disclaimer": "No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only."
-    },
-    {
-      "symbol": "LLY",
+      "symbol": "MRVL",
       "direction": "bearish",
-      "call_put_volume_ratio": 0.78,
+      "call_put_volume_ratio": 2.38,
       "dominant_expiry_cluster": "weekly",
       "dominant_expiry": "2026-09-04",
-      "volume_vs_open_interest_multiple": 4.6,
-      "text": "LLY options: unusual put volume in the 2026-09-04 (weekly) expiry, 4.6x normal, skewed bearish. No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only.",
-      "disclaimer": "No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only."
-    },
-    {
-      "symbol": "AMGN",
-      "direction": "bullish",
-      "call_put_volume_ratio": 1.32,
-      "dominant_expiry_cluster": "weekly",
-      "dominant_expiry": "2026-09-04",
-      "volume_vs_open_interest_multiple": 16.3,
-      "text": "AMGN options: unusual call volume in the 2026-09-04 (weekly) expiry, 16.3x normal, skewed bullish. No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only.",
+      "volume_vs_open_interest_multiple": 7.0,
+      "text": "MRVL options: unusual put volume in the 2026-09-04 (weekly) expiry, 7.0x normal, skewed bearish. No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only.",
       "disclaimer": "No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only."
     },
     {
       "symbol": "AMZN",
       "direction": "bullish",
-      "call_put_volume_ratio": 3.11,
+      "call_put_volume_ratio": 2.89,
       "dominant_expiry_cluster": "weekly",
-      "dominant_expiry": "2026-09-02",
-      "volume_vs_open_interest_multiple": 4.0,
-      "text": "AMZN options: unusual call volume in the 2026-09-02 (weekly) expiry, 4.0x normal, skewed bullish. No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only.",
+      "dominant_expiry": "2026-09-04",
+      "volume_vs_open_interest_multiple": 4.6,
+      "text": "AMZN options: unusual call volume in the 2026-09-04 (weekly) expiry, 4.6x normal, skewed bullish. No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only.",
       "disclaimer": "No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only."
     }
   ],
-  "generated_at": "2026-09-03T02:12:28.504142+00:00",
+  "generated_at": "2026-09-03T21:00:08.397447+00:00",
   "validation_phase": true
 }
