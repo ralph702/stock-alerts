@@ -4,9 +4,9 @@
       "ticker": "LLY",
       "entry_price": 1211.23,
       "entry_timestamp": "2026-07-29T20:49:21.793650+00:00",
-      "current_pnl_raw": -619.56,
-      "current_pnl_slippage_adjusted": -692.23,
-      "days_held": 36,
+      "current_pnl_raw": -1044.24,
+      "current_pnl_slippage_adjusted": -1116.91,
+      "days_held": 42,
       "stop_price": 1114.33,
       "target_price": 1453.48,
       "contributing_agents": [
@@ -19,9 +19,9 @@
       "ticker": "NVDA",
       "entry_price": 219.21,
       "entry_timestamp": "2026-08-06T20:54:36.754972+00:00",
-      "current_pnl_raw": 1090.32,
-      "current_pnl_slippage_adjusted": 960.99,
-      "days_held": 28,
+      "current_pnl_raw": 526.28,
+      "current_pnl_slippage_adjusted": 396.95,
+      "days_held": 34,
       "stop_price": 201.67,
       "target_price": 263.05,
       "contributing_agents": [
@@ -33,9 +33,9 @@
       "ticker": "ETN",
       "entry_price": 423.37,
       "entry_timestamp": "2026-08-19T14:48:28.268043+00:00",
-      "current_pnl_raw": -1260.0,
-      "current_pnl_slippage_adjusted": -1361.61,
-      "days_held": 15,
+      "current_pnl_raw": -391.2,
+      "current_pnl_slippage_adjusted": -492.81,
+      "days_held": 21,
       "stop_price": 389.5,
       "target_price": 508.04,
       "contributing_agents": [
@@ -47,9 +47,9 @@
       "ticker": "MP",
       "entry_price": 56.19,
       "entry_timestamp": "2026-08-30T13:12:10.684102+00:00",
-      "current_pnl_raw": -108.45,
-      "current_pnl_slippage_adjusted": -124.91,
-      "days_held": 4,
+      "current_pnl_raw": -85.05,
+      "current_pnl_slippage_adjusted": -102.35,
+      "days_held": 10,
       "stop_price": 50.57,
       "target_price": null,
       "contributing_agents": [
@@ -60,9 +60,9 @@
       "ticker": "MU",
       "entry_price": 933.79,
       "entry_timestamp": "2026-08-30T13:12:10.686992+00:00",
-      "current_pnl_raw": 48.74,
-      "current_pnl_slippage_adjusted": 39.4,
-      "days_held": 4,
+      "current_pnl_raw": 187.96,
+      "current_pnl_slippage_adjusted": 178.62,
+      "days_held": 10,
       "stop_price": 840.41,
       "target_price": null,
       "contributing_agents": [
@@ -70,195 +70,14 @@
       ]
     }
   ],
-  "daily_summary": "No trades opened or closed today. 5 position(s) currently open, account drawdown is -1.5% from peak. 2 anomaly flag(s) need review.",
+  "daily_summary": "No trades opened or closed today. 5 position(s) currently open, account drawdown is -1.5% from peak.",
   "running_stats": {
     "win_rate": 50.0,
     "expectancy_slippage_adjusted": 699.47,
     "current_drawdown_pct": -1.51,
-    "vs_spy_pct": -2.05
+    "vs_spy_pct": -0.13
   },
-  "oracle_conviction": [
-    {
-      "ticker": "NVDA",
-      "conviction_level": 58,
-      "direction": "up"
-    },
-    {
-      "ticker": "VKTX",
-      "conviction_level": 55,
-      "direction": "up"
-    },
-    {
-      "ticker": "AMGN",
-      "conviction_level": 60,
-      "direction": "up"
-    },
-    {
-      "ticker": "AMZN",
-      "conviction_level": 58,
-      "direction": "up"
-    },
-    {
-      "ticker": "NVO",
-      "conviction_level": 52,
-      "direction": "up"
-    },
-    {
-      "ticker": "LLY",
-      "conviction_level": 56,
-      "direction": "down"
-    },
-    {
-      "ticker": "CTAS",
-      "conviction_level": 58,
-      "direction": "up"
-    },
-    {
-      "ticker": "USAR",
-      "conviction_level": 58,
-      "direction": "up"
-    },
-    {
-      "ticker": "MU",
-      "conviction_level": 62,
-      "direction": "up"
-    },
-    {
-      "ticker": "ITRI",
-      "conviction_level": 58,
-      "direction": "up"
-    },
-    {
-      "ticker": "ETN",
-      "conviction_level": 55,
-      "direction": "down"
-    },
-    {
-      "ticker": "CEG",
-      "conviction_level": 62,
-      "direction": "up"
-    },
-    {
-      "ticker": "ALAB",
-      "conviction_level": 58,
-      "direction": "up"
-    },
-    {
-      "ticker": "SMCI",
-      "conviction_level": 58,
-      "direction": "up"
-    },
-    {
-      "ticker": "VST",
-      "conviction_level": 58,
-      "direction": "up"
-    },
-    {
-      "ticker": "ANET",
-      "conviction_level": 60,
-      "direction": "up"
-    },
-    {
-      "ticker": "AMD",
-      "conviction_level": 58,
-      "direction": "up"
-    },
-    {
-      "ticker": "ALT",
-      "conviction_level": 55,
-      "direction": "up"
-    },
-    {
-      "ticker": "MP",
-      "conviction_level": 55,
-      "direction": "up"
-    },
-    {
-      "ticker": "MRVL",
-      "conviction_level": 58,
-      "direction": "up"
-    },
-    {
-      "ticker": "AMZN",
-      "conviction_level": 60,
-      "direction": "up"
-    },
-    {
-      "ticker": "VKTX",
-      "conviction_level": 56,
-      "direction": "up"
-    },
-    {
-      "ticker": "ITRI",
-      "conviction_level": 58,
-      "direction": "up"
-    },
-    {
-      "ticker": "CTAS",
-      "conviction_level": 58,
-      "direction": "up"
-    },
-    {
-      "ticker": "AVGO",
-      "conviction_level": 63,
-      "direction": "up"
-    },
-    {
-      "ticker": "TSM",
-      "conviction_level": 58,
-      "direction": "up"
-    },
-    {
-      "ticker": "CEG",
-      "conviction_level": 62,
-      "direction": "up"
-    },
-    {
-      "ticker": "ALT",
-      "conviction_level": 55,
-      "direction": "up"
-    },
-    {
-      "ticker": "NVDA",
-      "conviction_level": 62,
-      "direction": "up"
-    },
-    {
-      "ticker": "MRVL",
-      "conviction_level": 56,
-      "direction": "down"
-    },
-    {
-      "ticker": "AMD",
-      "conviction_level": 58,
-      "direction": "up"
-    },
-    {
-      "ticker": "AMGN",
-      "conviction_level": 62,
-      "direction": "up"
-    },
-    {
-      "ticker": "SMCI",
-      "conviction_level": 58,
-      "direction": "up"
-    },
-    {
-      "ticker": "ANET",
-      "conviction_level": 62,
-      "direction": "up"
-    },
-    {
-      "ticker": "MU",
-      "conviction_level": 62,
-      "direction": "up"
-    },
-    {
-      "ticker": "NVO",
-      "conviction_level": 58,
-      "direction": "up"
-    }
-  ],
+  "oracle_conviction": [],
   "active_theses": [],
   "whale_activity": [
     {
@@ -744,6 +563,6 @@
       "disclaimer": "No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only."
     }
   ],
-  "generated_at": "2026-09-03T21:00:08.397447+00:00",
+  "generated_at": "2026-09-09T22:34:54.329240+00:00",
   "validation_phase": true
 }
