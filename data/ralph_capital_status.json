@@ -4,9 +4,9 @@
       "ticker": "LLY",
       "entry_price": 1211.23,
       "entry_timestamp": "2026-07-29T20:49:21.793650+00:00",
-      "current_pnl_raw": -1146.36,
-      "current_pnl_slippage_adjusted": -1219.03,
-      "days_held": 54,
+      "current_pnl_raw": -556.08,
+      "current_pnl_slippage_adjusted": -628.75,
+      "days_held": 55,
       "stop_price": 1114.33,
       "target_price": 1453.48,
       "contributing_agents": [
@@ -19,9 +19,9 @@
       "ticker": "NVDA",
       "entry_price": 219.21,
       "entry_timestamp": "2026-08-06T20:54:36.754972+00:00",
-      "current_pnl_raw": -108.56,
-      "current_pnl_slippage_adjusted": -237.89,
-      "days_held": 46,
+      "current_pnl_raw": 964.06,
+      "current_pnl_slippage_adjusted": 834.73,
+      "days_held": 47,
       "stop_price": 201.67,
       "target_price": 263.05,
       "contributing_agents": [
@@ -33,9 +33,9 @@
       "ticker": "ETN",
       "entry_price": 423.37,
       "entry_timestamp": "2026-08-19T14:48:28.268043+00:00",
-      "current_pnl_raw": 96.0,
-      "current_pnl_slippage_adjusted": -5.61,
-      "days_held": 33,
+      "current_pnl_raw": 578.88,
+      "current_pnl_slippage_adjusted": 477.27,
+      "days_held": 34,
       "stop_price": 389.5,
       "target_price": 508.04,
       "contributing_agents": [
@@ -47,9 +47,9 @@
       "ticker": "MU",
       "entry_price": 933.79,
       "entry_timestamp": "2026-08-30T13:12:10.686992+00:00",
-      "current_pnl_raw": 82.94,
-      "current_pnl_slippage_adjusted": 73.6,
-      "days_held": 22,
+      "current_pnl_raw": 220.34,
+      "current_pnl_slippage_adjusted": 211.0,
+      "days_held": 23,
       "stop_price": 840.41,
       "target_price": null,
       "contributing_agents": [
@@ -60,9 +60,9 @@
       "ticker": "AMZN",
       "entry_price": 252.65,
       "entry_timestamp": "2026-09-10T02:00:44.023576+00:00",
-      "current_pnl_raw": 41.3,
-      "current_pnl_slippage_adjusted": 28.67,
-      "days_held": 11,
+      "current_pnl_raw": 58.0,
+      "current_pnl_slippage_adjusted": 45.37,
+      "days_held": 12,
       "stop_price": 227.39,
       "target_price": null,
       "contributing_agents": [
@@ -73,9 +73,9 @@
       "ticker": "TSM",
       "entry_price": 435.8,
       "entry_timestamp": "2026-09-10T02:00:44.026588+00:00",
-      "current_pnl_raw": -10.24,
-      "current_pnl_slippage_adjusted": -18.96,
-      "days_held": 11,
+      "current_pnl_raw": 37.36,
+      "current_pnl_slippage_adjusted": 28.64,
+      "days_held": 12,
       "stop_price": 392.22,
       "target_price": null,
       "contributing_agents": [
@@ -88,7 +88,7 @@
     "win_rate": 33.33,
     "expectancy_slippage_adjusted": 374.45,
     "current_drawdown_pct": -2.3,
-    "vs_spy_pct": -2.28
+    "vs_spy_pct": -0.5
   },
   "oracle_conviction": [],
   "active_theses": [],
@@ -606,6 +606,6 @@
       "disclaimer": "No specific strike/premium suggested -- real pricing data isn't wired in yet, this is flow direction only."
     }
   ],
-  "generated_at": "2026-09-21T21:07:40.039212+00:00",
+  "generated_at": "2026-09-22T21:31:40.897937+00:00",
   "validation_phase": true
 }
